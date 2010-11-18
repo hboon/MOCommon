@@ -92,3 +92,13 @@ UIImage* singlePixelImageWithColor(UIColor* aColor) {
 	
 	return result;
 }
+
+
+CGFloat degreeToRadian(CGFloat aFloat) {
+	return aFloat * M_PI / 180;
+}
+
+
+CGFloat radianToDegree(CGFloat aFloat) {
+	return aFloat * 180 / M_PI;
+}

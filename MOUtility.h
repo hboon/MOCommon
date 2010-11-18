@@ -71,3 +71,5 @@ NSString* moOrientationAsString(UIInterfaceOrientation orientation);
 BOOL moSupportsMultitasking();
 BOOL moSupportsBackgroundCompletionTaskAPI();
 UIImage* singlePixelImageWithColor(UIColor* aColor);
+CGFloat degreeToRadian(CGFloat aFloat);
+CGFloat radianToDegree(CGFloat aFloat);
