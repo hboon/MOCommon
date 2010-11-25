@@ -102,3 +102,8 @@ CGFloat degreeToRadian(CGFloat aFloat) {
 CGFloat radianToDegree(CGFloat aFloat) {
 	return aFloat * 180 / M_PI;
 }
+
+
+BOOL isSimulator() {
+	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
+}

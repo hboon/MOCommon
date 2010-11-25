@@ -73,3 +73,4 @@ BOOL moSupportsBackgroundCompletionTaskAPI();
 UIImage* singlePixelImageWithColor(UIColor* aColor);
 CGFloat degreeToRadian(CGFloat aFloat);
 CGFloat radianToDegree(CGFloat aFloat);
+BOOL isSimulator();
