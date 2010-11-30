@@ -81,7 +81,7 @@ BOOL moSupportsBackgroundCompletionTaskAPI() {
 }
 
 
-UIImage* singlePixelImageWithColor(UIColor* aColor) {
+UIImage* moSinglePixelImageWithColor(UIColor* aColor) {
 	UIGraphicsBeginImageContext(CGSizeMake(1, 1));
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
@@ -94,16 +94,16 @@ UIImage* singlePixelImageWithColor(UIColor* aColor) {
 }
 
 
-CGFloat degreeToRadian(CGFloat aFloat) {
+CGFloat moDegreeToRadian(CGFloat aFloat) {
 	return aFloat * M_PI / 180;
 }
 
 
-CGFloat radianToDegree(CGFloat aFloat) {
+CGFloat moRadianToDegree(CGFloat aFloat) {
 	return aFloat * 180 / M_PI;
 }
 
 
-BOOL isSimulator() {
+BOOL moIsSimulator() {
 	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
 }
