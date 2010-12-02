@@ -41,6 +41,6 @@
 
 @interface NSString (MONSStringAdditions)
 
-- (NSString*)setterName;
+- (NSString*)moSetterName;
 
 @end

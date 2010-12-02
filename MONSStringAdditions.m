@@ -41,7 +41,7 @@
 
 @implementation NSString (MONSStringAdditions)
 
-- (NSString*)setterName {
+- (NSString*)moSetterName {
 	return [NSString stringWithFormat:@"set%@%@:", [[self substringToIndex:1] uppercaseString], [self substringFromIndex:1]];
 }
 
