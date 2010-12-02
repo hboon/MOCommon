@@ -45,4 +45,13 @@
 	return [NSString stringWithFormat:@"set%@%@:", [[self substringToIndex:1] uppercaseString], [self substringFromIndex:1]];
 }
 
+
+- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber {
+	if ([self length] <= aNumber) {
+		return self;
+	}
+
+	return [NSString stringWithFormat:@"%@...", [self substringToIndex:aNumber-3]];
+}
+
 @end

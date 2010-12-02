@@ -42,5 +42,6 @@
 @interface NSString (MONSStringAdditions)
 
 - (NSString*)moSetterName;
+- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
 
 @end
