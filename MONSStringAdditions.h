@@ -1,8 +1,8 @@
 //
-//  MOUIViewAdditions.h
+//  MONSStringAdditions.h
 //  Licensed under the terms of the BSD License, as specified below.
 //
-//  Created by Hwee-Boon Yar on Nov/24/2010.
+//  Created by Hwee-Boon Yar on Dec/2/2010.
 //
 /*
  Copyright 2010 Yar Hwee Boon. All rights reserved.
@@ -38,18 +38,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIView (MOUIViewAdditions)
 
-@property(nonatomic) CGFloat moLeft;
-@property(nonatomic) CGFloat moTop;
-@property(nonatomic) CGFloat moRight;
-@property(nonatomic) CGFloat moBottom;
+@interface NSString (MONSStringAdditions)
 
-@property(nonatomic) CGFloat moWidth;
-@property(nonatomic) CGFloat moHeight;
-
-@property(nonatomic) CGFloat moCenterX;
-@property(nonatomic) CGFloat moCenterY;
+- (NSString*)setterName;
 
 @end
-
