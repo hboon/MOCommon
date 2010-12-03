@@ -44,17 +44,6 @@
 #define MO_RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 #define MO_RGBACOLOR(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
-// Courtesy of http://vgable.com/blog/2010/08/19/the-most-useful-objective-c-code-ive-ever-written/
-#define LOG_EXPR(_X_) do{\
-	__typeof__(_X_) _Y_ = (_X_);\
-	const char * _TYPE_CODE_ = @encode(__typeof__(_X_));\
-	NSString *_STR_ = VTPG_DDToStringFromTypeAndValue(_TYPE_CODE_, &_Y_);\
-	if(_STR_)\
-		NSLog(@"%s = %@", #_X_, _STR_);\
-	else\
-		NSLog(@"Unknown _TYPE_CODE_: %s for expression %s in function %s, file %s, line %d", _TYPE_CODE_, #_X_, __func__, __FILE__, __LINE__);\
-}while(0)
-
 // Courtesy of, and derived from http://news.ycombinator.com/item?id=1789839
 #define A(obj, objs...) [NSArray arrayWithObjects:obj, ## objs , nil]
 #define D(val, key, vals...) [NSDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
@@ -74,3 +63,10 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 CGFloat moDegreeToRadian(CGFloat aFloat);
 CGFloat moRadianToDegree(CGFloat aFloat);
 BOOL moIsSimulator();
+
+// http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
+static inline BOOL moIsEmpty(id thing) {
+	return thing == nil ||
+			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
+			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
+}
