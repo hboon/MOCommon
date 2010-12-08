@@ -7,6 +7,10 @@ These include:
 
 * VTPG_Common.h, VTPG_Common.m from Vincent Gable
 
+License
+---
+BSD unless otherwise stated.
+
 Questions?
 ---
 * Email: [hboon@motionobj.com](mailto:hboon@motionobj.com)
