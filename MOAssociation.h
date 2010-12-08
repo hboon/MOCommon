@@ -1,8 +1,8 @@
 //
-//  MONSStringAdditions.h
+//  MOAssociation.h
 //  Licensed under the terms of the BSD License, as specified below.
 //
-//  Created by Hwee-Boon Yar on Dec/2/2010.
+//  Created by Hwee-Boon Yar on Dec/03/2010.
 //
 /*
  Copyright 2010 Yar Hwee Boon. All rights reserved.
@@ -39,9 +39,14 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSString (MONSStringAdditions)
+@interface MOAssociation : NSObject {
+	id key;
+	id value;
+}
 
-- (NSString*)moSetterName;
-- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
+@property (retain) id key;
+@property (retain) id value;
+
++ (id)key:(id)aKey value:(id)aValue;
 
 @end
