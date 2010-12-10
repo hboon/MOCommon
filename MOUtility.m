@@ -107,3 +107,13 @@ CGFloat moRadianToDegree(CGFloat aFloat) {
 BOOL moIsSimulator() {
 	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
 }
+
+
+#pragma mark Localization
+
+// Useful for figuring out canonical language identifiers when doing localizations
+void moLogLanguagesAndIdentifiers() {
+	for (NSString* each in [NSLocale preferredLanguages]) {
+		NSLog(@"%@ = %@", [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:each], each);
+	}
+}

@@ -70,3 +70,5 @@ static inline BOOL moIsEmpty(id thing) {
 			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
 			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
 }
+
+void moLogLanguagesAndIdentifiers();
