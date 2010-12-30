@@ -7,9 +7,18 @@ These include:
 
 * VTPG_Common.h, VTPG_Common.m from Vincent Gable
 
+
+Usage
+---
+Code in the Development folder are tools used during development.
+
+MODisplayFontsView - Add a line such as `[window addSubview:[[[MODisplayFontsView alloc] init] autorelease]]` at the end of `-application:didFinishLaunchingWithOptions:` to list the fonts available.
+
+
 License
 ---
 BSD unless otherwise stated.
+
 
 Questions?
 ---
