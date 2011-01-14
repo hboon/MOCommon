@@ -51,6 +51,7 @@
 #define MD(val, key, vals...) [NSMutableDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
 
 #define NB(n) [NSNumber numberWithBool:n]
+#define NN(n) [NSNumber numberWithInt:n]
 
 id<UIApplicationDelegate> moApplicationDelegate();
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
