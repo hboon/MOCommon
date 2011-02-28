@@ -53,6 +53,8 @@
 #define NB(n) [NSNumber numberWithBool:n]
 #define NN(n) [NSNumber numberWithInt:n]
 
+#define MO_CLAMP_MIN_MAX(var, min, max)	var<min? min: (var>max? max: var)
+
 id<UIApplicationDelegate> moApplicationDelegate();
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
