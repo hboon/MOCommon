@@ -43,5 +43,6 @@
 
 - (NSString*)moSetterName;
 - (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
+- (NSString*)capitalizeFirstLetter;
 
 @end
