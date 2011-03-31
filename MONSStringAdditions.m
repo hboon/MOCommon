@@ -54,4 +54,11 @@
 	return [NSString stringWithFormat:@"%@...", [self substringToIndex:aNumber-3]];
 }
 
+
+- (NSString*)capitalizeFirstLetter {
+	if ([self length] == 0) return self;
+
+	return [NSString stringWithFormat:@"%@%@", [[self substringToIndex:1] uppercaseString], [self substringFromIndex:1]];
+}
+
 @end

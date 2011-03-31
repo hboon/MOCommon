@@ -1,11 +1,11 @@
 //
-//  MONSStringAdditions.h
+//  MOUIWebViewAdditions.h
 //  Licensed under the terms of the BSD License, as specified below.
 //
-//  Created by Hwee-Boon Yar on Dec/2/2010.
+//  Created by Hwee-Boon Yar on Nov/22/2008.
 //
 /*
- Copyright 2010 Yar Hwee Boon. All rights reserved.
+ Copyright 2008 Yar Hwee Boon. All rights reserved.
  
  All rights reserved.
  
@@ -36,13 +36,13 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
-@interface NSString (MONSStringAdditions)
+@interface UIWebView (MOUIWebViewAdditions)
 
-- (NSString*)moSetterName;
-- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
-- (NSString*)capitalizeFirstLetter;
+- (NSString*)moGetDocumentTitle;
+- (NSString*)moGetDocumentUrl;
+- (CGFloat)moGetDocumentHeight;
 
 @end

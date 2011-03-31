@@ -1,11 +1,11 @@
 //
-//  MONSStringAdditions.h
+//  MOUIDeviceAdditions.h
 //  Licensed under the terms of the BSD License, as specified below.
 //
-//  Created by Hwee-Boon Yar on Dec/2/2010.
+//  Created by Hwee-Boon Yar on May/04/2009.
 //
 /*
- Copyright 2010 Yar Hwee Boon. All rights reserved.
+ Copyright 2009 Yar Hwee Boon. All rights reserved.
  
  All rights reserved.
  
@@ -39,10 +39,9 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSString (MONSStringAdditions)
+@interface UIDevice (MOUIDeviceAdditions)
 
-- (NSString*)moSetterName;
-- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
-- (NSString*)capitalizeFirstLetter;
+@property(readonly) double moAvailableMemory; // MB
+@property(readonly) NSString* moHardwareType;
 
 @end

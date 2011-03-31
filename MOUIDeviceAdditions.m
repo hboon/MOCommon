@@ -1,11 +1,11 @@
 //
-//  MONSStringAdditions.h
+//  MOUIDeviceAdditions.m
 //  Licensed under the terms of the BSD License, as specified below.
 //
-//  Created by Hwee-Boon Yar on Dec/2/2010.
+//  Created by Hwee-Boon Yar on May/04/2009.
 //
 /*
- Copyright 2010 Yar Hwee Boon. All rights reserved.
+ Copyright 2009 Yar Hwee Boon. All rights reserved.
  
  All rights reserved.
  
@@ -35,14 +35,47 @@
  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+#include <sys/sysctl.h>  
+#include <mach/mach.h>
 
-#import <Foundation/Foundation.h>
+#import "MOUIDeviceAdditions.h"
+
+@implementation UIDevice (MOUIDeviceAdditions)
+
+- (double)moAvailableMemory {
+	vm_statistics_data_t vmStats;
+	mach_msg_type_number_t infoCount = HOST_VM_INFO_COUNT;
+	kern_return_t kernReturn = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vmStats, &infoCount);
+	
+	if(kernReturn != KERN_SUCCESS) {
+		return NSNotFound;
+	}
+	
+	return ((vm_page_size * vmStats.free_count) / 1024.0) / 1024.0;
+}
 
 
-@interface NSString (MONSStringAdditions)
+// Courtesy http://iphonedevelopertips.com/device/determine-if-iphone-is-3g-or-3gs-determine-if-ipod-is-first-or-second-generation.html
+- (NSString*)moHardwareType {
+	size_t size;
 
-- (NSString*)moSetterName;
-- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
-- (NSString*)capitalizeFirstLetter;
+	// Set 'oldp' parameter to NULL to get the size of the data returned so we can allocate appropriate amount of space
+	sysctlbyname("hw.machine", NULL, &size, NULL, 0); 
+
+	// Allocate the space to store name
+	char *name = malloc(size);
+
+	// Get the platform name
+	sysctlbyname("hw.machine", name, &size, NULL, 0);
+
+	// Place name into a string
+	NSString *machine = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
+
+	// Done with this
+	free(name);
+
+	return machine;
+}
+
 
 @end
