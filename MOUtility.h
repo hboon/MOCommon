@@ -40,9 +40,27 @@
 
 #import "VTPG_Common.h"
 
+/* For both Mac OS and iOS */
+
+#if TARGET_OS_IPHONE
 // Courtesy of https://github.com/facebook/three20
-#define MO_RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
-#define MO_RGBACOLOR(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+	#define MO_RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+	#define MO_RGBACOLOR(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#else
+	#define MO_RGBCOLOR(r,g,b) [NSColor colorWithDeviceRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+	#define MO_RGBACOLOR(r,g,b,a) [NSColor colorWithDeviceRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#endif
+
+CGFloat moDegreeToRadian(CGFloat aFloat);
+CGFloat moRadianToDegree(CGFloat aFloat);
+void moLogLanguagesAndIdentifiers();
+
+// http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
+static inline BOOL moIsEmpty(id thing) {
+	return thing == nil ||
+			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
+			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
+}
 
 // Courtesy of, and derived from http://news.ycombinator.com/item?id=1789839
 #define A(obj, objs...) [NSArray arrayWithObjects:obj, ## objs , nil]
@@ -53,6 +71,10 @@
 #define NB(n) [NSNumber numberWithBool:n]
 #define NN(n) [NSNumber numberWithInt:n]
 
+
+/* iOS-specific */
+
+#if TARGET_OS_IPHONE
 id<UIApplicationDelegate> moApplicationDelegate();
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
@@ -61,15 +83,12 @@ NSString* moOrientationAsString(UIInterfaceOrientation orientation);
 BOOL moSupportsMultitasking();
 BOOL moSupportsBackgroundCompletionTaskAPI();
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
-CGFloat moDegreeToRadian(CGFloat aFloat);
-CGFloat moRadianToDegree(CGFloat aFloat);
 BOOL moIsSimulator();
+#endif
 
-// http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
-static inline BOOL moIsEmpty(id thing) {
-	return thing == nil ||
-			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
-			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
-}
 
-void moLogLanguagesAndIdentifiers();
+/* Mac OS-specific */
+
+#if TARGET_OS_MAC
+#endif
+

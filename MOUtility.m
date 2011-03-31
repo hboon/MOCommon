@@ -38,6 +38,28 @@
 
 #import "MOUtility.h"
 
+CGFloat moDegreeToRadian(CGFloat aFloat) {
+	return aFloat * M_PI / 180;
+}
+
+
+CGFloat moRadianToDegree(CGFloat aFloat) {
+	return aFloat * 180 / M_PI;
+}
+
+#pragma mark Localization
+
+// Useful for figuring out canonical language identifiers when doing localizations
+void moLogLanguagesAndIdentifiers() {
+	for (NSString* each in [NSLocale preferredLanguages]) {
+		NSLog(@"%@ = %@", [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:each], each);
+	}
+}
+
+#pragma mark -
+
+
+#if TARGET_OS_IPHONE
 id<UIApplicationDelegate> moApplicationDelegate() {
 	return [UIApplication sharedApplication].delegate;
 }
@@ -94,26 +116,9 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor) {
 }
 
 
-CGFloat moDegreeToRadian(CGFloat aFloat) {
-	return aFloat * M_PI / 180;
-}
-
-
-CGFloat moRadianToDegree(CGFloat aFloat) {
-	return aFloat * 180 / M_PI;
-}
-
-
 BOOL moIsSimulator() {
 	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
 }
 
+#endif
 
-#pragma mark Localization
-
-// Useful for figuring out canonical language identifiers when doing localizations
-void moLogLanguagesAndIdentifiers() {
-	for (NSString* each in [NSLocale preferredLanguages]) {
-		NSLog(@"%@ = %@", [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:each], each);
-	}
-}
