@@ -86,6 +86,8 @@ BOOL moSupportsMultitasking();
 BOOL moSupportsBackgroundCompletionTaskAPI();
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 BOOL moIsSimulator();
+BOOL moHasCamera();
+BOOL moSupportsVideoTaking();
 #endif
 
 
