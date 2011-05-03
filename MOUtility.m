@@ -60,8 +60,6 @@ void moLogLanguagesAndIdentifiers() {
 
 #pragma mark -
 
-
-#if TARGET_OS_IPHONE
 id<UIApplicationDelegate> moApplicationDelegate() {
 	return [UIApplication sharedApplication].delegate;
 }
@@ -144,5 +142,5 @@ BOOL moSupportsVideoTaking() {
 	return NO;
 }
 
+#if TARGET_OS_IPHONE
 #endif
-
