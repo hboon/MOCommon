@@ -49,6 +49,11 @@ CGFloat moRadianToDegree(CGFloat aFloat) {
 	return aFloat * 180 / M_PI;
 }
 
+
+int moRoundUp(double f) {
+	return round(f+0.49999);
+}
+
 #pragma mark Localization
 
 // Useful for figuring out canonical language identifiers when doing localizations
