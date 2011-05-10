@@ -42,6 +42,15 @@
 
 #import "MOUtility.h"
 
+@interface MOTextInputViewController()
+
+- (void)updateCharacterCount;
+- (void)setFocusOnText;
+- (void)resizeTableView;
+
+@end
+
+
 @implementation MOTextInputViewController
 
 @synthesize characterCountLeftLabel;
@@ -53,17 +62,6 @@
 @synthesize target;
 @synthesize setterSelector;
 @synthesize maximumLength;
-
-- (void)resizeTableView {
-	if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)) { 
-		self.tableView.frame = CGRectMake(0, 0, self.view.moWidth, [UIScreen mainScreen].bounds.size.height-MO_STATUS_BAR_HEIGHT-MO_NAVIGATION_BAR_HEIGHT_PORTRAIT-MO_KEYBOARD_HEIGHT_PORTRAIT);
-		self.tableView.contentInset = UIEdgeInsetsMake([self textInputViewTopInsetPortrait], 0, 0, 0);
-	} else {
-		self.tableView.frame = CGRectMake(0, 0, self.view.moWidth, moScreenBounds().size.height-MO_STATUS_BAR_HEIGHT-MO_NAVIGATION_BAR_HEIGHT_LANDSCAPE-MO_KEYBOARD_HEIGHT_LANDSCAPE);
-		self.tableView.contentInset = UIEdgeInsetsMake([self textInputViewTopInsetLandscape], 0, 0, 0);
-	}
-}
-
 
 - (void)loadView {
 	self.view = [[[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
@@ -126,6 +124,17 @@
 	self.target = nil;
 	
     [super dealloc];
+}
+
+
+- (void)resizeTableView {
+	if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)) { 
+		self.tableView.frame = CGRectMake(0, 0, self.view.moWidth, [UIScreen mainScreen].bounds.size.height-MO_STATUS_BAR_HEIGHT-MO_NAVIGATION_BAR_HEIGHT_PORTRAIT-MO_KEYBOARD_HEIGHT_PORTRAIT);
+		self.tableView.contentInset = UIEdgeInsetsMake([self textInputViewTopInsetPortrait], 0, 0, 0);
+	} else {
+		self.tableView.frame = CGRectMake(0, 0, self.view.moWidth, moScreenBounds().size.height-MO_STATUS_BAR_HEIGHT-MO_NAVIGATION_BAR_HEIGHT_LANDSCAPE-MO_KEYBOARD_HEIGHT_LANDSCAPE);
+		self.tableView.contentInset = UIEdgeInsetsMake([self textInputViewTopInsetLandscape], 0, 0, 0);
+	}
 }
 
 
