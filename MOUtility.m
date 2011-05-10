@@ -36,8 +36,6 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <MobileCoreServices/MobileCoreServices.h>
-
 #import "MOUtility.h"
 
 CGFloat moDegreeToRadian(CGFloat aFloat) {
@@ -136,28 +134,6 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor) {
 
 BOOL moIsSimulator() {
 	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
-}
-
-
-BOOL moHasCamera() {
-	return [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && !moIsSimulator();
-}
-
-
-BOOL moSupportsVideoTaking() {
-	if (!moHasCamera()) {
-		return NO;
-	}
-
-	NSArray* mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-
-	for (NSString* each in mediaTypes) {
-		if ([each isEqualToString:(NSString*)kUTTypeMovie]) {
-			return YES;
-		}
-	}
-
-	return NO;
 }
 
 #if TARGET_OS_IPHONE

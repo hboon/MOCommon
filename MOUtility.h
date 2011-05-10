@@ -84,8 +84,6 @@ BOOL moSupportsMultitasking();
 BOOL moSupportsBackgroundCompletionTaskAPI();
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 BOOL moIsSimulator();
-BOOL moHasCamera();
-BOOL moSupportsVideoTaking();
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216
