@@ -80,7 +80,7 @@ id<UIApplicationDelegate> moApplicationDelegate();
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
 UIWindow* moWindow();
-CGRect moScreenBounds();
+CGRect moScreenBounds(UIInterfaceOrientation orientation);
 NSString* moOrientationAsString(UIInterfaceOrientation orientation);
 BOOL moSupportsMultitasking();
 BOOL moSupportsBackgroundCompletionTaskAPI();
