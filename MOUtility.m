@@ -92,6 +92,19 @@ UIWindow* moWindow() {
 }
 
 
+CGRect moScreenBounds() {
+	CGRect bounds = [UIScreen mainScreen].bounds;
+
+	if (!UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)) {
+		CGFloat width = bounds.size.width;
+		bounds.size.width = bounds.size.height;
+		bounds.size.height = width;
+	}
+
+	return bounds;
+}
+
+
 NSString* moOrientationAsString(UIInterfaceOrientation orientation) {
 	NSArray* values = [NSArray arrayWithObjects:@"unknown",@"portrait",@"portrait upside down",@"landscape left",@"landscape right",@"face up",@"face down",nil];
 	return [values objectAtIndex:orientation];

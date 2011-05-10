@@ -78,6 +78,7 @@ id<UIApplicationDelegate> moApplicationDelegate();
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
 UIWindow* moWindow();
+CGRect moScreenBounds();
 NSString* moOrientationAsString(UIInterfaceOrientation orientation);
 BOOL moSupportsMultitasking();
 BOOL moSupportsBackgroundCompletionTaskAPI();
@@ -85,6 +86,12 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 BOOL moIsSimulator();
 BOOL moHasCamera();
 BOOL moSupportsVideoTaking();
+
+#define MO_STATUS_BAR_HEIGHT 20
+#define MO_KEYBOARD_HEIGHT_PORTRAIT 216
+#define MO_KEYBOARD_HEIGHT_LANDSCAPE 160
+#define MO_NAVIGATION_BAR_HEIGHT_PORTRAIT 44
+#define MO_NAVIGATION_BAR_HEIGHT_LANDSCAPE 33
 
 /* iOS-specific */
 
