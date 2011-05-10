@@ -52,6 +52,12 @@ int moRoundUp(double f) {
 	return round(f+0.49999);
 }
 
+NSString* moEmptyStringIfNull(NSString* str) {
+	if ((NSNull*)str == [NSNull null]) return @"";
+
+	return str;
+}
+
 #pragma mark Localization
 
 // Useful for figuring out canonical language identifiers when doing localizations

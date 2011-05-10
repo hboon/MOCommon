@@ -54,6 +54,7 @@
 CGFloat moDegreeToRadian(CGFloat aFloat);
 CGFloat moRadianToDegree(CGFloat aFloat);
 int moRoundUp(double f);
+NSString* moEmptyStringIfNull(NSString* str);
 void moLogLanguagesAndIdentifiers();
 
 // http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
