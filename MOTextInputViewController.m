@@ -70,6 +70,13 @@
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+
 	CGFloat characterCountXOffset = 22;
 	self.characterCountLeftLabel = [[[UILabel alloc] initWithFrame:CGRectMake(characterCountXOffset, 0, self.view.moWidth-characterCountXOffset, 21)] autorelease];
 	self.characterCountLeftLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -83,15 +90,26 @@
 	self.tableView.dataSource = self;
 	self.tableView.tableFooterView = self.characterCountLeftLabel;
 	[self.view addSubview:self.tableView];
+	
+	isCancel = NO;
+	[self setupObserveTextChangeNotification];
+	
+	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)] autorelease];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)] autorelease];
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+	[self setPlaceHolder:self.fieldName];
+	self.text = self.value;
+	[self updateCharacterCount];
+	[self setFocusOnText];
 }
 
 
 - (void)viewDidUnload {
-	self.view = nil;
 	self.characterCountLeftLabel = nil;
 	self.tableView = nil;
+	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.rightBarButtonItem = nil;
 
 	[super viewDidUnload];
 }
@@ -100,8 +118,7 @@
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	self.characterCountLeftLabel = nil;
-	self.tableView = nil;
+	[self viewDidUnload];
 	self.textInputView = nil;
 
 	self.fieldName = nil;
@@ -137,23 +154,6 @@
 	} else if (count == -1) {
 		characterCountLeftLabel.textColor = [UIColor redColor];
 	}
-}
-
-
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	isCancel = NO;
-	[self setupObserveTextChangeNotification];
-	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)] autorelease];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)] autorelease];
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
-
-	[self setPlaceHolder:self.fieldName];
-	self.text = self.value;
-	[self updateCharacterCount];
-	[self setFocusOnText];
 }
 
 
