@@ -37,6 +37,7 @@
 */
 #import "MOTabBarController.h"
 
+#import "MOUtility.h"
 #define MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED 5
 
 @implementation TabButton
@@ -250,8 +251,10 @@
 - (void)displayViewController:(UIViewController*)aViewController {
 	UIViewController* old = self.selectedViewController;
 
-	if (!(old == self.moreNavigationController && [self viewControllerIsUnderMore:aViewController])) {
+	if (![self viewControllerIsUnderMore:old]) {
 		[old viewWillDisappear:NO];
+	} else if (![self viewControllerIsUnderMore:aViewController]) {
+		[self.moreNavigationController viewWillDisappear:NO];
 	}
 
 	selectedViewController = aViewController;
@@ -263,7 +266,12 @@
 
 	[self resizeViewController:aViewController];
 	[aViewController viewWillAppear:NO];
-	if (![self viewControllerIsUnderMore:aViewController]) [old.view removeFromSuperview];
+
+	if (![self viewControllerIsUnderMore:old]) {
+		[old.view removeFromSuperview];
+	} else if (![self viewControllerIsUnderMore:aViewController]) {
+		[self.moreNavigationController.view removeFromSuperview];
+	}
 
 	if (aViewController) {
 		if (self.selectedIndex < MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1) {
@@ -276,9 +284,12 @@
 		}
 	}
 
-	if (!(old == self.moreNavigationController && [self viewControllerIsUnderMore:aViewController])) {
+	if (![self viewControllerIsUnderMore:old]) {
 		[old viewDidDisappear:NO];
+	} else if (![self viewControllerIsUnderMore:aViewController]) {
+		[self.moreNavigationController viewDidDisappear:NO];
 	}
+
 	[aViewController viewDidAppear:NO];
 
 	[self bringTabButtonsToFront];
