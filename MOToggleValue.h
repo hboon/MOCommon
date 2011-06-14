@@ -46,6 +46,7 @@
 @property (nonatomic,retain) id value1;
 @property (nonatomic,retain) id value2;
 @property (nonatomic,retain) id currentValue;
+@property (nonatomic,readonly) id otherValue;
 
 + (id)value:(id)val1 value:(id)val2;
 - (id)toggle;

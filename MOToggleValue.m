@@ -73,4 +73,9 @@
 	return self.currentValue;
 }
 
+
+- (id)otherValue {
+	return self.currentValue != self.value1? self.value1: self.value2;
+}
+
 @end
