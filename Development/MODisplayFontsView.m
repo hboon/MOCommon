@@ -40,6 +40,8 @@
 
 #import "MOAssociation.h"
 
+NSInteger fontAndFontFamilyCompare(id first, id second, void* context);
+
 NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 	return [[first key] compare:[second key]];
 }

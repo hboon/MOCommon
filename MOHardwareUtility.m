@@ -41,12 +41,12 @@
 #import "MOHardwareUtility.h"
 #import "MOUtility.h"
 
-BOOL moHasCamera() {
+BOOL moHasCamera(void) {
 	return [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && !moIsSimulator();
 }
 
 
-BOOL moSupportsVideoTaking() {
+BOOL moSupportsVideoTaking(void) {
 	if (!moHasCamera()) {
 		return NO;
 	}

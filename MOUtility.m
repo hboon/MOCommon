@@ -61,7 +61,7 @@ NSString* moEmptyStringIfNull(NSString* str) {
 #pragma mark Localization
 
 // Useful for figuring out canonical language identifiers when doing localizations
-void moLogLanguagesAndIdentifiers() {
+void moLogLanguagesAndIdentifiers(void) {
 	for (NSString* each in [NSLocale preferredLanguages]) {
 		NSLog(@"%@ = %@", [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:each], each);
 	}
@@ -69,7 +69,7 @@ void moLogLanguagesAndIdentifiers() {
 
 #pragma mark -
 
-id<UIApplicationDelegate> moApplicationDelegate() {
+id<UIApplicationDelegate> moApplicationDelegate(void) {
 	return [UIApplication sharedApplication].delegate;
 }
 
@@ -87,7 +87,7 @@ void moAlert(NSString* title, NSString* message) {
 
 
 // May be nil
-UIWindow* moWindow() {
+UIWindow* moWindow(void) {
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	// Possible to get nil back for window, not sure why, we retry once. If still nil, we give up
 	if (!window) window = [UIApplication sharedApplication].keyWindow;
@@ -115,12 +115,12 @@ NSString* moOrientationAsString(UIInterfaceOrientation orientation) {
 }
 
 
-BOOL moSupportsMultitasking() {
+BOOL moSupportsMultitasking(void) {
 	return [[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)] && [[UIDevice currentDevice] isMultitaskingSupported];
 }
 
 
-BOOL moSupportsBackgroundCompletionTaskAPI() {
+BOOL moSupportsBackgroundCompletionTaskAPI(void) {
 	return [[UIApplication sharedApplication] respondsToSelector:@selector(beginBackgroundTaskWithExpirationHandler:)] && moSupportsMultitasking();
 }
 
@@ -138,7 +138,7 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor) {
 }
 
 
-BOOL moIsSimulator() {
+BOOL moIsSimulator(void) {
 	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
 }
 

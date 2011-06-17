@@ -38,5 +38,5 @@
 
 #import <Foundation/Foundation.h>
 
-BOOL moHasCamera();
-BOOL moSupportsVideoTaking();
+BOOL moHasCamera(void);
+BOOL moSupportsVideoTaking(void);

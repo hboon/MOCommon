@@ -55,7 +55,7 @@ CGFloat moDegreeToRadian(CGFloat aFloat);
 CGFloat moRadianToDegree(CGFloat aFloat);
 int moRoundUp(double f);
 NSString* moEmptyStringIfNull(NSString* str);
-void moLogLanguagesAndIdentifiers();
+void moLogLanguagesAndIdentifiers(void);
 
 // http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
 static inline BOOL moIsEmpty(id thing) {
@@ -76,16 +76,16 @@ static inline BOOL moIsEmpty(id thing) {
 
 #define MO_CLAMP_MIN_MAX(var, min, max)	var<min? min: (var>max? max: var)
 
-id<UIApplicationDelegate> moApplicationDelegate();
+id<UIApplicationDelegate> moApplicationDelegate(void);
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
-UIWindow* moWindow();
+UIWindow* moWindow(void);
 CGRect moScreenBounds(UIInterfaceOrientation orientation);
 NSString* moOrientationAsString(UIInterfaceOrientation orientation);
-BOOL moSupportsMultitasking();
-BOOL moSupportsBackgroundCompletionTaskAPI();
+BOOL moSupportsMultitasking(void);
+BOOL moSupportsBackgroundCompletionTaskAPI(void);
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
-BOOL moIsSimulator();
+BOOL moIsSimulator(void);
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216
