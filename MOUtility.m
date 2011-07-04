@@ -139,7 +139,10 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor) {
 
 
 BOOL moIsSimulator(void) {
-	return [[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound;
+	if ([[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound) return YES;
+	if ([[[UIDevice currentDevice] name] rangeOfString:@"Unknown"].location != NSNotFound) return YES;
+
+	return NO;
 }
 
 #if TARGET_OS_IPHONE
