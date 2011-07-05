@@ -166,6 +166,11 @@
 
 }
 
+
+- (void)didReceiveMemoryWarning {
+	//Overridden to not release the view. Avoids a world of pain to reconstruct the subviews
+}
+
 #pragma mark View Management
 
 - (void)bringTabButtonsToFront {
