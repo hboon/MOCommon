@@ -41,6 +41,11 @@
 @interface UIImage (MOUIImageAdditions)
 
 - (UIImage*)moScaleToSize:(CGSize)size;
+- (UIImage*)moRotateToCorrectOrientation;
 - (UIImage*)moRotateCorrectly;
+- (UIImage*)moCopyWithBorderThickness:(CGFloat)aBorderFloat edgeThickness:(CGFloat)anEdgeFloat;
+- (UIImage*)moCopyWithBorderThickness:(CGFloat)aFloat;
+- (UIImage*)moScaleAspectToSize:(CGSize)aSize;
+- (UIImage*)moScaleAspectToFillSize:(CGSize)aSize;
 
 @end

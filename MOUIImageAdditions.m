@@ -38,29 +38,25 @@
 
 #import "MOUIImageAdditions.h"
 
+#import "MOUtility.h"
+
 @implementation UIImage (MOUIImageAdditions)
 
 - (UIImage*)moScaleToSize:(CGSize)size {
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGFloat scale = 1;
-#ifdef IPHONE_TARGET
 	if ([self respondsToSelector:@selector(scale)]) scale = [self scale];
-#endif
 	CGContextRef context = CGBitmapContextCreate(nil, size.width*scale, size.height*scale, 8, size.width*4*scale, colorSpace, kCGImageAlphaPremultipliedLast);
 	
 	CGImageRef imageReference = self.CGImage;
 	CGContextDrawImage(context, CGRectMake(0, 0, size.width*scale, size.height*scale), imageReference);
 	CGImageRef copy = CGBitmapContextCreateImage(context);
 	UIImage *scaledImage;
-#ifdef IPHONE_TARGET
-	if ([[UIImage class] respondsToSelector:@selector(imageWithCGImage:scale:orientation:)] && [self scale] != 1) {
-		scaledImage = [UIImage imageWithCGImage:copy scale:[self scale] orientation:UIImageOrientationUp];
+	if ([[UIImage class] respondsToSelector:@selector(imageWithCGImage:scale:orientation:)]) {
+		scaledImage = [UIImage imageWithCGImage:copy scale:[self scale] orientation:self.imageOrientation];
 	} else {
-#endif
 		scaledImage = [UIImage imageWithCGImage:copy]; 
-#ifdef IPHONE_TARGET
 	}
-#endif
 	CGImageRelease(copy);
 	
 	CGColorSpaceRelease(colorSpace);
@@ -71,7 +67,7 @@
 
 
 // Taken and modified from http://blog.logichigh.com/2008/06/05/uiimage-fix/#
-- (UIImage*)moRotateCorrectly {
+- (UIImage*)moRotateToCorrectOrientation {
     CGImageRef imgRef = self.CGImage;
     CGFloat width = CGImageGetWidth(imgRef);
     CGFloat height = CGImageGetHeight(imgRef);
@@ -150,5 +146,95 @@
     return imageCopy;
 }
 
+
+- (UIImage*)moRotateCorrectly {
+	return [self moRotateToCorrectOrientation];
+}
+
+
+- (UIImage*)imageByCroppingToRect:(CGRect)aRect {
+	CGImageRef cropped = CGImageCreateWithImageInRect(self.CGImage, aRect);
+	UIImage* img = [UIImage imageWithCGImage:cropped];
+	CGImageRelease(cropped);
+
+	return img;
+}
+
+
+- (UIImage*)imageByCroppingToCenterWithSize:(CGSize)aSize {
+	if (aSize.width/aSize.height > self.size.width/self.size.height) {
+		return [self imageByCroppingToRect:CGRectMake(0, (self.size.height-aSize.height)/2, aSize.width, aSize.height)];
+	} else {
+		return [self imageByCroppingToRect:CGRectMake((self.size.width-aSize.width)/2, 0, aSize.width, aSize.height)];
+	}
+}
+
+
+// Preserve aspect ratio while scaling
+- (UIImage*)moScaleAspectToSize:(CGSize)aSize {
+	CGSize size;
+
+	if (aSize.width/aSize.height > self.size.width/self.size.height) {
+		size = CGSizeMake((int)(aSize.height/self.size.height * self.size.width), aSize.height);
+	} else {
+		size = CGSizeMake(aSize.width, (int)(aSize.width/self.size.width * self.size.height));
+	}
+
+	return [self moScaleToSize:size];
+}
+
+
+// Preserve aspect ratio while scaling to fill. Part of the content may be clipped
+- (UIImage*)moScaleAspectToFillSize:(CGSize)aSize {
+	UIImage* croppedImg;
+
+	if (aSize.width/aSize.height > self.size.width/self.size.height) {
+		croppedImg = [self imageByCroppingToCenterWithSize:CGSizeMake(self.size.width, (int)(self.size.width/aSize.width * aSize.height))];
+	} else {
+		croppedImg = [self imageByCroppingToCenterWithSize:CGSizeMake((int)(self.size.height/aSize.height * aSize.width), self.size.height)];
+	}
+
+	return [croppedImg moScaleToSize:aSize];
+}
+
+
+// aBorderFloat - border around photo
+// anEdgeFloat - transparent edge around border as workaround so that jagged edge doesn't appear around photo's border when displayed with a transform
+- (UIImage*)moCopyWithBorderThickness:(CGFloat)aBorderFloat edgeThickness:(CGFloat)anEdgeFloat {
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGFloat scale = 1;
+	if ([self respondsToSelector:@selector(scale)]) scale = [self scale];
+	CGContextRef context = CGBitmapContextCreate(nil, (self.size.width+2*(anEdgeFloat+aBorderFloat))*scale, (self.size.height+2*(anEdgeFloat+aBorderFloat))*scale, 8, (self.size.width+2*(anEdgeFloat+aBorderFloat))*4*scale, colorSpace, kCGImageAlphaPremultipliedLast);
+	CGRect rect = CGRectMake((anEdgeFloat+aBorderFloat)*scale, (anEdgeFloat+aBorderFloat)*scale, self.size.width*scale, self.size.height*scale);
+	CGContextDrawImage(context, rect, self.CGImage);
+    CGContextMoveToPoint(context, rect.origin.x, rect.origin.y);
+	CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y);
+	CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
+	CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y + rect.size.height);
+	CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y);
+    CGContextClosePath(context);
+	CGContextSetLineWidth(context, 2*aBorderFloat);
+	CGContextSetStrokeColorWithColor(context, MO_RGBCOLOR(255, 255, 255).CGColor);
+	CGContextStrokePath(context);
+	CGImageRef copy = CGBitmapContextCreateImage(context);
+	UIImage *result; 
+
+	if ([[UIImage class] respondsToSelector:@selector(imageWithCGImage:scale:orientation:)]) {
+		result = [UIImage imageWithCGImage:copy scale:scale orientation:self.imageOrientation];
+	} else {
+		result = [UIImage imageWithCGImage:copy]; 
+	}
+	CGImageRelease(copy);
+	
+	CGColorSpaceRelease(colorSpace);
+	CGContextRelease(context);
+	
+	return result;
+}
+
+
+- (UIImage*)moCopyWithBorderThickness:(CGFloat)aFloat {
+	  return [self moCopyWithBorderThickness:aFloat edgeThickness:0];
+}
 
 @end
