@@ -38,8 +38,6 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h> 
 
-BOOL needToResumeIpod;
-
 @interface MOSoundEffect : NSObject<AVAudioPlayerDelegate> {
 	NSURL* soundPath;
 	AVAudioPlayer* audioPlayer;

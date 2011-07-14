@@ -39,11 +39,7 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 
-#import "Utility.h"
-
 @implementation MOSoundEffect
-
-#define OLD_VOLUME @"oldVolume"
 
 + (BOOL)songIsCurrentlyPlaying {
 	NSTimeInterval playbackTime1 = [MPMusicPlayerController iPodMusicPlayer].currentPlaybackTime;
