@@ -1,11 +1,11 @@
 //
-//  MOSoundEffect.m
+//  MONSArrayAdditions.h
 //  Licensed under the terms of the BSD License, as specified below.
 //
-//  Created by Hwee-Boon Yar on Aug/21/2009.
+//  Created by Hwee-Boon Yar on Feb/25/2011.
 //
 /*
- Copyright 2009 Yar Hwee Boon. All rights reserved.
+ Copyright 2011 Yar Hwee Boon. All rights reserved.
  
  All rights reserved.
  
@@ -35,60 +35,24 @@
  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#import "MOSoundEffect.h"
 
-#import <MediaPlayer/MediaPlayer.h>
+#import <Foundation/Foundation.h>
 
-@implementation MOSoundEffect
+@interface NSArray (MONSArrayAdditions)
 
-+ (BOOL)songIsCurrentlyPlaying {
-	NSTimeInterval playbackTime1 = [MPMusicPlayerController iPodMusicPlayer].currentPlaybackTime;
-	NSTimeInterval playbackTime2 = [MPMusicPlayerController iPodMusicPlayer].currentPlaybackTime;
++ (id)moRangeFrom:(int)aStartNumber to:(int)anEndNumber;
++ (id)moArrayWithObject:(id)anObject copies:(int)count;
 
-	return playbackTime1 != playbackTime2;
-}
+typedef void (^MONSArrayRowsAndColumnsIterationBlock)(int row, int column, id each);
+- (void)moEnumerateObjectsInColumns:(int)aColumnCount usingBlock:(MONSArrayRowsAndColumnsIterationBlock)aBlock;
 
+- (id)moAny;
+- (NSSet*)moAny:(int)aNumber;
 
-+ (id)soundEffectWithContentsOfFile:(NSString *)aPath {
-    if (aPath) {
-        return [[[MOSoundEffect alloc] initWithContentsOfFile:aPath] autorelease];
-    }
-	
-    return nil;
-}
+typedef id (^MONSArrayBlock)(id obj);
+- (NSArray*)moMap:(MONSArrayBlock)aBlock;
 
-
-- (id)initWithContentsOfFile:(NSString *)path {
-    if (self = [super init]) {
-		soundPath = [[NSURL fileURLWithPath:path isDirectory:NO] retain];
-	}
-	
-    return self;
-}
-
-
--(void)dealloc {
-	[soundPath release];
-	[audioPlayer release];
-    [super dealloc];
-}
-
-
-- (NSURL*)path {
-	return soundPath;
-}
-
-
--(void)play {
-	if (!audioPlayer) {
-		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundPath error:nil];
-		[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
-		NSError *activationError = nil;
-		[[AVAudioSession sharedInstance] setActive:YES error:&activationError];
-	}
-	
-	[audioPlayer prepareToPlay];
-	[audioPlayer play];
-} 
+typedef id (^MONSArrayBlockWithIndex)(id obj, int index);
+- (NSArray*)moMapWithIndex:(MONSArrayBlockWithIndex)aBlock;
 
 @end
