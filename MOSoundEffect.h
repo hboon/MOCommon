@@ -38,10 +38,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h> 
 
-@interface MOSoundEffect : NSObject<AVAudioPlayerDelegate> {
-	NSURL* soundPath;
-	AVAudioPlayer* audioPlayer;
-}
+@interface MOSoundEffect : NSObject<AVAudioPlayerDelegate>
 
 + (BOOL)songIsCurrentlyPlaying;
 + (id)soundEffectWithContentsOfFile:(NSString *)aPath;

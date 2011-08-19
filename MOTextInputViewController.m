@@ -44,6 +44,12 @@
 
 @interface MOTextInputViewController()
 
+@property(nonatomic,retain)IBOutlet UILabel *characterCountLeftLabel;
+@property (nonatomic,retain)IBOutlet UITableView* tableView;
+@property (nonatomic,assign) id target;
+@property (nonatomic) SEL setterSelector;
+@property (nonatomic,retain) NSString* text;
+
 - (void)updateCharacterCount;
 - (void)setFocusOnText;
 - (void)resizeTableView;

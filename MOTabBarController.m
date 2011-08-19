@@ -109,6 +109,9 @@
 
 @interface MOTabBarController()
 
+@property (nonatomic) int selectedIndex;
+@property (nonatomic,readonly) UINavigationController* moreNavigationController;
+
 - (void)createDefaultTabButtons;
 - (void)setSelectedIndex:(int)aNumber force:(BOOL)yesOrNo;
 

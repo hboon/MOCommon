@@ -39,11 +39,7 @@
 
 #import "MOTabBarControllerDelegate.h"
 
-@interface TabButton : UIControl {
-	UIImage* normalImage;
-	UIImage* highlightedImage;
-	NSString* text;
-}
+@interface TabButton : UIControl
 
 @property (nonatomic,retain) UIImage* normalImage;
 @property (nonatomic,retain) UIImage* highlightedImage;
@@ -52,29 +48,17 @@
 @end
 
 
-@interface TabBarControllerButton: UIControl {
-}
+@interface TabBarControllerButton: UIControl
 
 @end
 
 
-@interface MOTabBarController : UIViewController<UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate> {
-	NSArray* viewControllers;
-	UIViewController* selectedViewController;
-	int selectedIndex;
-	NSObject<MOTabBarControllerDelegate>* delegate;
-	UINavigationController* moreNavigationController;
-
-	NSArray* tabButtons;
-	NSArray* buttons;
-}
+@interface MOTabBarController : UIViewController<UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
 
 @property (nonatomic,copy) NSArray* viewControllers;
 @property (nonatomic,assign) UIViewController* selectedViewController;
-@property (nonatomic) int selectedIndex;
 @property (nonatomic,copy) NSArray* tabButtons;
 @property (nonatomic,retain) NSArray* buttons;
 @property (nonatomic,assign) NSObject<MOTabBarControllerDelegate>* delegate;
-@property (nonatomic,readonly) UINavigationController* moreNavigationController;
 
 @end

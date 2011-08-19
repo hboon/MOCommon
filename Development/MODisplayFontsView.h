@@ -39,11 +39,9 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MODisplayFontsView: UITableView <UITableViewDelegate, UITableViewDataSource> {
-	NSString* sampleString;
-	NSMutableArray* fontNames;
-}
+@interface MODisplayFontsView: UITableView <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic,retain) NSString* sampleString;
+@property (nonatomic,retain) NSMutableArray* fontNames;
 
 @end

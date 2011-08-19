@@ -13,8 +13,6 @@
 @class MOTabBarController;
 
 @interface MOTabBarControllerAppDelegate : NSObject <UIApplicationDelegate, MOTabBarControllerDelegate> {
-	UIWindow *window;
-	MOTabBarController *tabBarController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

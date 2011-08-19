@@ -38,11 +38,7 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface MOAssociation : NSObject {
-	id key;
-	id value;
-}
+@interface MOAssociation : NSObject
 
 @property (retain) id key;
 @property (retain) id value;

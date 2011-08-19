@@ -40,7 +40,6 @@
 
 #import "MOTextInputViewController.h"
 
-@interface MOTextViewViewController : MOTextInputViewController {
-}
+@interface MOTextViewViewController : MOTextInputViewController
 
 @end

@@ -39,27 +39,15 @@
 #import <UIKit/UIKit.h>
 
 @interface MOTextInputViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
-	IBOutlet UILabel* characterCountLeftLabel;
-	UITableView* tableView;
 	UIView<UITextInputTraits>* textInputView;
 	
-	NSString* fieldName;
-	NSString* value;
-	id target;
-	SEL setterSelector;
-	int maximumLength;
 	BOOL isCancel;
 }
 
-@property(nonatomic,retain)IBOutlet UILabel *characterCountLeftLabel;
-@property (nonatomic,retain)IBOutlet UITableView* tableView;
 @property (nonatomic,retain) UIView<UITextInputTraits>* textInputView;
 @property (nonatomic,retain) NSString* fieldName;
 @property (nonatomic,retain) NSString* value;
-@property (nonatomic,assign) id target;
-@property (nonatomic) SEL setterSelector;
 @property (nonatomic) int maximumLength;
-@property (nonatomic,retain) NSString* text;
 
 - (void)setTarget:(id)aTarget action:(SEL)aSelector;
 

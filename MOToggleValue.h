@@ -37,11 +37,7 @@
 */
 #import <UIKit/UIKit.h>
 
-@interface MOToggleValue : NSObject {
-	id value1;
-	id value2;
-	id currentValue;
-}
+@interface MOToggleValue : NSObject
 
 @property (nonatomic,retain) id value1;
 @property (nonatomic,retain) id value2;

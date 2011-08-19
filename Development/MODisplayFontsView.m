@@ -50,6 +50,7 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 @implementation MODisplayFontsView
 
 @synthesize sampleString;
+@synthesize fontNames;
 
 - (id)initWithFrame:(CGRect)frame {
 	frame = [UIScreen mainScreen].bounds;
@@ -57,15 +58,15 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 	if (self = [super initWithFrame:frame]) {
 		self.backgroundColor = [UIColor whiteColor];
 		self.sampleString = @"The quick red fox jumped over the lazy brown dog.";
-		fontNames = [[NSMutableArray alloc] init];
+		self.fontNames = [NSMutableArray array];
 
 		for (NSString* eachFamilyName in [UIFont familyNames]) {
 			for (NSString* eachFontName in [UIFont fontNamesForFamilyName:eachFamilyName]) {
-													 [fontNames addObject:[MOAssociation key:eachFontName value:eachFamilyName]];
+													 [self.fontNames addObject:[MOAssociation key:eachFontName value:eachFamilyName]];
 			}
 		}
 
-		[fontNames sortUsingFunction:fontAndFontFamilyCompare context:nil];
+		[self.fontNames sortUsingFunction:fontAndFontFamilyCompare context:nil];
 		self.dataSource = self;
 		self.delegate = self;
 	}
@@ -75,8 +76,8 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 
 
 - (void)dealloc {
-	[sampleString release];
-	[fontNames release]; 
+	self.sampleString = nil;
+	self.fontNames = nil;
 
 	[super dealloc];
 }
@@ -84,7 +85,7 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 #pragma mark Table
 
 - (NSInteger)tableView:(UITableView*)view numberOfRowsInSection:(NSInteger)section {
-	return [fontNames count];
+	return [self.fontNames count];
 }
 
 
@@ -97,8 +98,8 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 	}
 
 	cell.detailTextLabel.text = self.sampleString;
-	cell.detailTextLabel.font = [UIFont fontWithName:[[fontNames objectAtIndex:indexPath.row] key] size:12];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ --- %@", [[fontNames objectAtIndex:indexPath.row] value], [[fontNames objectAtIndex:indexPath.row] key]];
+	cell.detailTextLabel.font = [UIFont fontWithName:[[self.fontNames objectAtIndex:indexPath.row] key] size:12];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ --- %@", [[self.fontNames objectAtIndex:indexPath.row] value], [[self.fontNames objectAtIndex:indexPath.row] key]];
 	cell.textLabel.font = [UIFont systemFontOfSize:9];
 
 	return cell;
@@ -107,7 +108,7 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 
 - (void)tableView:(UITableView*)view didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
 	[view deselectRowAtIndexPath:indexPath animated:YES];
-	NSLog(@"%@", [[fontNames objectAtIndex:indexPath.row] key]);
+	NSLog(@"%@", [[self.fontNames objectAtIndex:indexPath.row] key]);
 }
 
 @end

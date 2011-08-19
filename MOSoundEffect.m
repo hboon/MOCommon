@@ -39,7 +39,18 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 
+@interface MOSoundEffect()
+
+@property (nonatomic,retain) NSURL* soundPath;
+@property (nonatomic,retain) AVAudioPlayer* audioPlayer;
+
+@end
+
+
 @implementation MOSoundEffect
+
+@synthesize soundPath;
+@synthesize audioPlayer;
 
 + (BOOL)songIsCurrentlyPlaying {
 	NSTimeInterval playbackTime1 = [MPMusicPlayerController iPodMusicPlayer].currentPlaybackTime;
@@ -60,7 +71,7 @@
 
 - (id)initWithContentsOfFile:(NSString *)path {
     if (self = [super init]) {
-		soundPath = [[NSURL fileURLWithPath:path isDirectory:NO] retain];
+		self.soundPath = [NSURL fileURLWithPath:path isDirectory:NO];
 	}
 	
     return self;
@@ -68,27 +79,28 @@
 
 
 -(void)dealloc {
-	[soundPath release];
-	[audioPlayer release];
+	self.soundPath = nil;
+	self.audioPlayer = nil;
+
     [super dealloc];
 }
 
 
 - (NSURL*)path {
-	return soundPath;
+	return self.soundPath;
 }
 
 
 -(void)play {
-	if (!audioPlayer) {
-		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundPath error:nil];
+	if (!self.audioPlayer) {
+		self.audioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundPath error:nil] autorelease];
 		[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
 		NSError *activationError = nil;
 		[[AVAudioSession sharedInstance] setActive:YES error:&activationError];
 	}
 	
-	[audioPlayer prepareToPlay];
-	[audioPlayer play];
+	[self.audioPlayer prepareToPlay];
+	[self.audioPlayer play];
 } 
 
 @end
