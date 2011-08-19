@@ -42,6 +42,17 @@
 
 /* For both Mac OS and iOS */
 
+// Logging
+#ifdef DEBUG
+	#define MO_LogDebug(fmt, ...) NSLog((@"DEBUG " fmt), ##__VA_ARGS__);
+#else
+	#define MO_LogDebug(...)
+#endif
+
+#define MO_LogWarn(fmt, ...) NSLog((@"WARN [%@:%d]%s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+#define MO_LogSevere(fmt, ...) NSLog((@"SEVERE [%@:%d]%s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+
+
 #if TARGET_OS_IPHONE
 // Courtesy of https://github.com/facebook/three20
 	#define MO_RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
