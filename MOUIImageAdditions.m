@@ -67,7 +67,7 @@
 
 
 // Taken and modified from http://blog.logichigh.com/2008/06/05/uiimage-fix/#
-- (UIImage*)moRotateToCorrectOrientation {
+- (UIImage*)moRotateWithOrientation:(UIImageOrientation)anOrientation {
     CGImageRef imgRef = self.CGImage;
     CGFloat width = CGImageGetWidth(imgRef);
     CGFloat height = CGImageGetHeight(imgRef);
@@ -76,7 +76,7 @@
     CGSize imageSize = CGSizeMake(CGImageGetWidth(imgRef), CGImageGetHeight(imgRef));
     CGFloat boundHeight;
 	
-    switch(self.imageOrientation) {
+    switch(anOrientation) {
         case UIImageOrientationUp: //EXIF = 1
             transform = CGAffineTransformIdentity;
             break;
@@ -128,7 +128,7 @@
     UIGraphicsBeginImageContext(bounds.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
 	
-    if (self.imageOrientation == UIImageOrientationRight || self.imageOrientation == UIImageOrientationLeft) {
+    if (anOrientation == UIImageOrientationRight || anOrientation == UIImageOrientationLeft) {
         CGContextScaleCTM(context, -1, 1);
         CGContextTranslateCTM(context, -height, 0);
     }
@@ -144,6 +144,11 @@
     UIGraphicsEndImageContext();
 	
     return imageCopy;
+}
+
+
+- (UIImage*)moRotateToCorrectOrientation {
+	return [self moRotateWithOrientation:self.imageOrientation];
 }
 
 
