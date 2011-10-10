@@ -47,5 +47,6 @@
 - (NSString*)moUrlEncode;
 - (NSString*)moUrlEncodeTreatingSpaceTheSame;
 - (NSString*)moTrimWhiteSpace;
+- (NSString*)moWithoutFirstCharacter;
 
 @end

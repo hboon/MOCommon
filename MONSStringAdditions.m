@@ -96,4 +96,11 @@
 	return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
+
+- (NSString*)moWithoutFirstCharacter {
+	if ([self length] == 0) return nil;
+
+	return [self substringFromIndex:1];
+}
+
 @end
