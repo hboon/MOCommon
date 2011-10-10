@@ -44,6 +44,7 @@
 - (UIImage*)moRotateToCorrectOrientation;
 - (UIImage*)moRotateWithOrientation:(UIImageOrientation)anOrientation;
 - (UIImage*)moRotateCorrectly;
+- (UIImage*)moImageByCroppingToRect:(CGRect)aRect;
 - (UIImage*)moCopyWithBorderThickness:(CGFloat)aBorderFloat edgeThickness:(CGFloat)anEdgeFloat;
 - (UIImage*)moCopyWithBorderThickness:(CGFloat)aFloat;
 - (UIImage*)moScaleAspectToSize:(CGSize)aSize;

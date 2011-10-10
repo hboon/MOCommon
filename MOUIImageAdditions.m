@@ -157,7 +157,7 @@
 }
 
 
-- (UIImage*)imageByCroppingToRect:(CGRect)aRect {
+- (UIImage*)moImageByCroppingToRect:(CGRect)aRect {
 	CGImageRef cropped = CGImageCreateWithImageInRect(self.CGImage, aRect);
 	UIImage* img = [UIImage imageWithCGImage:cropped];
 	CGImageRelease(cropped);
@@ -168,9 +168,9 @@
 
 - (UIImage*)imageByCroppingToCenterWithSize:(CGSize)aSize {
 	if (aSize.width/aSize.height > self.size.width/self.size.height) {
-		return [self imageByCroppingToRect:CGRectMake(0, (self.size.height-aSize.height)/2, aSize.width, aSize.height)];
+		return [self moImageByCroppingToRect:CGRectMake(0, (self.size.height-aSize.height)/2, aSize.width, aSize.height)];
 	} else {
-		return [self imageByCroppingToRect:CGRectMake((self.size.width-aSize.width)/2, 0, aSize.width, aSize.height)];
+		return [self moImageByCroppingToRect:CGRectMake((self.size.width-aSize.width)/2, 0, aSize.width, aSize.height)];
 	}
 }
 
