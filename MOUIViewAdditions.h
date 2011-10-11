@@ -51,5 +51,8 @@
 @property(nonatomic) CGFloat moCenterX;
 @property(nonatomic) CGFloat moCenterY;
 
+- (void)moSizeWidthToFit;
+- (void)moSizeHeightToFit;
+
 @end
 

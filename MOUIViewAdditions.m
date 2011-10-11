@@ -118,4 +118,17 @@
 	self.frame = frame;
 }
 
+
+- (void)moSizeWidthToFit {
+	CGFloat height = self.moHeight;
+	[self sizeToFit];
+	self.moHeight = height;
+}
+
+- (void)moSizeHeightToFit {
+	CGFloat width = self.moWidth;
+	[self sizeToFit];
+	self.moWidth = width;
+}
+
 @end
