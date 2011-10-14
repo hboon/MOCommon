@@ -44,13 +44,13 @@
 
 // Logging
 #ifdef DEBUG
-	#define MO_LogDebug(fmt, ...) NSLog((@"DEBUG " fmt), ##__VA_ARGS__);
+	#define MO_LogDebug(fmt, ...) NSLog((@"DEBUG " fmt), ##__VA_ARGS__)
 #else
 	#define MO_LogDebug(...)
 #endif
 
-#define MO_LogWarn(fmt, ...) NSLog((@"WARN [%@:%d]%s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
-#define MO_LogSevere(fmt, ...) NSLog((@"SEVERE [%@:%d]%s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+#define MO_LogWarn(fmt, ...) NSLog((@"WARN [%@:%d]%s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__)
+#define MO_LogSevere(fmt, ...) NSLog((@"SEVERE [%@:%d]%s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__)
 
 
 #if TARGET_OS_IPHONE
