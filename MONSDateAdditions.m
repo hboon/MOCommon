@@ -113,38 +113,38 @@
 	NSString *text;
 	
 	if (seconds < ONE_MINUTE) {
-		text = [[NSString alloc] initWithFormat:@"%ds", (int)seconds];
+		text = [NSString stringWithFormat:@"%ds", (int)seconds];
 	} else if (seconds < TWO_MINUTE) {
 		text = @"1m";
 	} else if (seconds < ONE_HOUR) {
 		int number = (int)seconds/ONE_MINUTE;
-		text = [[NSString alloc] initWithFormat:@"%dm", number];
+		text = [NSString stringWithFormat:@"%dm", number];
 	} else if (seconds < TWO_HOURS) {
 		text = @"1h";
 	} else if (seconds < ONE_DAY) {
 		int number = (int)seconds/ONE_HOUR;
-		text = [[NSString alloc] initWithFormat:@"%dh", number];
+		text = [NSString stringWithFormat:@"%dh", number];
 	} else if (seconds < TWO_DAYS) {
 		text = @"1d";
 	} else if (seconds < ONE_WEEK) {
 		int number = (int)seconds/ONE_DAY;
-		text = [[NSString alloc] initWithFormat:@"%dd", number];
+		text = [NSString stringWithFormat:@"%dd", number];
 	} else if (seconds < TWO_WEEKS) {
 		text = @"1w";
 	} else if (seconds < ONE_MONTH) {
 		int number = (int)seconds/ONE_WEEK;
-		text = [[NSString alloc] initWithFormat:@"%dw", number];
+		text = [NSString stringWithFormat:@"%dw", number];
 	} else if (seconds < TWO_MONTHS) {
 		text = @"1mth";
 	} else if (seconds < ONE_YEAR) {
 		int number = (int)seconds/ONE_MONTH;
-		text = [[NSString alloc] initWithFormat:@"%dmth", number];
+		text = [NSString stringWithFormat:@"%dmth", number];
 	} else {
 		int number = (int)seconds/ONE_YEAR;
-		text = [[NSString alloc] initWithFormat:@"%dy", number];
+		text = [NSString stringWithFormat:@"%dy", number];
 	}
 	
-	return [text autorelease];
+	return text;
 }
 
 @end
