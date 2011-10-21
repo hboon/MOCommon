@@ -43,7 +43,7 @@
 
 - (NSString*)moSetterName;
 - (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber;
-- (NSString*)capitalizeFirstLetter;
+- (NSString*)moCapitalizeFirstLetter;
 - (NSString*)moUrlEncode;
 - (NSString*)moUrlEncodeTreatingSpaceTheSame;
 - (NSString*)moTrimWhiteSpace;

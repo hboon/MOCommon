@@ -55,7 +55,7 @@
 }
 
 
-- (NSString*)capitalizeFirstLetter {
+- (NSString*)moCapitalizeFirstLetter {
 	if ([self length] == 0) return self;
 
 	return [NSString stringWithFormat:@"%@%@", [[self substringToIndex:1] uppercaseString], [self substringFromIndex:1]];
