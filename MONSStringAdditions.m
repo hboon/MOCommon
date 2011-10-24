@@ -104,3 +104,42 @@
 }
 
 @end
+
+
+@implementation NSNull (MONSStringAdditions)
+
+- (NSString*)moSetterName {
+	return nil;
+}
+
+
+- (NSString*)moTruncateToEllipsisIfMoreThanLength:(int)aNumber {
+	return nil;
+}
+
+
+- (NSString*)moCapitalizeFirstLetter {
+	return nil;
+}
+
+
+- (NSString*)moUrlEncode {
+	return nil;
+}
+
+
+- (NSString*)moUrlEncodeTreatingSpaceTheSame {
+	return nil;
+}
+
+
+- (NSString*)moTrimWhiteSpace {
+	return nil;
+}
+
+
+- (NSString*)moWithoutFirstCharacter {
+	return nil;
+}
+
+@end
