@@ -452,7 +452,15 @@
 #pragma mark UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController*)navigationController willShowViewController:(UIViewController*)viewController animated:(BOOL)animated {
-	self.tabHidden = viewController.hidesBottomBarWhenPushed;
+	BOOL hideTabs = NO;
+	for (UIViewController* each in navigationController.viewControllers) {
+		if (each.hidesBottomBarWhenPushed) {
+			hideTabs = YES;
+			break;
+		}
+	}
+
+	self.tabHidden = hideTabs;
 	[self resizeViewController:navigationController];
 }
 
