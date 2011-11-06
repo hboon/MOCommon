@@ -39,16 +39,11 @@
 
 #import "MOTabBarControllerDelegate.h"
 
-@interface TabButton : UIControl
+@interface MOTabButton : UIControl
 
 @property (nonatomic,retain) UIImage* normalImage;
 @property (nonatomic,retain) UIImage* highlightedImage;
 @property (nonatomic,retain) NSString* text;
-
-@end
-
-
-@interface TabBarControllerButton: UIControl
 
 @end
 

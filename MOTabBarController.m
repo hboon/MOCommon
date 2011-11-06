@@ -40,9 +40,7 @@
 #import "MOUIViewAdditions.h"
 #import "MOUtility.h"
 
-#define MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED 5
-
-@implementation TabButton
+@implementation MOTabButton
 
 @synthesize normalImage;
 @synthesize highlightedImage;
@@ -144,27 +142,27 @@
 	CGFloat height = 44;
 	UIColor* backgroundColor = [UIColor blackColor];
 
-	TabButton* b1 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b1 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b1.backgroundColor = backgroundColor;
 	//b1.text = @"b1";
 	[array addObject:[b1 autorelease]];
 
-	TabButton* b2 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b2 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b2.backgroundColor = backgroundColor;
 	//b2.text = @"b2";
 	[array addObject:[b2 autorelease]];
 
-	TabButton* b3 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b3 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b3.backgroundColor = backgroundColor;
 	//b3.text = @"b3";
 	[array addObject:[b3 autorelease]];
 
-	TabButton* b4 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b4 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b4.backgroundColor = backgroundColor;
 	//b4.text = @"b4";
 	[array addObject:[b4 autorelease]];
 
-	TabButton* b5 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b5 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b5.backgroundColor = backgroundColor;
 	//b5.text = @"b5";
 	[array addObject:[b5 autorelease]];
@@ -191,7 +189,7 @@
 
 - (CGFloat)shortestTabButtonHeight {
 	CGFloat result = 1000; //arbitary large height
-	for (TabButton* each in self.tabButtons) {
+	for (MOTabButton* each in self.tabButtons) {
 		result = fmin(result, each.frame.size.height);
 	}
 
@@ -201,11 +199,6 @@
 
 - (void)resizeViewController:(UIViewController*)aViewController {
 	aViewController.view.frame = CGRectMake(0, 0, self.view.moWidth, self.view.moHeight-(self.tabHidden? 0: self.tabBarHeight));
-}
-
-
-- (BOOL)viewControllerIsUnderMore:(UIViewController*)aViewController {
-	return [self.viewControllers count] > MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED && [self.viewControllers indexOfObject:aViewController] >= MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1;
 }
 
 
@@ -335,7 +328,7 @@
 	}
 
 	UIButton* old = [self.buttons objectAtIndex:self.selectedIndex];
-	TabButton* oldTb = [self.tabButtons objectAtIndex:self.selectedIndex];
+	MOTabButton* oldTb = [self.tabButtons objectAtIndex:self.selectedIndex];
 	[old setImage:oldTb.normalImage forState:UIControlStateNormal];
 	[old setImage:oldTb.highlightedImage forState:UIControlStateHighlighted];
 
@@ -346,7 +339,7 @@
 	NSAssert(aNumber < [self.buttons count], @"Not enough tab buttons");
 
 	UIButton* new = [self.buttons objectAtIndex:self.selectedIndex];
-	TabButton* newTb = [self.tabButtons objectAtIndex:self.selectedIndex];
+	MOTabButton* newTb = [self.tabButtons objectAtIndex:self.selectedIndex];
 	[new setImage:newTb.highlightedImage forState:UIControlStateNormal];
 	[new setImage:newTb.highlightedImage forState:UIControlStateHighlighted];
 
@@ -373,7 +366,7 @@
 
 	CGFloat x = 0;
 	for (int i=0; i<[self.tabButtons count]; ++i) {
-		TabButton* tb = [self.tabButtons objectAtIndex:i];
+		MOTabButton* tb = [self.tabButtons objectAtIndex:i];
 		UIButton* b = [self.buttons objectAtIndex:i];
 		b.frame = CGRectMake(x, 460-tb.frame.size.height, tb.frame.size.width, tb.frame.size.height);
 		if (tb.normalImage) {
