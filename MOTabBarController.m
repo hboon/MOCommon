@@ -401,17 +401,17 @@
 - (void)tabButtonTapped:(int)aNumber {
 	NSAssert(aNumber < [self.viewControllers count] && aNumber != NSNotFound, @"Invalid button tapped");
 
-	//Only send -tabBarController:shouldSelectViewController: for first 5 tabs, including More. But not for the view controllers within more to be consistent with UITabBarController
-	if ([self.delegate respondsToSelector:@selector(tabBarController:shouldSelectViewController:)]) {
+	//Only send -moTabBarController:shouldSelectViewController: for first 5 tabs, including More. But not for the view controllers within more to be consistent with UITabBarController
+	if ([self.delegate respondsToSelector:@selector(moTabBarController:shouldSelectViewController:)]) {
 		UIViewController* vc = [self.viewControllers objectAtIndex:aNumber];
-		if (![self.delegate tabBarController:self shouldSelectViewController:vc]) return;
+		if (![self.delegate moTabBarController:self shouldSelectViewController:vc]) return;
 	}
 
 	self.selectedIndex = aNumber;
 
 	//According to UITabBarControllerDelegate docs, >= iOS 3.0, delegate called even if tapped on current selection
-	if ([self.delegate respondsToSelector:@selector(tabBarController:didSelectViewController:)]) {
-		[self.delegate tabBarController:self didSelectViewController:self.selectedViewController];
+	if ([self.delegate respondsToSelector:@selector(moTabBarController:didSelectViewController:)]) {
+		[self.delegate moTabBarController:self didSelectViewController:self.selectedViewController];
 	}
 }
 
