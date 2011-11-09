@@ -314,7 +314,9 @@
 		return;
 	}
 
-	[self displayViewController:aViewController];
+	if (aViewController) {
+		[self displayViewController:aViewController];
+	}
 }
 
 
