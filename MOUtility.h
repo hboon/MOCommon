@@ -106,6 +106,15 @@ BOOL moIsSimulator(void);
 #define MO_NAVIGATION_BAR_HEIGHT_PORTRAIT 44
 #define MO_NAVIGATION_BAR_HEIGHT_LANDSCAPE 33
 
+#ifdef ADHOC
+	#define MO_TF_INIT(appId) [TestFlight takeOff:appId]
+	#define MO_TF(s) [TestFlight passCheckpoint:s];
+	#define MO_TF(fmt, ...) [TestFlight passCheckpoint:[NSString stringWithFormat:fmt, ##__VA_ARGS__]];
+#else
+	#define MO_TF_INIT(appId)
+	#define MO_TF(...)
+#endif
+
 /* iOS-specific */
 
 #if TARGET_OS_IPHONE
