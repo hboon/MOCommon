@@ -108,7 +108,6 @@ BOOL moIsSimulator(void);
 
 #ifdef ADHOC
 	#define MO_TF_INIT(appId) [TestFlight takeOff:appId]
-	#define MO_TF(s) [TestFlight passCheckpoint:s];
 	#define MO_TF(fmt, ...) [TestFlight passCheckpoint:[NSString stringWithFormat:fmt, ##__VA_ARGS__]];
 #else
 	#define MO_TF_INIT(appId)
