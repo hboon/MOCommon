@@ -138,6 +138,19 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor) {
 }
 
 
+UIImage* moSolidColorImageWithSize(UIColor* aColor, CGSize aSize) {
+	UIGraphicsBeginImageContext(aSize);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+
+	[aColor set];
+	CGContextFillRect(context, CGRectMake(0, 0, aSize.width, aSize.height));
+	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+
+	return result;
+}
+
+
 BOOL moIsSimulator(void) {
 	if ([[[UIDevice currentDevice] name] rangeOfString:@"Simulator"].location != NSNotFound) return YES;
 	if ([[[UIDevice currentDevice] name] rangeOfString:@"Unknown"].location != NSNotFound) return YES;

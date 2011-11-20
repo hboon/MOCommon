@@ -43,7 +43,7 @@
 
 @optional
 
-- (void)tabBarController:(MOTabBarController*)tabBarController didSelectViewController:(UIViewController*)viewController;
-- (BOOL)tabBarController:(MOTabBarController*)tabBarController shouldSelectViewController:(UIViewController*)viewController;
+- (void)moTabBarController:(MOTabBarController*)tabBarController didSelectViewController:(UIViewController*)viewController;
+- (BOOL)moTabBarController:(MOTabBarController*)tabBarController shouldSelectViewController:(UIViewController*)viewController;
 
 @end

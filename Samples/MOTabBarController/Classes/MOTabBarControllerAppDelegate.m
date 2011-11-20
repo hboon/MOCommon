@@ -99,7 +99,6 @@
 
 - (void)tabBarController:(MOTabBarController*)tabBarController didSelectViewController:(UIViewController*)viewController {
 	NSLog(@" select %@", viewController);
-	NSLog(@" index: %d", self.tabBarController.selectedIndex);
 	NSLog(@" vc: %@", self.tabBarController.selectedViewController);
 }
 

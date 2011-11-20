@@ -126,4 +126,18 @@
 	return results;
 }
 
+
+- (NSString*)moAsCommaSeparatedString {
+	if ([self count] == 0) return @"";
+
+	NSMutableString* result = [NSMutableString string];
+	[result appendString:[self objectAtIndex:0]];
+
+	for (int i=1; i<[self count]; ++i) {
+		[result appendFormat:@", %@", [self objectAtIndex:i]];
+	}
+
+	return result;
+}
+
 @end

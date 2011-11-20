@@ -37,10 +37,10 @@
 */
 #import "MOTabBarController.h"
 
+#import "MOUIViewAdditions.h"
 #import "MOUtility.h"
-#define MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED 5
 
-@implementation TabButton
+@implementation MOTabButton
 
 @synthesize normalImage;
 @synthesize highlightedImage;
@@ -57,60 +57,12 @@
 @end
 
 
-@interface MOTabBarMoreController : UIViewController {
-	UITableView* tableView;
-	id<UITableViewDelegate, UITableViewDataSource> delegate;
-}
-
-@property (nonatomic,retain) UITableView* tableView;
-@property (nonatomic,assign) id<UITableViewDelegate, UITableViewDataSource> delegate;
-
-@end
-
-
-@implementation MOTabBarMoreController
-
-@synthesize tableView;
-@synthesize delegate;
-
-- (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)nibBundle {
-	if (self = [super initWithNibName:nibName bundle:nibBundle]) {
-		self.title = NSLocalizedString(@"More", @"");
-
-		self.tableView = [[[UITableView alloc] initWithFrame:self.view.bounds] autorelease];
-		self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		[self.view addSubview:self.tableView];
-	}
-
-	return self;
-}
-
-
-- (void)dealloc {
-	self.tableView = nil;
-	self.delegate = nil;
-
-	[super dealloc];
-}
-
-#pragma mark Accessors
-
-- (void)setDelegate:(id<UITableViewDelegate, UITableViewDataSource>)aDelegate {
-	if (aDelegate == delegate) return;
-
-	delegate = aDelegate;
-	self.tableView.delegate = self.delegate;
-	self.tableView.dataSource = self.delegate;
-	[self.tableView reloadData];
-}
-
-@end
 
 
 @interface MOTabBarController()
 
 @property (nonatomic) int selectedIndex;
-@property (nonatomic,readonly) UINavigationController* moreNavigationController;
+@property (nonatomic) BOOL tabHidden;
 
 - (void)createDefaultTabButtons;
 - (void)setSelectedIndex:(int)aNumber force:(BOOL)yesOrNo;
@@ -121,23 +73,21 @@
 //todo doesn't handle rotation
 @implementation MOTabBarController
 
-@synthesize viewControllers;
 @synthesize selectedViewController;
 @synthesize selectedIndex;
 @synthesize tabButtons;
 @synthesize buttons;
 @synthesize delegate;
-@synthesize moreNavigationController;
+@synthesize tabHidden;
+@synthesize tabBarHeight;
 
 - (void)dealloc {
 	[self viewDidUnload];
 
-	self.viewControllers = nil;
 	self.selectedViewController = nil;
 	self.tabButtons = nil;
 	self.buttons = nil;
 	self.delegate = nil;
-	[moreNavigationController release];
 
 	[super dealloc];
 }
@@ -145,7 +95,8 @@
 
 - (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)nibBundle {
 	if (self = [super initWithNibName:nibName bundle:nibBundle]) {
-		selectedIndex = NSNotFound;
+		selectedIndex = 0;
+		tabBarHeight = 0;
 	}
 
 	return self;
@@ -191,27 +142,27 @@
 	CGFloat height = 44;
 	UIColor* backgroundColor = [UIColor blackColor];
 
-	TabButton* b1 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b1 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b1.backgroundColor = backgroundColor;
 	//b1.text = @"b1";
 	[array addObject:[b1 autorelease]];
 
-	TabButton* b2 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b2 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b2.backgroundColor = backgroundColor;
 	//b2.text = @"b2";
 	[array addObject:[b2 autorelease]];
 
-	TabButton* b3 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b3 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b3.backgroundColor = backgroundColor;
 	//b3.text = @"b3";
 	[array addObject:[b3 autorelease]];
 
-	TabButton* b4 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b4 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b4.backgroundColor = backgroundColor;
 	//b4.text = @"b4";
 	[array addObject:[b4 autorelease]];
 
-	TabButton* b5 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	MOTabButton* b5 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b5.backgroundColor = backgroundColor;
 	//b5.text = @"b5";
 	[array addObject:[b5 autorelease]];
@@ -238,7 +189,7 @@
 
 - (CGFloat)shortestTabButtonHeight {
 	CGFloat result = 1000; //arbitary large height
-	for (TabButton* each in self.tabButtons) {
+	for (MOTabButton* each in self.tabButtons) {
 		result = fmin(result, each.frame.size.height);
 	}
 
@@ -247,74 +198,35 @@
 
 
 - (void)resizeViewController:(UIViewController*)aViewController {
-	aViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-[self shortestTabButtonHeight]);
-}
-
-
-- (BOOL)viewControllerIsUnderMore:(UIViewController*)aViewController {
-	return [self.viewControllers count] > MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED && [self.viewControllers indexOfObject:aViewController] >= MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1;
+	aViewController.view.frame = CGRectMake(0, 0, self.view.moWidth, self.view.moHeight-(self.tabHidden? 0: self.tabBarHeight));
 }
 
 
 - (void)displayViewController:(UIViewController*)aViewController {
+	NSAssert(aViewController, @"We should only display a non-nil view controller in tab bar");
+
 	UIViewController* old = self.selectedViewController;
-
-	if (![self viewControllerIsUnderMore:old]) {
-		[old viewWillDisappear:NO];
-	} else if (![self viewControllerIsUnderMore:aViewController]) {
-		[self.moreNavigationController viewWillDisappear:NO];
-	}
-
 	selectedViewController = aViewController;
-	if (self.selectedViewController) {
-		selectedIndex = [self.viewControllers indexOfObject:self.selectedViewController];	// Must not use accessor
-	} else {
-		selectedIndex = NSNotFound;
+	selectedIndex = [self.viewControllers indexOfObject:self.selectedViewController];	// Must not use accessor
+
+	if (selectedIndex == NSNotFound) {
+		@throw [NSException exceptionWithName:NSRangeException reason:@"View controller not found in tab bar" userInfo:nil];
 	}
 
+	[old viewWillDisappear:NO];
 	[self resizeViewController:aViewController];
+
+	if (old) {
+		[self transitionFromViewController:old toViewController:aViewController duration:0 options:UIViewAnimationOptionTransitionNone animations:^{} completion:^(BOOL finished) {}];
+	}
+
 	[aViewController viewWillAppear:NO];
-
-	if (![self viewControllerIsUnderMore:old]) {
-		[old.view removeFromSuperview];
-	} else if (![self viewControllerIsUnderMore:aViewController]) {
-		[self.moreNavigationController.view removeFromSuperview];
-	}
-
-	if (aViewController) {
-		if (self.selectedIndex < MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1) {
-			[self.view addSubview:aViewController.view];
-		} else if (aViewController == self.moreNavigationController) {
-			[self.view addSubview:self.moreNavigationController.view];
-		} else {
-			//todo need to restore the viewcontroller to it's navigation controller when popped - seems no need? Only trying to access same tap immediately after popping doesn't work. So it could be just an index check
-			[self.moreNavigationController pushViewController:((UINavigationController*)aViewController).topViewController  animated:YES];
-		}
-	}
-
-	if (![self viewControllerIsUnderMore:old]) {
-		[old viewDidDisappear:NO];
-	} else if (![self viewControllerIsUnderMore:aViewController]) {
-		[self.moreNavigationController viewDidDisappear:NO];
-	}
-
+	[old.view removeFromSuperview];
+	[self.view addSubview:aViewController.view];
+	[old viewDidDisappear:NO];
 	[aViewController viewDidAppear:NO];
 
 	[self bringTabButtonsToFront];
-}
-
-
-- (int)tabIndex {
-	return self.selectedIndex == NSNotFound? MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED - 1: fmin(MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1, self.selectedIndex);
-}
-
-
-- (int)numberOfTabsThatNeedsCheckingAgainstDelegateBeforeSelecting {
-	if ([self.viewControllers count] <= MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED) {
-		return [self.viewControllers count];
-	} else {
-		return MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1;
-	}
 }
 
 #pragma mark View Events
@@ -344,11 +256,35 @@
 
 #pragma mark Accessors
 
-- (void)setViewControllers:(NSArray*)anArray {
-	[viewControllers release];
-	viewControllers = [[NSArray arrayWithArray:anArray] retain];
+- (CGFloat)tabBarHeight {
+	if (tabBarHeight == 0) return [self shortestTabButtonHeight];
 
-	if ([viewControllers count] == 0) {
+	return tabBarHeight;
+}
+
+
+- (NSArray*)viewControllers {
+	return self.childViewControllers;
+}
+
+
+- (void)setViewControllers:(NSArray*)anArray {
+	for (UIViewController* vc in self.viewControllers) {
+		[vc willMoveToParentViewController:nil];
+		[vc removeFromParentViewController];
+	}
+
+	for (UIViewController* vc in anArray) {
+		if ([vc isKindOfClass:[UINavigationController class]]) {
+			//TODO check if there is already a delegate and if there is, we need to store it and propogate to it?
+			((UINavigationController*)vc).delegate = self;
+		}
+
+		[self addChildViewController:vc];
+		[vc didMoveToParentViewController:self];
+	}
+
+	if ([self.viewControllers count] == 0) {
 		self.selectedIndex = NSNotFound;
 		return;
 	}
@@ -365,8 +301,6 @@
 	int posOfPreviousViewControllerInCurrentTabs = [self.viewControllers indexOfObject:self.selectedViewController];
 	if (posOfPreviousViewControllerInCurrentTabs != NSNotFound) {
 		self.selectedIndex = posOfPreviousViewControllerInCurrentTabs;
-	} else if (posOfPreviousViewControllerInCurrentTabs < [self.viewControllers count]) {
-		[self setSelectedIndex:posOfPreviousViewControllerInCurrentTabs force:YES];
 	} else {
 		self.selectedIndex = 0;
 	}
@@ -375,43 +309,43 @@
 
 
 - (void)setSelectedViewController:(UIViewController*)aViewController {
-	if (aViewController && ![self.viewControllers containsObject:aViewController] && aViewController != self.moreNavigationController) return;
 	if (self.selectedViewController == aViewController) {
 		[self resizeViewController:self.selectedViewController]; // need to resize if we change the tab buttons, but still same tab
 		return;
 	}
 
-	[self displayViewController:aViewController];
+	if (aViewController) {
+		[self displayViewController:aViewController];
+	}
 }
 
 
 - (void)setSelectedIndex:(int)aNumber force:(BOOL)yesOrNo {
-	if (!yesOrNo && self.selectedIndex == aNumber) return;
-	if (aNumber >= [self.viewControllers count] && aNumber != NSNotFound) return;
+	NSAssert([self.buttons count] == 0 || self.selectedIndex < [self.buttons count], @"Not enough tab buttons");
 
-	if ([self tabIndex] < [self.buttons count]) {
-		UIButton* old = [self.buttons objectAtIndex:[self tabIndex]];
-		TabButton* oldTb = [self.tabButtons objectAtIndex:[self tabIndex]];
-		[old setImage:oldTb.normalImage forState:UIControlStateNormal];
-		[old setImage:oldTb.highlightedImage forState:UIControlStateHighlighted];
+	if (!yesOrNo && self.selectedIndex == aNumber) return;
+
+	if (aNumber >= [self.viewControllers count]) {
+		@throw [NSException exceptionWithName:NSRangeException reason:[NSString stringWithFormat:@"Tab index %d out of range", aNumber] userInfo:nil];
 	}
+
+	UIButton* old = [self.buttons objectAtIndex:self.selectedIndex];
+	MOTabButton* oldTb = [self.tabButtons objectAtIndex:self.selectedIndex];
+	[old setImage:oldTb.normalImage forState:UIControlStateNormal];
+	[old setImage:oldTb.highlightedImage forState:UIControlStateHighlighted];
 
 	selectedIndex = aNumber;
 
 	[self createDefaultTabButtons];
 
-	if ([self tabIndex] < [self.buttons count]) {
-		UIButton* new = [self.buttons objectAtIndex:[self tabIndex]];
-		TabButton* newTb = [self.tabButtons objectAtIndex:[self tabIndex]];
-		[new setImage:newTb.highlightedImage forState:UIControlStateNormal];
-		[new setImage:newTb.highlightedImage forState:UIControlStateHighlighted];
-	}
+	NSAssert(aNumber < [self.buttons count], @"Not enough tab buttons");
 
-	if (self.selectedIndex != NSNotFound) {
-		self.selectedViewController = [self.viewControllers objectAtIndex:self.selectedIndex];
-	} else {
-		self.selectedViewController = self.moreNavigationController;
-	}
+	UIButton* new = [self.buttons objectAtIndex:self.selectedIndex];
+	MOTabButton* newTb = [self.tabButtons objectAtIndex:self.selectedIndex];
+	[new setImage:newTb.highlightedImage forState:UIControlStateNormal];
+	[new setImage:newTb.highlightedImage forState:UIControlStateHighlighted];
+
+	self.selectedViewController = [self.viewControllers objectAtIndex:self.selectedIndex];
 }
 
 
@@ -434,7 +368,7 @@
 
 	CGFloat x = 0;
 	for (int i=0; i<[self.tabButtons count]; ++i) {
-		TabButton* tb = [self.tabButtons objectAtIndex:i];
+		MOTabButton* tb = [self.tabButtons objectAtIndex:i];
 		UIButton* b = [self.buttons objectAtIndex:i];
 		b.frame = CGRectMake(x, 460-tb.frame.size.height, tb.frame.size.width, tb.frame.size.height);
 		if (tb.normalImage) {
@@ -452,33 +386,34 @@
 }
 
 
-- (UINavigationController*)moreNavigationController {
-	if (!moreNavigationController) {
-		MOTabBarMoreController* moreController = [[MOTabBarMoreController alloc] init];
-		moreController.delegate = self;
-		moreNavigationController = [[UINavigationController alloc] initWithRootViewController:[moreController autorelease]];
-		moreNavigationController.delegate = self;
-	}
+- (void)setTabHidden:(BOOL)yesOrNo {
+	if (self.tabHidden == yesOrNo) return;
 
-	return moreNavigationController;
+	tabHidden = yesOrNo;
+
+	[UIView animateWithDuration:0.35 animations:^{
+		for (UIView* each in self.buttons) {
+			each.moLeft += self.view.moWidth * (self.tabHidden? -1: 1);
+		}
+	}];
 }
 
 #pragma mark Button taps
 
 - (void)tabButtonTapped:(int)aNumber {
-	if ([self.viewControllers count] <= aNumber && aNumber != NSNotFound) return;
+	NSAssert(aNumber < [self.viewControllers count] && aNumber != NSNotFound, @"Invalid button tapped");
 
-	//Only send -tabBarController:shouldSelectViewController: for first 5 tabs, including More. But not for the view controllers within more to be consistent with UITabBarController
-	if ([self.delegate respondsToSelector:@selector(tabBarController:shouldSelectViewController:)] && (aNumber < [self numberOfTabsThatNeedsCheckingAgainstDelegateBeforeSelecting] || aNumber == NSNotFound)) {
-		UIViewController* vc = aNumber != NSNotFound? [self.viewControllers objectAtIndex:aNumber]: self.moreNavigationController;
-		if (![self.delegate tabBarController:self shouldSelectViewController:vc]) return;
+	//Only send -moTabBarController:shouldSelectViewController: for first 5 tabs, including More. But not for the view controllers within more to be consistent with UITabBarController
+	if ([self.delegate respondsToSelector:@selector(moTabBarController:shouldSelectViewController:)]) {
+		UIViewController* vc = [self.viewControllers objectAtIndex:aNumber];
+		if (![self.delegate moTabBarController:self shouldSelectViewController:vc]) return;
 	}
 
 	self.selectedIndex = aNumber;
 
 	//According to UITabBarControllerDelegate docs, >= iOS 3.0, delegate called even if tapped on current selection
-	if ([self.delegate respondsToSelector:@selector(tabBarController:didSelectViewController:)]) {
-		[self.delegate tabBarController:self didSelectViewController:self.selectedViewController];
+	if ([self.delegate respondsToSelector:@selector(moTabBarController:didSelectViewController:)]) {
+		[self.delegate moTabBarController:self didSelectViewController:self.selectedViewController];
 	}
 }
 
@@ -504,58 +439,24 @@
 
 
 - (void)button4Tapped {
-	if ([self.viewControllers count] > MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED) {
-		if ([self tabIndex] == MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED-1 && [self.moreNavigationController.viewControllers count] > 1) {
-			[self.moreNavigationController popToRootViewControllerAnimated:YES];
-			// Don't use accessors
-			selectedIndex = NSNotFound;
-			selectedViewController = self.moreNavigationController;
-		} else {
-			[self tabButtonTapped:NSNotFound];
-		}
-	} else {
-		[self tabButtonTapped:4];
-	}
+	[self tabButtonTapped:4];
 }
 
-#pragma mark UITableViewDelegate
-
-- (void)tableView:(UITableView*)aTableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-	[aTableView deselectRowAtIndexPath:indexPath animated:YES];
-	[self tabButtonTapped:(indexPath.row + MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED - 1)];
-}
-
-#pragma mark UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView*)aTableView numberOfRowsInSection:(NSInteger)section {
-	return [self.viewControllers count] - MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED + 1;
-}
-
-
-- (UITableViewCell*)tableView:(UITableView*)aTableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-	NSString* cellIdentifier = @"MOTabBarControllerTableViewCell";
-
-	UITableViewCell* cell = (UITableViewCell*)[aTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-
-	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
-	}
-
-	cell.textLabel.text = ((UIViewController*)[self.viewControllers objectAtIndex:(indexPath.row + MOTABBARMORECONTROLLER_MAXIMUM_NUMBER_OF_TABS_DISPLAYED - 1)]).title;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-	return cell;
-}
 
 
 #pragma mark UINavigationControllerDelegate
 
-- (void)navigationController:(UINavigationController*)navigationController didShowViewController:(UIViewController*)viewController animated:(BOOL)animated {
-	if (viewController != [self.moreNavigationController.viewControllers objectAtIndex:0]) return;
+- (void)navigationController:(UINavigationController*)navigationController willShowViewController:(UIViewController*)viewController animated:(BOOL)animated {
+	BOOL hideTabs = NO;
+	for (UIViewController* each in navigationController.viewControllers) {
+		if (each.hidesBottomBarWhenPushed) {
+			hideTabs = YES;
+			break;
+		}
+	}
 
-	// Don't use accessors
-	selectedIndex = NSNotFound;
-	selectedViewController = self.moreNavigationController;
+	self.tabHidden = hideTabs;
+	[self resizeViewController:navigationController];
 }
 
 @end

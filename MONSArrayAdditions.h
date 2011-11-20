@@ -55,4 +55,6 @@ typedef id (^MONSArrayBlock)(id obj);
 typedef id (^MONSArrayBlockWithIndex)(id obj, int index);
 - (NSArray*)moMapWithIndex:(MONSArrayBlockWithIndex)aBlock;
 
+- (NSString*)moAsCommaSeparatedString;
+
 @end

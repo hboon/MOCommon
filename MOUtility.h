@@ -98,6 +98,7 @@ NSString* moOrientationAsString(UIInterfaceOrientation orientation);
 BOOL moSupportsMultitasking(void);
 BOOL moSupportsBackgroundCompletionTaskAPI(void);
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
+UIImage* moSolidColorImageWithSize(UIColor* aColor, CGSize aSize);
 BOOL moIsSimulator(void);
 
 #define MO_STATUS_BAR_HEIGHT 20

@@ -39,7 +39,7 @@
 
 #import "MOTabBarControllerDelegate.h"
 
-@interface TabButton : UIControl
+@interface MOTabButton : UIControl
 
 @property (nonatomic,retain) UIImage* normalImage;
 @property (nonatomic,retain) UIImage* highlightedImage;
@@ -48,17 +48,15 @@
 @end
 
 
-@interface TabBarControllerButton: UIControl
-
-@end
-
-
-@interface MOTabBarController : UIViewController<UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
+// No support for more button unlike UITableViewController. We also assume that the viewControllers passed in will already be wrapped with UINavigationController
+@interface MOTabBarController : UIViewController<UINavigationControllerDelegate>
 
 @property (nonatomic,copy) NSArray* viewControllers;
 @property (nonatomic,assign) UIViewController* selectedViewController;
 @property (nonatomic,copy) NSArray* tabButtons;
 @property (nonatomic,retain) NSArray* buttons;
 @property (nonatomic,assign) NSObject<MOTabBarControllerDelegate>* delegate;
+//Default to 0. If 0, will return the value of the shortest button image. Useful to set when the toolbar has buttons of different heights but the images height don't reflect that (eg. images have transparent areas)
+@property (nonatomic) CGFloat tabBarHeight;
 
 @end
