@@ -63,6 +63,7 @@
 
 @property (nonatomic) int selectedIndex;
 @property (nonatomic) BOOL tabHidden;
+@property (nonatomic,retain) NSMutableArray* originalNavigationControllerDelegates;
 
 - (void)createDefaultTabButtons;
 - (void)setSelectedIndex:(int)aNumber force:(BOOL)yesOrNo;
@@ -79,6 +80,7 @@
 @synthesize buttons;
 @synthesize delegate;
 @synthesize tabHidden;
+@synthesize originalNavigationControllerDelegates;
 @synthesize tabBarHeight;
 
 - (void)dealloc {
@@ -88,6 +90,7 @@
 	self.tabButtons = nil;
 	self.buttons = nil;
 	self.delegate = nil;
+	self.originalNavigationControllerDelegates = nil;
 
 	[super dealloc];
 }
@@ -123,6 +126,19 @@
 
 - (void)didReceiveMemoryWarning {
 	//Overridden to not release the view. Avoids a world of pain to reconstruct the subviews
+}
+
+
+- (id<UINavigationControllerDelegate>)navigationControllerDelegateForViewController:(UIViewController*)vc {
+	if (![vc isKindOfClass:[UINavigationController class]]) return nil;
+
+	int index = [self.viewControllers indexOfObject:vc];
+	if (index == NSNotFound) return nil;
+
+	id<UINavigationControllerDelegate> result = [self.originalNavigationControllerDelegates objectAtIndex:index];
+	if ((NSNull*)result == [NSNull null]) return nil;
+
+	return result;
 }
 
 #pragma mark View Management
@@ -269,15 +285,29 @@
 
 
 - (void)setViewControllers:(NSArray*)anArray {
+	for (int i=0; i<[self.originalNavigationControllerDelegates count]; ++i) {
+		id<UINavigationControllerDelegate> d = [self.originalNavigationControllerDelegates objectAtIndex:i];
+
+		if ((NSNull*)d != [NSNull null]) {
+			((UINavigationController*)[self.viewControllers objectAtIndex:i]).delegate = d;
+		}
+	}
+
 	for (UIViewController* vc in self.viewControllers) {
 		[vc willMoveToParentViewController:nil];
 		[vc removeFromParentViewController];
 	}
 
+	self.originalNavigationControllerDelegates = [NSMutableArray array];
+
 	for (UIViewController* vc in anArray) {
-		if ([vc isKindOfClass:[UINavigationController class]]) {
-			//TODO check if there is already a delegate and if there is, we need to store it and propogate to it?
-			((UINavigationController*)vc).delegate = self;
+		UINavigationController* nc = (UINavigationController*)vc;
+		
+		if ([nc isKindOfClass:[UINavigationController class]] && nc.delegate) {
+			[self.originalNavigationControllerDelegates addObject:nc.delegate];
+			nc.delegate = self;
+		} else {
+			[self.originalNavigationControllerDelegates addObject:[NSNull null]];
 		}
 
 		[self addChildViewController:vc];
@@ -442,8 +472,6 @@
 	[self tabButtonTapped:4];
 }
 
-
-
 #pragma mark UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController*)navigationController willShowViewController:(UIViewController*)viewController animated:(BOOL)animated {
@@ -457,6 +485,15 @@
 
 	self.tabHidden = hideTabs;
 	[self resizeViewController:navigationController];
+
+	id<UINavigationControllerDelegate> d = [self navigationControllerDelegateForViewController:navigationController];
+	if ([d respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) [d navigationController:navigationController willShowViewController:viewController animated:animated];
+}
+
+
+- (void)navigationController:(UINavigationController*)navigationController didShowViewController:(UIViewController*)viewController animated:(BOOL)animated {
+	id<UINavigationControllerDelegate> d = [self navigationControllerDelegateForViewController:navigationController];
+	if ([d respondsToSelector:@selector(navigationController:didShowViewController:animated:)]) [d navigationController:navigationController didShowViewController:viewController animated:animated];
 }
 
 @end
