@@ -305,9 +305,12 @@
 		
 		if ([nc isKindOfClass:[UINavigationController class]] && nc.delegate) {
 			[self.originalNavigationControllerDelegates addObject:nc.delegate];
-			nc.delegate = self;
 		} else {
 			[self.originalNavigationControllerDelegates addObject:[NSNull null]];
+		}
+
+		if ([nc isKindOfClass:[UINavigationController class]]) {
+			nc.delegate = self;
 		}
 
 		[self addChildViewController:vc];
