@@ -127,6 +127,8 @@
 
 - (void)moSizeHeightToFit {
 	CGFloat width = self.moWidth;
+	//Otherwise it doesn't expand short UILabel when it's too short to fit longer text
+	self.moHeight = 1000;
 	[self sizeToFit];
 	self.moWidth = width;
 }
