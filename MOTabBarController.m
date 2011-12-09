@@ -232,10 +232,6 @@
 	[old viewWillDisappear:NO];
 	[self resizeViewController:aViewController];
 
-	if (old) {
-		[self transitionFromViewController:old toViewController:aViewController duration:0 options:UIViewAnimationOptionTransitionNone animations:^{} completion:^(BOOL finished) {}];
-	}
-
 	[aViewController viewWillAppear:NO];
 	[old.view removeFromSuperview];
 	[self.view addSubview:aViewController.view];
