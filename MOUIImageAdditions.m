@@ -68,6 +68,34 @@
 
 // Taken and modified from http://blog.logichigh.com/2008/06/05/uiimage-fix/#
 - (UIImage*)moRotateWithOrientation:(UIImageOrientation)anOrientation {
+	//Front camera? We try to make fix it
+	if ((self.size.width == 640 && self.size.height == 480) || (self.size.width == 480 && self.size.height == 640)) {
+		switch(anOrientation) {
+			case UIImageOrientationUp: //EXIF = 1
+				//do nothing
+				break;
+			case UIImageOrientationDown: //EXIF = 3
+				anOrientation = UIImageOrientationLeftMirrored;
+				break;
+			case UIImageOrientationLeft: //EXIF = 6
+				break;
+			case UIImageOrientationRight: //EXIF = 8
+				anOrientation = UIImageOrientationLeftMirrored;
+				break;
+			case UIImageOrientationUpMirrored: //EXIF = 2
+				break;
+			case UIImageOrientationDownMirrored: //EXIF = 4
+				break;
+			case UIImageOrientationLeftMirrored: //EXIF = 5
+				break;
+			case UIImageOrientationRightMirrored: //EXIF = 7
+				anOrientation = UIImageOrientationRightMirrored;
+				break;
+			default:
+				return self;
+		}
+	}
+
     CGImageRef imgRef = self.CGImage;
     CGFloat width = CGImageGetWidth(imgRef);
     CGFloat height = CGImageGetHeight(imgRef);
