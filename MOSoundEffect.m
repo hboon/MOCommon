@@ -49,6 +49,7 @@
 
 @implementation MOSoundEffect
 
+@synthesize repeats;
 @synthesize soundPath;
 @synthesize audioPlayer;
 
@@ -94,6 +95,7 @@
 -(void)play {
 	if (!self.audioPlayer) {
 		self.audioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundPath error:nil] autorelease];
+		self.audioPlayer.delegate = self;
 		[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
 		NSError *activationError = nil;
 		[[AVAudioSession sharedInstance] setActive:YES error:&activationError];
@@ -102,5 +104,13 @@
 	[self.audioPlayer prepareToPlay];
 	[self.audioPlayer play];
 } 
+
+#pragma mark AVAudioPlayerDelegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer*)player successfully:(BOOL)flag {
+	if (self.repeats) {
+		[self play];
+	}
+}
 
 @end
