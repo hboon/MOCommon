@@ -40,6 +40,8 @@
 
 @interface MOSoundEffect : NSObject<AVAudioPlayerDelegate>
 
+@property (nonatomic) BOOL repeats;
+
 + (BOOL)songIsCurrentlyPlaying;
 + (id)soundEffectWithContentsOfFile:(NSString *)aPath;
 - (id)initWithContentsOfFile:(NSString *)path;
