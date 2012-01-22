@@ -158,5 +158,12 @@ BOOL moIsSimulator(void) {
 	return NO;
 }
 
+
+void moTime1(void(^block)(void), NSString* s) {
+	NSDate* start = [NSDate date];
+	block();
+	MO_LogDebug(@"%@ %f", s, [[NSDate date] timeIntervalSinceDate:start]);
+}
+
 #if TARGET_OS_IPHONE
 #endif

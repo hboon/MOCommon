@@ -100,6 +100,7 @@ BOOL moSupportsBackgroundCompletionTaskAPI(void);
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 UIImage* moSolidColorImageWithSize(UIColor* aColor, CGSize aSize);
 BOOL moIsSimulator(void);
+void moTime1(void(^block)(void), NSString* s);
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216
