@@ -61,7 +61,6 @@
 
 @interface MOTabBarController()
 
-@property (nonatomic) int selectedIndex;
 @property (nonatomic) BOOL tabHidden;
 @property (nonatomic,retain) NSMutableArray* originalNavigationControllerDelegates;
 

@@ -52,6 +52,7 @@
 @interface MOTabBarController : UIViewController<UINavigationControllerDelegate>
 
 @property (nonatomic,copy) NSArray* viewControllers;
+@property (nonatomic) int selectedIndex;
 @property (nonatomic,assign) UIViewController* selectedViewController;
 @property (nonatomic,copy) NSArray* tabButtons;
 @property (nonatomic,retain) NSArray* buttons;
