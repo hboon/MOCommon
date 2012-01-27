@@ -46,6 +46,7 @@
 - (NSString*)moCapitalizeFirstLetter;
 - (NSString*)moUrlEncode;
 - (NSString*)moUrlEncodeTreatingSpaceTheSame;
+- (NSString*)moUrlDecode;
 - (NSString*)moTrimWhiteSpace;
 - (NSString*)moWithoutFirstCharacter;
 

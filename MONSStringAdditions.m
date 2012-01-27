@@ -92,6 +92,30 @@
 }
 
 
+- (NSString*)moUrlDecode {
+	NSArray *escapeChars = [NSArray arrayWithObjects:@";" , @"/" , @"?" , @":" ,
+							@"@" , @"&" , @"=" , @"+" ,
+							@"$" , @"," , @"[" , @"]",
+							@"#", @"!", @"'", @"(", 
+							@")", @"*", @" ", @"✪df.ws", @" ", nil];
+	
+	NSArray *replaceChars = [NSArray arrayWithObjects:@"%3B" , @"%2F" , @"%3F" ,
+							 @"%3A" , @"%40" , @"%26" ,
+							 @"%3D" , @"%2B" , @"%24" ,
+							 @"%2C" , @"%5B" , @"%5D", 
+							 @"%23", @"%21", @"%27",
+							 @"%28", @"%29", @"%2A", @"+", @"xn--df-oiy.ws", @"%20", nil];
+	
+	NSMutableString *result = [self mutableCopy];
+	
+    for(int i=0; i<[replaceChars count]; ++i) {
+		[result replaceOccurrencesOfString:[replaceChars objectAtIndex:i] withString:[escapeChars objectAtIndex:i] options:NSLiteralSearch range:NSMakeRange(0, [result length])];
+	}
+	
+	return [result autorelease];
+}
+
+
 - (NSString*)moTrimWhiteSpace {
 	return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
