@@ -50,6 +50,7 @@
 @implementation MOSoundEffect
 
 @synthesize repeats;
+@synthesize audioSessionCategory;
 @synthesize soundPath;
 @synthesize audioPlayer;
 
@@ -82,6 +83,7 @@
 -(void)dealloc {
 	self.soundPath = nil;
 	self.audioPlayer = nil;
+	self.audioSessionCategory = nil;
 
     [super dealloc];
 }
@@ -96,7 +98,11 @@
 	if (!self.audioPlayer) {
 		self.audioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundPath error:nil] autorelease];
 		self.audioPlayer.delegate = self;
-		[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
+		if (self.audioSessionCategory) {
+			[[AVAudioSession sharedInstance] setCategory:self.audioSessionCategory error:nil];
+		} else {
+			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
+		}
 		NSError *activationError = nil;
 		[[AVAudioSession sharedInstance] setActive:YES error:&activationError];
 	}
