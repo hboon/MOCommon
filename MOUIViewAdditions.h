@@ -54,5 +54,8 @@
 - (void)moSizeWidthToFit;
 - (void)moSizeHeightToFit;
 
+- (void)moAlignSubviewsCenterVertical:(UIView*)aView, ...;
+- (void)moAddSubviews:(UIView*)aView, ...;
+
 @end
 

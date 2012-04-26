@@ -133,4 +133,36 @@
 	self.moWidth = width;
 }
 
+
+- (void)moAlignSubviewsCenterVertical:(UIView*)aView, ... {
+	id v;
+	va_list argumentList;
+	if (aView) {
+		NSMutableArray* list = [NSMutableArray arrayWithObject:aView];
+		va_start(argumentList, aView);
+		while ((v = va_arg(argumentList, UIView*))) {
+			[list addObject:v];
+		}
+		va_end(argumentList);
+
+		for (UIView* each in list) {
+			each.moTop = (self.moHeight-each.moHeight)/2;
+		}
+	}
+}
+
+
+- (void)moAddSubviews:(UIView*)aView, ... {
+	id v;
+	va_list argumentList;
+	if (aView) {
+		[self addSubview:aView];
+		va_start(argumentList, aView);
+		while ((v = va_arg(argumentList, UIView*))) {
+			[self addSubview:v];
+		}
+		va_end(argumentList);
+	}
+}
+
 @end
