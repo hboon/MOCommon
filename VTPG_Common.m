@@ -44,6 +44,7 @@ NSString * VTPG_DDToStringFromTypeAndValue(const char * typeCode, void * value) 
 			return (func)(*(typeToMatch*)value)
 
 #if	TARGET_OS_IPHONE
+	IF_TYPE_MATCHES_INTERPRET_WITH(UIEdgeInsets,NSStringFromUIEdgeInsets);
 	IF_TYPE_MATCHES_INTERPRET_WITH(CGPoint,NSStringFromCGPoint);
 	IF_TYPE_MATCHES_INTERPRET_WITH(CGSize,NSStringFromCGSize);
 	IF_TYPE_MATCHES_INTERPRET_WITH(CGRect,NSStringFromCGRect);
