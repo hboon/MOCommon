@@ -56,6 +56,7 @@
 
 - (void)moAlignSubviewsCenterVertical:(UIView*)aView, ...;
 - (void)moAddSubviews:(UIView*)aView, ...;
+- (CGPoint)moOriginRelativeToSuperview:(UIView*)aView;
 
 @end
 

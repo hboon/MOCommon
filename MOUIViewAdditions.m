@@ -165,4 +165,13 @@
 	}
 }
 
+
+- (CGPoint)moOriginRelativeToSuperview:(UIView*)aView {
+	UIView* sup = self.superview;
+	if (!sup || aView == sup) return self.frame.origin;
+
+	CGPoint d = [sup moOriginRelativeToSuperview:aView];
+	return CGPointMake(self.moLeft+d.x, self.moTop+d.y);
+}
+
 @end
