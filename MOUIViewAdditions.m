@@ -142,6 +142,13 @@
 }
 
 
+- (void)moSizeHeightToFitAlignBottom {
+	CGFloat y = self.moBottom;
+	[self moSizeHeightToFit];
+	self.moBottom = y;
+}
+
+
 - (void)moAlignSubviewsCenterVertical:(UIView*)aView, ... {
 	id v;
 	va_list argumentList;
