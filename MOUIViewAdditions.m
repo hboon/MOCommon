@@ -194,10 +194,16 @@
 
 - (CGPoint)moOriginRelativeToSuperview:(UIView*)aView {
 	UIView* sup = self.superview;
-	if (!sup || aView == sup) return self.frame.origin;
+	CGPoint offset = CGPointZero;
+
+	if ([sup isKindOfClass:[UIScrollView class]]) {
+		offset = ((UIScrollView*)sup).contentOffset;
+	}
+
+	if (!sup || aView == sup) return CGPointMake(self.frame.origin.x-offset.x, self.frame.origin.y-offset.y);
 
 	CGPoint d = [sup moOriginRelativeToSuperview:aView];
-	return CGPointMake(self.moLeft+d.x, self.moTop+d.y);
+	return CGPointMake(self.moLeft+d.x-offset.x, self.moTop+d.y-offset.y);
 }
 
 @end
