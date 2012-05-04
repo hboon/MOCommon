@@ -125,12 +125,20 @@
 	self.moHeight = height;
 }
 
+
 - (void)moSizeHeightToFit {
 	CGFloat width = self.moWidth;
 	//Otherwise it doesn't expand short UILabel when it's too short to fit longer text
 	self.moHeight = 1000;
 	[self sizeToFit];
 	self.moWidth = width;
+}
+
+
+- (void)moSizeWidthToFitAlignRight {
+	CGFloat x = self.moRight;
+	[self moSizeWidthToFit];
+	self.moRight = x;
 }
 
 
@@ -147,6 +155,24 @@
 
 		for (UIView* each in list) {
 			each.moTop = (self.moHeight-each.moHeight)/2;
+		}
+	}
+}
+
+
+- (void)moAlignSubviewsCenterHorizontal:(UIView*)aView, ... {
+	id v;
+	va_list argumentList;
+	if (aView) {
+		NSMutableArray* list = [NSMutableArray arrayWithObject:aView];
+		va_start(argumentList, aView);
+		while ((v = va_arg(argumentList, UIView*))) {
+			[list addObject:v];
+		}
+		va_end(argumentList);
+
+		for (UIView* each in list) {
+			each.moLeft = (self.moWidth-each.moWidth)/2;
 		}
 	}
 }
