@@ -59,6 +59,5 @@ BOOL moIsReachable(const char* hostName) {
 
 
 BOOL moDoNotHaveInternetConnection(void) {
-	NSLog(@" check connectivity");
 	return !moIsReachable("google.com");
 }
