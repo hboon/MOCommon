@@ -38,6 +38,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MOUIButtonAdditions.h"
+
 #import "VTPG_Common.h"
 
 /* For both Mac OS and iOS */
@@ -89,6 +91,11 @@ static inline BOOL moIsEmpty(id thing) {
 #define MO_LONG_TO_NUM(n) [NSString stringWithFormat:@"%ld", n]
 #define IV(f) [[UIImageView alloc] initWithImage:[UIImage imageNamed:f]]
 #define IVI(i) [[UIImageView alloc] initWithImage:i]
+#define V(x, y, w, h) [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)]
+#define L(x, y, w, h) [[UILabel alloc] initWithFrame:CGRectMake(x, y, w, h)]
+#define BI(i) [UIButton moButtonWithImage:i]
+
+#define MO_BUTTON_ADD_SELF_SELECTOR(b, s) [b addTarget:self action:s forControlEvents:UIControlEventTouchUpInside];
 
 #define MO_CLAMP_MIN_MAX(var, min, max)	var<min? min: (var>max? max: var)
 
@@ -104,6 +111,9 @@ UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 UIImage* moSolidColorImageWithSize(UIColor* aColor, CGSize aSize);
 BOOL moIsSimulator(void);
 void moTime1(void(^block)(void), NSString* s);
+CGRect moRectLessHeight(CGRect rect, CGFloat h);
+CGRect moRectLessWidth(CGRect rect, CGFloat w);
+CGRect moCGRectMinusRect(CGRect r1, CGRect r2);
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216

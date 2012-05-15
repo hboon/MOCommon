@@ -165,5 +165,34 @@ void moTime1(void(^block)(void), NSString* s) {
 	MO_LogDebug(@"%@ %f", s, [[NSDate date] timeIntervalSinceDate:start]);
 }
 
+
+CGRect moRectLessHeight(CGRect rect, CGFloat h) {
+	return CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height-h);
+}
+
+
+CGRect moRectLessWidth(CGRect rect, CGFloat w) {
+	return CGRectMake(rect.origin.x, rect.origin.y, rect.size.width-w, rect.size.height);
+}
+
+
+// Assumes r1 contains r2 and share either the same width or same height, and must have 3 common edges
+CGRect moCGRectMinusRect(CGRect r1, CGRect r2) {
+	if (r1.size.width == r2.size.width) {
+		if (r1.origin.y == r2.origin.y) {
+			return CGRectMake(r2.origin.x, r2.origin.y+r2.size.height, r2.size.width, r1.size.height-r2.size.height);
+		} else {
+			return CGRectMake(r1.origin.x, r1.origin.y, r1.size.width, r1.size.height-r2.size.height);
+		}
+	} else {
+		//Assume height same
+		if (r1.origin.x == r2.origin.x) {
+			return CGRectMake(r2.origin.x+r2.size.width, r2.origin.y, r1.size.width-r2.size.width, r2.size.height);
+		} else {
+			return CGRectMake(r1.origin.x, r1.origin.y, r1.size.width-r2.size.width, r1.size.height);
+		}
+	}
+}
+
 #if TARGET_OS_IPHONE
 #endif
