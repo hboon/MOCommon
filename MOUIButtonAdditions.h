@@ -41,5 +41,6 @@
 @interface UIButton (MOUIButtonAdditions)
 
 + (id)moButtonWithImage:(UIImage*)anImage;
++ (id)moButtonWithFrame:(CGRect)aRect;
 
 @end

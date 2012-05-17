@@ -94,6 +94,7 @@ static inline BOOL moIsEmpty(id thing) {
 #define V(x, y, w, h) [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)]
 #define L(x, y, w, h) [[UILabel alloc] initWithFrame:CGRectMake(x, y, w, h)]
 #define BI(i) [UIButton moButtonWithImage:i]
+#define B(x, y, w, h) [UIButton moButtonWithFrame:CGRectMake(x, y, w, h)]
 
 #define MO_BUTTON_ADD_SELF_SELECTOR(b, s) [b addTarget:self action:s forControlEvents:UIControlEventTouchUpInside];
 

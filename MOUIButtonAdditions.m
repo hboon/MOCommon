@@ -50,4 +50,11 @@
 	return result;
 }
 
+
++ (id)moButtonWithFrame:(CGRect)aRect {
+	UIButton* result = [UIButton buttonWithType:UIButtonTypeCustom];
+	result.frame = aRect;
+	return result;
+}
+
 @end
