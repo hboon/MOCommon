@@ -109,6 +109,20 @@ NSInteger moSortComparator(id obj1, id obj2, void* context);
 }
 
 
+- (id)moFirstObject {
+	if ([self count] == 0) return nil;
+
+	return [self objectAtIndex:0];
+}
+
+
+- (id)moSecondObject {
+	if ([self count] <= 1) return nil;
+
+	return [self objectAtIndex:1];
+}
+
+
 - (NSArray*)moMap:(MONSArrayBlock)aBlock {
 	NSMutableArray *results = [NSMutableArray arrayWithCapacity:[self count]];
 	for (id each in self) {
