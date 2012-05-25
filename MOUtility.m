@@ -194,5 +194,22 @@ CGRect moCGRectMinusRect(CGRect r1, CGRect r2) {
 	}
 }
 
+
+void* moV(NSString* s) {
+	NSString* debugValuesFilePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"moDebugValues.plist"];
+	NSDictionary* applicationSettingsDictionary = [[NSDictionary alloc] initWithContentsOfFile:debugValuesFilePath];
+	return [applicationSettingsDictionary valueForKeyPath:s];
+}
+
+
+CGFloat moVF(NSString* s) {
+	return [(NSNumber*)moV(s) doubleValue];
+}
+
+
+int moVN(NSString* s) {
+	return [(NSNumber*)moV(s) intValue];
+}
+
 #if TARGET_OS_IPHONE
 #endif
