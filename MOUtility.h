@@ -118,6 +118,7 @@ CGRect moCGRectMinusRect(CGRect r1, CGRect r2);
 
 CGFloat moVF(NSString* s);
 int moVN(NSString* s);
+BOOL moAnyEmpty(id obj, ...);
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216

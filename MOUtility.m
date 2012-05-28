@@ -211,5 +211,25 @@ int moVN(NSString* s) {
 	return [(NSNumber*)moV(s) intValue];
 }
 
+
+BOOL moAnyEmpty(id obj, ...) {
+	id v;
+	va_list argumentList;
+	if (obj) {
+		NSMutableArray* list = [NSMutableArray arrayWithObject:obj];
+		va_start(argumentList, obj);
+		while ((v = va_arg(argumentList, id))) {
+			[list addObject:v];
+		}
+		va_end(argumentList);
+
+		for (id each in list) {
+			if (moIsEmpty(each)) return YES;
+		}
+	}
+
+	return NO;
+}
+
 #if TARGET_OS_IPHONE
 #endif
