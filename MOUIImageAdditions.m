@@ -42,6 +42,16 @@
 
 @implementation UIImage (MOUIImageAdditions)
 
+- (CGFloat)moWidth {
+	return self.size.width;
+}
+
+
+- (CGFloat)moHeight {
+	return self.size.height;
+}
+
+
 - (UIImage*)moScaleToSize:(CGSize)size {
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGFloat scale = 1;

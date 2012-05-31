@@ -40,6 +40,9 @@
 
 @interface UIImage (MOUIImageAdditions)
 
+@property (nonatomic,readonly) CGFloat moWidth;
+@property (nonatomic,readonly) CGFloat moHeight;
+
 - (UIImage*)moScaleToSize:(CGSize)size;
 - (UIImage*)moRotateToCorrectOrientation;
 - (UIImage*)moRotateWithOrientation:(UIImageOrientation)anOrientation;
