@@ -40,6 +40,7 @@
 
 @interface NSArray (MONSMutableArrayAdditions)
 
+// Requires srandom() to be invoke before using, just once when app starts, e.g. srandom([NSDate timeIntervalSinceReferenceDate]) in the app's delegate.
 - (id)moShuffle;
 
 @end
