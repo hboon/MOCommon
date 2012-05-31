@@ -48,4 +48,11 @@
 	return aDefaultObject;
 }
 
+
+- (void)moSafeSetObject:(id)anObject forKey:(id)aKey {
+	if (!anObject) return;
+
+	[self setObject:anObject forKey:aKey];
+}
+
 @end

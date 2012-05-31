@@ -41,5 +41,6 @@
 @interface NSMutableDictionary (MONSMutableDictionaryAdditions)
 
 - (id)moSetDefaultForKey:(id)aKey object:(id)aDefaultObject;
+- (void)moSafeSetObject:(id)anObject forKey:(id)aKey;
 
 @end
