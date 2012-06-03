@@ -120,6 +120,10 @@ CGFloat moVF(NSString* s);
 int moVN(NSString* s);
 BOOL moAnyEmpty(id obj, ...);
 
+NSDictionary* moDictionaryOrEmpty(NSDictionary* dict);
+NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict);
+NSString* moStringOrEmpty(NSString* str);
+
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216
 #define MO_KEYBOARD_HEIGHT_LANDSCAPE 160
