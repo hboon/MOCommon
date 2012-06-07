@@ -149,6 +149,24 @@
 }
 
 
+- (void)moSizeWidthToFitMax:(CGFloat)aNumber {
+	[self moSizeWidthToFit];
+
+	if (self.moWidth > aNumber) {
+		self.moWidth = aNumber;
+	}
+}
+
+
+- (void)moSizeHeightToFitMax:(CGFloat)aNumber {
+	[self moSizeHeightToFit];
+
+	if (self.moHeight > aNumber) {
+		self.moHeight = aNumber;
+	}
+}
+
+
 - (void)moAlignSubviewsCenterVertical:(UIView*)aView, ... {
 	id v;
 	va_list argumentList;
