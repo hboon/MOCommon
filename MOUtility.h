@@ -122,6 +122,8 @@ BOOL moAnyEmpty(id obj, ...);
 
 NSDictionary* moDictionaryOrEmpty(NSDictionary* dict);
 NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict);
+NSArray* moArrayOrEmpty(NSArray* array);
+NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array);
 NSString* moStringOrEmpty(NSString* str);
 
 #define MO_STATUS_BAR_HEIGHT 20

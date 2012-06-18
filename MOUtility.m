@@ -246,6 +246,20 @@ NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict) {
 }
 
 
+NSArray* moArrayOrEmpty(NSArray* array) {
+	if (!array) return [NSArray array];
+
+	return array;
+}
+
+
+NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array) {
+	if (!array) return [NSMutableArray array];
+
+	return array;
+}
+
+
 NSString* moStringOrEmpty(NSString* str) {
 	if (!str) return @"";
 	if ((NSNull*)str == [NSNull null]) return @"";
