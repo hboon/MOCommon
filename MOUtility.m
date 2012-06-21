@@ -231,5 +231,41 @@ BOOL moAnyEmpty(id obj, ...) {
 	return NO;
 }
 
+
+NSDictionary* moDictionaryOrEmpty(NSDictionary* dict) {
+	if (!dict) return [NSDictionary dictionary];
+
+	return dict;
+}
+
+
+NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict) {
+	if (!dict) return [NSMutableDictionary dictionary];
+
+	return dict;
+}
+
+
+NSArray* moArrayOrEmpty(NSArray* array) {
+	if (!array) return [NSArray array];
+
+	return array;
+}
+
+
+NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array) {
+	if (!array) return [NSMutableArray array];
+
+	return array;
+}
+
+
+NSString* moStringOrEmpty(NSString* str) {
+	if (!str) return @"";
+	if ((NSNull*)str == [NSNull null]) return @"";
+
+	return str;
+}
+
 #if TARGET_OS_IPHONE
 #endif
