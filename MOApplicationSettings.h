@@ -45,6 +45,9 @@
 - (void)setDefaultObject:(id)aDefault forKey:(id)aKey;
 - (void)setObject:(id)aValue forKey:(id)aKey;
 - (id)objectForKey:(id)aKey;
+- (void)setValue:(id)aValue forKeyPath:(id)aKey;
+- (void)setValue:(id)aValue forKeyPath:(id)aKey force:(BOOL)yesOrNo;
+- (id)valueForKeyPath:(id)aKey;
 - (void)save;
 
 @end

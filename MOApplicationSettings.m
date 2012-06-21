@@ -37,6 +37,7 @@
 */
 #import "MOApplicationSettings.h"
 
+#import "MONSMutableDictionaryAdditions.h"
 #import "MOUtility.h"
 
 @interface MOApplicationSettings()
@@ -80,6 +81,30 @@
 
 - (id)objectForKey:(id)aKey {
 	return [self.backingDictionary objectForKey:aKey];
+}
+
+
+- (void)setValue:(id)aValue forKeyPath:(id)aKey {
+	[self setValue:aValue forKeyPath:aKey force:NO];
+}
+
+
+- (void)setValue:(id)aValue forKeyPath:(id)aKey force:(BOOL)yesOrNo {
+	if (yesOrNo) {
+		NSMutableDictionary* d = self.backingDictionary;
+		NSArray* paths = [aKey componentsSeparatedByString:@"."];
+		for (int i=0; i<[paths count]-1; ++i) {
+			d = [d moSetDefaultForKey:[paths objectAtIndex:i] object:[NSMutableDictionary dictionary]];
+		}
+		[d setObject:aValue forKey:[paths lastObject]];
+	} else {
+		[self.backingDictionary setValue:aValue forKeyPath:aKey];
+	}
+}
+
+
+- (id)valueForKeyPath:(id)aKey {
+	return [self.backingDictionary valueForKeyPath:aKey];
 }
 
 
