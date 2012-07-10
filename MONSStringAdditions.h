@@ -49,5 +49,6 @@
 - (NSString*)moUrlDecode;
 - (NSString*)moTrimWhiteSpace;
 - (NSString*)moWithoutFirstCharacter;
+- (NSString*)moDomainOnly;
 
 @end

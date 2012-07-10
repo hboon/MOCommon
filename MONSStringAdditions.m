@@ -127,6 +127,21 @@
 	return [self substringFromIndex:1];
 }
 
+
+- (NSString*)moDomainOnly {
+	if ([self length] == 0) return nil;
+
+	int i = [self rangeOfString:@"//"].location;
+	if (i == NSNotFound) return self;
+
+	int j = [self rangeOfString:@"/" options:NULL range:NSMakeRange(i+2, [self length]-i-2)].location;
+	if (j == NSNotFound) {
+		return [self substringFromIndex:i+2];
+	} else {
+		return [self substringWithRange:NSMakeRange(i+2, j-i-2)];
+	}
+}
+
 @end
 
 
@@ -163,6 +178,11 @@
 
 
 - (NSString*)moWithoutFirstCharacter {
+	return nil;
+}
+
+
+- (NSString*)moDomainOnly {
 	return nil;
 }
 
