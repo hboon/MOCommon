@@ -134,7 +134,7 @@
 	int i = [self rangeOfString:@"//"].location;
 	if (i == NSNotFound) return self;
 
-	int j = [self rangeOfString:@"/" options:NULL range:NSMakeRange(i+2, [self length]-i-2)].location;
+	int j = [self rangeOfString:@"/" options:0 range:NSMakeRange(i+2, [self length]-i-2)].location;
 	if (j == NSNotFound) {
 		return [self substringFromIndex:i+2];
 	} else {
