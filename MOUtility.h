@@ -100,6 +100,16 @@ static inline BOOL moIsEmpty(id thing) {
 
 #define MO_CLAMP_MIN_MAX(var, min, max)	var<min? min: (var>max? max: var)
 
+// Couretesy of https://gist.github.com/1057420
+#define MO_DEFINE_SHARED_INSTANCE_USING_BLOCK(block) \
+  static dispatch_once_t pred = 0; \
+  __strong static id _sharedObject = nil; \
+  dispatch_once(&pred, ^{ \
+    _sharedObject = block(); \
+  }); \
+  return _sharedObject;
+
+
 id<UIApplicationDelegate> moApplicationDelegate(void);
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
