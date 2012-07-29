@@ -64,4 +64,12 @@
 	return str;
 }
 
+
+- (void)moDo:(MONSNumberIterationBlock)aBlock {
+	int count = [self intValue];
+	for (int i=0; i<count; ++i) {
+		aBlock(i);
+	}
+}
+
 @end

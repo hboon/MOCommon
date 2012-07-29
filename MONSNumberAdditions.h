@@ -44,4 +44,7 @@ typedef void (^MONSNumberRowsAndColumnsIterationBlock)(int row, int column, int 
 - (void)moEnumerateInColumns:(int)aColumnCount usingBlock:(MONSNumberRowsAndColumnsIterationBlock)aBlock;
 - (NSString*)moCommaSeparatorString;
 
+typedef void (^MONSNumberIterationBlock)(int index);
+- (void)moDo:(MONSNumberIterationBlock)aBlock;
+
 @end

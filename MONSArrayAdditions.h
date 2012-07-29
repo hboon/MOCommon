@@ -50,6 +50,7 @@ typedef void (^MONSArrayRowsAndColumnsIterationBlock)(int row, int column, id ea
 - (NSSet*)moAny:(int)aNumber;
 - (id)moFirstObject;
 - (id)moSecondObject;
+- (NSArray*)moReverse;
 
 typedef id (^MONSArrayBlock)(id obj);
 - (NSArray*)moMap:(MONSArrayBlock)aBlock;
