@@ -54,6 +54,8 @@
 @property (nonatomic,retain) NSString* longitude;
 @property (nonatomic,retain) NSString* purpose;
 
++ (MOLocator*)sharedLocator;
+
 - (void)startLocating;
 - (BOOL)wasUpdatedWithinLastTenMinute;
 

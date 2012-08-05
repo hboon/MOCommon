@@ -65,6 +65,14 @@
 @synthesize locationManager;
 @synthesize lastUpdated;
 
+
++ (MOLocator*)sharedLocator {
+	MO_DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
+		return [[[self alloc] init] autorelease];
+	});
+}
+
+
 - (void)dealloc {
 	[timer release];
 
