@@ -68,7 +68,7 @@
 
 + (MOLocator*)sharedLocator {
 	MO_DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
-		return [[[self alloc] init] autorelease];
+		return [[self alloc] init];
 	});
 }
 
