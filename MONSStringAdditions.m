@@ -87,6 +87,11 @@
 }
 
 
+- (NSString*)moValidURLString {
+	return [(NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@" ", kCFStringEncodingUTF8) autorelease];
+}
+
+
 - (NSString*)moUrlEncodeTreatingSpaceTheSame {
 	return [(NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@";/?:@&=$+{}<>,", kCFStringEncodingUTF8) autorelease];
 }
@@ -168,6 +173,11 @@
 
 
 - (NSString*)moUrlEncodeTreatingSpaceTheSame {
+	return nil;
+}
+
+
+- (NSString*)moValidURLString {
 	return nil;
 }
 
