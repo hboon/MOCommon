@@ -59,21 +59,21 @@
 			[self removeFromSuperview];
 		}
 
-		self.frame = CGRectMake(0, -self.moHeight, aView.moWidth, self.moHeight);
+		self.frame = CGRectMake(0, -self.moHeight+self.offsetY, aView.moWidth, self.moHeight);
 
 		[aView addSubview:self];
 		[UIView animateWithDuration:0.4
 						delay:0
 					  options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction
 						 animations:^{
-							 self.moTop = 0;
+							 self.moTop = self.offsetY;
 						 }
 						completion:^(BOOL finished) {
 							[UIView animateWithDuration:0.3
 											delay:1
 										  options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
 											 animations:^{
-												 self.moTop = -self.moHeight;
+												 self.moTop = -self.moHeight+self.offsetY;
 											 }
 											completion:^(BOOL finished) {
 												[self removeFromSuperview];
