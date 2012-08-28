@@ -88,7 +88,7 @@
 
 
 - (NSString*)moValidURLString {
-	return [(NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@" ", kCFStringEncodingUTF8) autorelease];
+	return [(NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, @"%", (CFStringRef)@" ", kCFStringEncodingUTF8) autorelease];
 }
 
 
