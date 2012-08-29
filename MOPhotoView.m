@@ -65,6 +65,8 @@
 
 
 - (void)enterFullScreen {
+	if (!self.image) return;
+
 	[self willEnterFullScreen];
 	self.isFullScreen = YES;
 	self.nonFullScreenSuperview = self.superview;
