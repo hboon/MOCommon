@@ -34,6 +34,7 @@
 		self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		self.imageView.contentMode = UIViewContentModeScaleAspectFill;
 		self.imageView.clipsToBounds = YES;
+		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
 		[self addSubview:self.imageView];
 	}
 
@@ -149,7 +150,16 @@
 - (void)setImage:(UIImage*)anImage {
 	image = anImage;
 
-	self.imageView.image = self.image;
+	if (image) {
+		self.imageView.image = self.image;
+	} else {
+		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
+	}
+}
+
+
+- (UIImage*)image {
+	return image;
 }
 
 #pragma mark Touch Events
