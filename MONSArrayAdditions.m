@@ -123,6 +123,15 @@ NSInteger moSortComparator(id obj1, id obj2, void* context);
 }
 
 
+- (id)moSafeObjectAtIndex:(int)aNumber {
+	if (aNumber < [self count]) {
+		return [self objectAtIndex:aNumber];
+	} else {
+		return nil;
+	}
+}
+
+
 - (NSArray*)moReverse {
 	NSMutableArray* results = [NSMutableArray array];
 	[self enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger index, BOOL *stop) {
