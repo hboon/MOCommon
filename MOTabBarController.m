@@ -398,7 +398,8 @@
 	for (int i=0; i<[self.tabButtons count]; ++i) {
 		MOTabButton* tb = [self.tabButtons objectAtIndex:i];
 		UIButton* b = [self.buttons objectAtIndex:i];
-		b.frame = CGRectMake(x, 460-tb.frame.size.height, tb.frame.size.width, tb.frame.size.height);
+		b.frame = CGRectMake(x, 0, tb.frame.size.width, tb.frame.size.height);
+		b.moBottom = self.view.moHeight;
 		if (tb.normalImage) {
 			[b setImage:tb.normalImage forState:UIControlStateNormal];
 			[b setImage:tb.highlightedImage forState:UIControlStateHighlighted];
