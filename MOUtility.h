@@ -121,6 +121,7 @@ BOOL moSupportsBackgroundCompletionTaskAPI(void);
 UIImage* moSinglePixelImageWithColor(UIColor* aColor);
 UIImage* moSolidColorImageWithSize(UIColor* aColor, CGSize aSize);
 BOOL moIsSimulator(void);
+BOOL moIsIphone5(void);
 void moTime1(void(^block)(void), NSString* s);
 CGRect moRectLessHeight(CGRect rect, CGFloat h);
 CGRect moRectLessWidth(CGRect rect, CGFloat w);

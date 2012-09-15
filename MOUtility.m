@@ -159,6 +159,11 @@ BOOL moIsSimulator(void) {
 }
 
 
+BOOL moIsIphone5(void) {
+	return [UIScreen mainScreen].bounds.size.height > 480;
+}
+
+
 void moTime1(void(^block)(void), NSString* s) {
 	NSDate* start = [NSDate date];
 	block();
