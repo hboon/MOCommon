@@ -60,27 +60,27 @@
 	// The main difference from UITabBarController is you specific the buttons (size and images) here
 	NSMutableArray* buttons = [NSMutableArray array];
 
-	TabButton* b1 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	MOTabButton* b1 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
 	b1.normalImage = [UIImage imageNamed:@"one-off.png"];
 	b1.highlightedImage = [UIImage imageNamed:@"one-on.png"];
 	[buttons addObject:[b1 autorelease]];
 
-	TabButton* b2 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	MOTabButton* b2 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
 	b2.normalImage = [UIImage imageNamed:@"two-off.png"];
 	b2.highlightedImage = [UIImage imageNamed:@"two-on.png"];
 	[buttons addObject:[b2 autorelease]];
 
-	TabButton* b3 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
+	MOTabButton* b3 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
 	b3.normalImage = [UIImage imageNamed:@"three-off.png"];
 	b3.highlightedImage = [UIImage imageNamed:@"three-on.png"];
 	[buttons addObject:[b3 autorelease]];
 
-	TabButton* b4 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	MOTabButton* b4 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
 	b4.normalImage = [UIImage imageNamed:@"four-off.png"];
 	b4.highlightedImage = [UIImage imageNamed:@"four-on.png"];
 	[buttons addObject:[b4 autorelease]];
 
-	TabButton* b5 = [[TabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
+	MOTabButton* b5 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
 	b5.normalImage = [UIImage imageNamed:@"five-off.png"];
 	b5.highlightedImage = [UIImage imageNamed:@"five-on.png"];
 	[buttons addObject:[b5 autorelease]];
