@@ -40,6 +40,11 @@
 #import "MOUIViewAdditions.h"
 #import "MOUtility.h"
 
+@implementation MOTabButton
+
+@end
+
+
 @interface MOTabBarController()
 
 @property (nonatomic) BOOL tabHidden;
