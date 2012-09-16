@@ -40,18 +40,6 @@
 #import "MOUIViewAdditions.h"
 #import "MOUtility.h"
 
-@implementation MOTabButton
-
-@synthesize normalImage;
-@synthesize highlightedImage;
-@synthesize text;
-
-
-@end
-
-
-
-
 @interface MOTabBarController()
 
 @property (nonatomic) BOOL tabHidden;
@@ -69,10 +57,7 @@
 @synthesize selectedViewController;
 @synthesize selectedIndex;
 @synthesize tabButtons;
-@synthesize buttons;
-@synthesize delegate;
 @synthesize tabHidden;
-@synthesize originalNavigationControllerDelegates;
 @synthesize tabBarHeight;
 
 - (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)nibBundle {

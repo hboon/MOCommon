@@ -59,15 +59,8 @@
 
 @implementation MOTextInputViewController
 
-@synthesize characterCountLeftLabel;
-@synthesize tableView;
-@synthesize textInputView;
-
 @synthesize fieldName;
 @synthesize value;
-@synthesize target;
-@synthesize setterSelector;
-@synthesize maximumLength;
 
 - (void)loadView {
 	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -152,13 +145,13 @@
 
 - (void)updateCharacterCount {
 	int count = self.maximumLength - [self characterUsed];
-	characterCountLeftLabel.text = [NSString stringWithFormat:@"%d", count];
+	self.characterCountLeftLabel.text = [NSString stringWithFormat:@"%d", count];
 	self.navigationItem.rightBarButtonItem.enabled = [self saveButtonShouldBeEnabled];
 	
 	if (count == 0) {
-		characterCountLeftLabel.textColor = MO_RGBCOLOR(76, 86, 108);
+		self.characterCountLeftLabel.textColor = MO_RGBCOLOR(76, 86, 108);
 	} else if (count == -1) {
-		characterCountLeftLabel.textColor = [UIColor redColor];
+		self.characterCountLeftLabel.textColor = [UIColor redColor];
 	}
 }
 
@@ -186,7 +179,7 @@
 		return;
 	}
 	
-	[target performSelector:setterSelector withObject:self.text];
+	[self.target performSelector:self.setterSelector withObject:self.text];
 }
 
 

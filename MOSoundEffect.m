@@ -49,11 +49,6 @@
 
 @implementation MOSoundEffect
 
-@synthesize repeats;
-@synthesize audioSessionCategory;
-@synthesize soundPath;
-@synthesize audioPlayer;
-
 + (BOOL)songIsCurrentlyPlaying {
 	NSTimeInterval playbackTime1 = [MPMusicPlayerController iPodMusicPlayer].currentPlaybackTime;
 	NSTimeInterval playbackTime2 = [MPMusicPlayerController iPodMusicPlayer].currentPlaybackTime;

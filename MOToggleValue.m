@@ -39,10 +39,6 @@
 
 @implementation MOToggleValue
 
-@synthesize value1;
-@synthesize value2;
-@synthesize currentValue;
-
 + (id)value:(id)val1 value:(id)val2 {
 	MOToggleValue* toggle = [[MOToggleValue alloc] init];
 	toggle.value1 = val1;

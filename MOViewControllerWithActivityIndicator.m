@@ -47,8 +47,6 @@
 
 @implementation MOViewControllerWithActivityIndicator
 
-@synthesize rightBarButtonItemHiddenByActivityIndicator;
-
 #pragma mark Progress view
 
 - (void)showActivityIndicator {
