@@ -39,7 +39,7 @@
 
 @interface MOApplicationSettings : NSObject
 
-@property (nonatomic,retain) NSString* filePath;
+@property (nonatomic,strong) NSString* filePath;
 
 + (id)defaultSettings;
 - (void)setDefaultObject:(id)aDefault forKey:(id)aKey;

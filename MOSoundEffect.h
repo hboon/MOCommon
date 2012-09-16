@@ -41,7 +41,7 @@
 @interface MOSoundEffect : NSObject<AVAudioPlayerDelegate>
 
 @property (nonatomic) BOOL repeats;
-@property (nonatomic,retain) NSString* audioSessionCategory;
+@property (nonatomic,strong) NSString* audioSessionCategory;
 
 + (BOOL)songIsCurrentlyPlaying;
 + (id)soundEffectWithContentsOfFile:(NSString *)aPath;

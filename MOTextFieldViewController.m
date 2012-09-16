@@ -62,7 +62,7 @@
 
 - (UIView<UITextInputTraits>*)textInputView {
 	if (!textInputView) {
-		self.textInputView = [[[UITextField alloc] initWithFrame:CGRectMake(11, 10, 279, 31)] autorelease];
+		self.textInputView = [[UITextField alloc] initWithFrame:CGRectMake(11, 10, 279, 31)];
 		((UITextField*)self.textInputView).font = [UIFont systemFontOfSize:17];
 		((UITextField*)self.textInputView).textColor = MO_RGBCOLOR(57, 79, 133);
 	}

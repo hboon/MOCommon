@@ -44,11 +44,11 @@
 
 @interface MOTextInputViewController()
 
-@property(nonatomic,retain)IBOutlet UILabel *characterCountLeftLabel;
-@property (nonatomic,retain)IBOutlet UITableView* tableView;
+@property(nonatomic,strong)IBOutlet UILabel *characterCountLeftLabel;
+@property (nonatomic,strong)IBOutlet UITableView* tableView;
 @property (nonatomic,assign) id target;
 @property (nonatomic) SEL setterSelector;
-@property (nonatomic,retain) NSString* text;
+@property (nonatomic,strong) NSString* text;
 
 - (void)updateCharacterCount;
 - (void)setFocusOnText;
@@ -70,7 +70,7 @@
 @synthesize maximumLength;
 
 - (void)loadView {
-	self.view = [[[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 
@@ -82,12 +82,12 @@
 	[super viewDidLoad];
 
 	CGFloat characterCountXOffset = 22;
-	self.characterCountLeftLabel = [[[UILabel alloc] initWithFrame:CGRectMake(characterCountXOffset, 0, self.view.moWidth-characterCountXOffset, 21)] autorelease];
+	self.characterCountLeftLabel = [[UILabel alloc] initWithFrame:CGRectMake(characterCountXOffset, 0, self.view.moWidth-characterCountXOffset, 21)];
 	self.characterCountLeftLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	self.characterCountLeftLabel.font = [UIFont systemFontOfSize:17];
 	self.characterCountLeftLabel.textColor = MO_RGBCOLOR(76, 86, 108);
 
-	self.tableView = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped] autorelease];
+	self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 	[self resizeTableView];
 	self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	self.tableView.delegate = self;
@@ -98,8 +98,8 @@
 	isCancel = NO;
 	[self setupObserveTextChangeNotification];
 	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)] autorelease];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)] autorelease];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 
 	[self setPlaceHolder:self.fieldName];
@@ -121,15 +121,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[self viewDidUnload];
-	self.textInputView = nil;
-
-	self.fieldName = nil;
-	self.value = nil;
-	self.target = nil;
-	
-    [super dealloc];
 }
 
 
@@ -242,8 +233,7 @@
 - (void)setFieldName:(NSString*)aString {
 	if (aString == self.fieldName) return;
 
-	[fieldName release];
-	fieldName = [aString retain];
+	fieldName = aString;
 
 	self.title = [NSString stringWithFormat:@"Edit %@", self.fieldName];
 	[self setPlaceHolder:self.fieldName];
@@ -253,8 +243,7 @@
 - (void)setValue:(NSString*)aString {
 	if (aString == self.value) return;
 
-	[value release];
-	value = [aString retain];
+	value = aString;
 	self.text = self.value;
 }
 
@@ -270,7 +259,7 @@
 	UITableViewCell* cell = (UITableViewCell*)[aTableView dequeueReusableCellWithIdentifier:cellIdentifier];
 
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 
 	[cell.contentView addSubview:self.textInputView];

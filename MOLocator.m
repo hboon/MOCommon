@@ -44,9 +44,9 @@
 
 @interface MOLocator()
 
-@property (nonatomic,retain) NSTimer* timer;
-@property (nonatomic,retain) CLLocationManager* locationManager;
-@property (nonatomic,retain) NSDate* lastUpdated;
+@property (nonatomic,strong) NSTimer* timer;
+@property (nonatomic,strong) CLLocationManager* locationManager;
+@property (nonatomic,strong) NSDate* lastUpdated;
 
 - (void)didGetLocation:(CLLocationCoordinate2D)aCoordinate;
 - (void)locatingFailedBecauseUserDisabledForApp:(BOOL)yesOrNo;
@@ -73,25 +73,12 @@
 }
 
 
-- (void)dealloc {
-	[timer release];
-
-	self.latitude = nil;
-	self.longitude = nil;
-	self.locationManager = nil;
-	self.purpose = nil;
-	self.lastUpdated = nil;
-
-	[super dealloc];
-}
-
-
 - (void)startLocating {
 	if (self.locating) return;
 	if ([self.timer isValid]) return;
 
 	if (!self.locationManager) {
-		self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+		self.locationManager = [[CLLocationManager alloc] init];
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 		self.locationManager.delegate = self;
 	}

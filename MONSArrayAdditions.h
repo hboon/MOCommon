@@ -62,6 +62,5 @@ typedef id (^MONSArrayBlockWithIndex)(id obj, int index);
 - (NSString*)moAsCommaSeparatedString;
 
 typedef NSInteger (^MONSArrayBlockWithTwoItems)(id obj1, id obj2);
-- (NSArray*)moSortUsingBlock:(MONSArrayBlockWithTwoItems)aBlock;
 
 @end

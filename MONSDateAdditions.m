@@ -125,7 +125,7 @@
 		text = [[NSString alloc] initWithFormat:@"%d year%@ ago", number, number>1?@"s":@""];
 	}
 	
-	return [text autorelease];
+	return text;
 }
 
 

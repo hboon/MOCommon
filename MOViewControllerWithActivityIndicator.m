@@ -40,7 +40,7 @@
 
 @interface MOViewControllerWithActivityIndicator()
 
-@property (nonatomic,retain) UIBarButtonItem* rightBarButtonItemHiddenByActivityIndicator;
+@property (nonatomic,strong) UIBarButtonItem* rightBarButtonItemHiddenByActivityIndicator;
 
 @end
 
@@ -49,21 +49,15 @@
 
 @synthesize rightBarButtonItemHiddenByActivityIndicator;
 
-- (void)dealloc {
-	self.rightBarButtonItemHiddenByActivityIndicator = nil;
-
-	[super dealloc];
-}
-
 #pragma mark Progress view
 
 - (void)showActivityIndicator {
-	UIActivityIndicatorView* activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+	UIActivityIndicatorView* activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	self.rightBarButtonItemHiddenByActivityIndicator = self.navigationItem.rightBarButtonItem;
 	// View need to make sure activity indicator is placed at the center of the right bar button "slot"
 	UIView* activityIndicatorHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
 	[activityIndicatorHolderView addSubview:activityIndicatorView];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[activityIndicatorHolderView autorelease]] autorelease];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicatorHolderView];
 	[activityIndicatorView startAnimating];
 }
 

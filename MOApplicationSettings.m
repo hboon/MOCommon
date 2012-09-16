@@ -42,7 +42,7 @@
 
 @interface MOApplicationSettings()
 
-@property (nonatomic,retain) NSMutableDictionary* backingDictionary;
+@property (nonatomic,strong) NSMutableDictionary* backingDictionary;
 
 @end
 

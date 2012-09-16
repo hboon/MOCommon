@@ -12,7 +12,7 @@ Usage
 ---
 Code in the Development folder are tools used during development.
 
-MODisplayFontsView - Add a line such as `[window addSubview:[[[MODisplayFontsView alloc] init] autorelease]]` at the end of `-application:didFinishLaunchingWithOptions:` to list the fonts available.
+MODisplayFontsView - Add a line such as `[window addSubview:[[MODisplayFontsView alloc] init]]` at the end of `-application:didFinishLaunchingWithOptions:` to list the fonts available.
 
 
 License

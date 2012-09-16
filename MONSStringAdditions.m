@@ -83,17 +83,17 @@
 		[result replaceOccurrencesOfString:[escapeChars objectAtIndex:i] withString:[replaceChars objectAtIndex:i] options:NSLiteralSearch range:NSMakeRange(0, [result length])];
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 
 - (NSString*)moValidURLString {
-	return [(NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, (CFStringRef)@"%", (CFStringRef)@" ", kCFStringEncodingUTF8) autorelease];
+	return (__bridge_transfer NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, (CFStringRef)@"%", (CFStringRef)@" ", kCFStringEncodingUTF8);
 }
 
 
 - (NSString*)moUrlEncodeTreatingSpaceTheSame {
-	return [(NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@";/?:@&=$+{}<>,", kCFStringEncodingUTF8) autorelease];
+	return (__bridge_transfer NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@";/?:@&=$+{}<>,", kCFStringEncodingUTF8);
 }
 
 
@@ -117,7 +117,7 @@
 		[result replaceOccurrencesOfString:[replaceChars objectAtIndex:i] withString:[escapeChars objectAtIndex:i] options:NSLiteralSearch range:NSMakeRange(0, [result length])];
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 

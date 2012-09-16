@@ -39,16 +39,13 @@
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-
-	[super dealloc];
 }
 
 
 - (void)setText:(NSString*)aString {
 	if (aString == text) return;
 
-	[text release];
-	text = [aString retain];
+	text = aString;
 	[self setNeedsDisplay];
 }
 

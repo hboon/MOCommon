@@ -41,7 +41,7 @@
 
 @interface MODisplayFontsView: UITableView <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic,retain) NSString* sampleString;
-@property (nonatomic,retain) NSMutableArray* fontNames;
+@property (nonatomic,strong) NSString* sampleString;
+@property (nonatomic,strong) NSMutableArray* fontNames;
 
 @end

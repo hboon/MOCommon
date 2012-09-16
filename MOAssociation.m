@@ -48,15 +48,7 @@
 	MOAssociation* result = [[[self class] alloc] init];
 	result.key = aKey;
 	result.value = aValue;
-	return [result autorelease];
-}
-
-
-- (void)dealloc {
-	self.key = nil;
-	self.value = nil;
-	
-	[super dealloc];
+	return result;
 }
 
 

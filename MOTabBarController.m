@@ -46,13 +46,6 @@
 @synthesize highlightedImage;
 @synthesize text;
 
-- (void)dealloc {
-	self.normalImage = nil;
-	self.highlightedImage = nil;
-	self.text = nil;
-
-	[super dealloc];
-}
 
 @end
 
@@ -62,7 +55,7 @@
 @interface MOTabBarController()
 
 @property (nonatomic) BOOL tabHidden;
-@property (nonatomic,retain) NSMutableArray* originalNavigationControllerDelegates;
+@property (nonatomic,strong) NSMutableArray* originalNavigationControllerDelegates;
 
 - (void)createDefaultTabButtons;
 - (void)setSelectedIndex:(int)aNumber force:(BOOL)yesOrNo;
@@ -82,19 +75,6 @@
 @synthesize originalNavigationControllerDelegates;
 @synthesize tabBarHeight;
 
-- (void)dealloc {
-	[self viewDidUnload];
-
-	self.selectedViewController = nil;
-	self.tabButtons = nil;
-	self.buttons = nil;
-	self.delegate = nil;
-	self.originalNavigationControllerDelegates = nil;
-
-	[super dealloc];
-}
-
-
 - (id)initWithNibName:(NSString*)nibName bundle:(NSBundle*)nibBundle {
 	if (self = [super initWithNibName:nibName bundle:nibBundle]) {
 		selectedIndex = 0;
@@ -106,7 +86,7 @@
 
 
 - (void)loadView {
-	self.view = [[[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame] autorelease];
+	self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
@@ -160,27 +140,27 @@
 	MOTabButton* b1 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b1.backgroundColor = backgroundColor;
 	//b1.text = @"b1";
-	[array addObject:[b1 autorelease]];
+	[array addObject:b1];
 
 	MOTabButton* b2 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b2.backgroundColor = backgroundColor;
 	//b2.text = @"b2";
-	[array addObject:[b2 autorelease]];
+	[array addObject:b2];
 
 	MOTabButton* b3 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b3.backgroundColor = backgroundColor;
 	//b3.text = @"b3";
-	[array addObject:[b3 autorelease]];
+	[array addObject:b3];
 
 	MOTabButton* b4 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b4.backgroundColor = backgroundColor;
 	//b4.text = @"b4";
-	[array addObject:[b4 autorelease]];
+	[array addObject:b4];
 
 	MOTabButton* b5 = [[MOTabButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 	b5.backgroundColor = backgroundColor;
 	//b5.text = @"b5";
-	[array addObject:[b5 autorelease]];
+	[array addObject:b5];
 
 	self.tabButtons = array;
 }
@@ -385,13 +365,12 @@
 - (void)setTabButtons:(NSArray*)anArray {
 	if (anArray == tabButtons) return;
 
-	[tabButtons release];
 	if (!anArray) {
 		tabButtons = nil;
 		return;
 	}
 
-	tabButtons = [[NSArray arrayWithArray:anArray] retain];
+	tabButtons = [NSArray arrayWithArray:anArray];
 	[self createButtons];
 
 	CGFloat x = 0;

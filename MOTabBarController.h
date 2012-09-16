@@ -41,9 +41,9 @@
 
 @interface MOTabButton : UIControl
 
-@property (nonatomic,retain) UIImage* normalImage;
-@property (nonatomic,retain) UIImage* highlightedImage;
-@property (nonatomic,retain) NSString* text;
+@property (nonatomic,strong) UIImage* normalImage;
+@property (nonatomic,strong) UIImage* highlightedImage;
+@property (nonatomic,strong) NSString* text;
 
 @end
 
@@ -53,10 +53,10 @@
 
 @property (nonatomic,copy) NSArray* viewControllers;
 @property (nonatomic) int selectedIndex;
-@property (nonatomic,assign) UIViewController* selectedViewController;
+@property (nonatomic,weak) UIViewController* selectedViewController;
 @property (nonatomic,copy) NSArray* tabButtons;
-@property (nonatomic,retain) NSArray* buttons;
-@property (nonatomic,assign) NSObject<MOTabBarControllerDelegate>* delegate;
+@property (nonatomic,strong) NSArray* buttons;
+@property (nonatomic,weak) NSObject<MOTabBarControllerDelegate>* delegate;
 //Default to 0. If 0, will return the value of the shortest button image. Useful to set when the toolbar has buttons of different heights but the images height don't reflect that (eg. images have transparent areas)
 @property (nonatomic) CGFloat tabBarHeight;
 

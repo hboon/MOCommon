@@ -48,16 +48,7 @@
 	toggle.value1 = val1;
 	toggle.value2 = val2;
 
-	return [toggle autorelease];
-}
-
-
-- (void)dealloc {
-	self.value1 = nil;
-	self.value2 = nil;
-	self.currentValue = nil;
-
-	[super dealloc];
+	return toggle;
 }
 
 

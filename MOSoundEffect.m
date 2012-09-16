@@ -41,8 +41,8 @@
 
 @interface MOSoundEffect()
 
-@property (nonatomic,retain) NSURL* soundPath;
-@property (nonatomic,retain) AVAudioPlayer* audioPlayer;
+@property (nonatomic,strong) NSURL* soundPath;
+@property (nonatomic,strong) AVAudioPlayer* audioPlayer;
 
 @end
 
@@ -64,7 +64,7 @@
 
 + (id)soundEffectWithContentsOfFile:(NSString *)aPath {
     if (aPath) {
-        return [[[MOSoundEffect alloc] initWithContentsOfFile:aPath] autorelease];
+        return [[MOSoundEffect alloc] initWithContentsOfFile:aPath];
     }
 	
     return nil;
@@ -80,15 +80,6 @@
 }
 
 
--(void)dealloc {
-	self.soundPath = nil;
-	self.audioPlayer = nil;
-	self.audioSessionCategory = nil;
-
-    [super dealloc];
-}
-
-
 - (NSURL*)path {
 	return self.soundPath;
 }
@@ -96,7 +87,7 @@
 
 -(void)play {
 	if (!self.audioPlayer) {
-		self.audioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundPath error:nil] autorelease];
+		self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:self.soundPath error:nil];
 		self.audioPlayer.delegate = self;
 		if (self.audioSessionCategory) {
 			[[AVAudioSession sharedInstance] setCategory:self.audioSessionCategory error:nil];

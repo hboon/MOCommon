@@ -41,8 +41,6 @@
 #import "MONSSetAdditions.h"
 #import "MOUtility.h"
 
-NSInteger moSortComparator(id obj1, id obj2, void* context);
-
 @implementation NSArray (MONSArrayAdditions)
 
 + (id)moRangeFrom:(int)aStartNumber to:(int)anEndNumber {
@@ -173,17 +171,6 @@ NSInteger moSortComparator(id obj1, id obj2, void* context);
 	}
 
 	return result;
-}
-
-
-NSInteger moSortComparator(id obj1, id obj2, void* context) {
-	MONSArrayBlockWithTwoItems block = (id)context;
-	return block(obj1, obj2);
-}
-
-
-- (NSArray*)moSortUsingBlock:(MONSArrayBlockWithTwoItems)aBlock {
-	return [self sortedArrayUsingFunction:moSortComparator context:aBlock];
 }
 
 @end

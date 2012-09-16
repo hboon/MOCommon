@@ -9,7 +9,7 @@
 
 @interface MOStatusMessageView : UIView
 
-@property (nonatomic,retain) NSString* text;
+@property (nonatomic,strong) NSString* text;
 @property (nonatomic) CGFloat offsetY;
 
 - (void)showInView:(UIView*)aView;

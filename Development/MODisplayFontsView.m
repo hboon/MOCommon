@@ -74,14 +74,6 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 	return self;
 }
 
-
-- (void)dealloc {
-	self.sampleString = nil;
-	self.fontNames = nil;
-
-	[super dealloc];
-}
-
 #pragma mark Table
 
 - (NSInteger)tableView:(UITableView*)view numberOfRowsInSection:(NSInteger)section {
@@ -94,7 +86,7 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 	UITableViewCell* cell = [aTableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
 	}
 
 	cell.detailTextLabel.text = self.sampleString;

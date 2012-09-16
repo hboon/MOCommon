@@ -40,8 +40,8 @@
 
 @interface MOAssociation : NSObject
 
-@property (retain) id key;
-@property (retain) id value;
+@property (strong) id key;
+@property (strong) id value;
 
 + (id)key:(id)aKey value:(id)aValue;
 

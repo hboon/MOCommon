@@ -15,8 +15,8 @@
 @interface MOTabBarControllerAppDelegate : NSObject <UIApplicationDelegate, MOTabBarControllerDelegate> {
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet MOTabBarController *tabBarController;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet MOTabBarController *tabBarController;
 
 @end
 

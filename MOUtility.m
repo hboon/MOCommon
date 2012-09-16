@@ -77,7 +77,6 @@ id<UIApplicationDelegate> moApplicationDelegate(void) {
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate) {
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:aDelegate cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alertView show];
-	[alertView release];
 }
 
 
@@ -200,20 +199,20 @@ CGRect moCGRectMinusRect(CGRect r1, CGRect r2) {
 }
 
 
-void* moV(NSString* s) {
+NSDictionary* moVDictionary(NSString* s) {
 	NSString* debugValuesFilePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"moDebugValues.plist"];
 	NSDictionary* applicationSettingsDictionary = [[NSDictionary alloc] initWithContentsOfFile:debugValuesFilePath];
-	return [[applicationSettingsDictionary autorelease] valueForKeyPath:s];
+	return applicationSettingsDictionary;
 }
 
 
 CGFloat moVF(NSString* s) {
-	return [(NSNumber*)moV(s) doubleValue];
+	return [[moVDictionary(s) valueForKeyPath:s] doubleValue];
 }
 
 
 int moVN(NSString* s) {
-	return [(NSNumber*)moV(s) intValue];
+	return [[moVDictionary(s) valueForKeyPath:s] intValue];
 }
 
 

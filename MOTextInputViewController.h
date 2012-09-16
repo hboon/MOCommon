@@ -44,9 +44,9 @@
 	BOOL isCancel;
 }
 
-@property (nonatomic,retain) UIView<UITextInputTraits>* textInputView;
-@property (nonatomic,retain) NSString* fieldName;
-@property (nonatomic,retain) NSString* value;
+@property (nonatomic,strong) UIView<UITextInputTraits>* textInputView;
+@property (nonatomic,strong) NSString* fieldName;
+@property (nonatomic,strong) NSString* value;
 @property (nonatomic) int maximumLength;
 
 - (void)setTarget:(id)aTarget action:(SEL)aSelector;

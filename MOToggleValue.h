@@ -39,9 +39,9 @@
 
 @interface MOToggleValue : NSObject
 
-@property (nonatomic,retain) id value1;
-@property (nonatomic,retain) id value2;
-@property (nonatomic,retain) id currentValue;
+@property (nonatomic,strong) id value1;
+@property (nonatomic,strong) id value2;
+@property (nonatomic,strong) id currentValue;
 @property (nonatomic,readonly) id otherValue;
 
 + (id)value:(id)val1 value:(id)val2;
