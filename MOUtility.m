@@ -38,6 +38,8 @@
 
 #import "MOUtility.h"
 
+NSDictionary* moVDictionary(NSString* s);
+
 CGFloat moDegreeToRadian(CGFloat aFloat) {
 	return aFloat * M_PI / 180;
 }
