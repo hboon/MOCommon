@@ -40,6 +40,7 @@
 
 #import "TKImageCenter.h"
 
+#define I_QUEUED_LOW(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b priority:NSOperationQueuePriorityLow]
 #define I_QUEUED(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b]
 #define I_QUEUED_HIGH(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b priority:NSOperationQueuePriorityHigh]
 #define I_QUEUED_VERY_HIGH(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b priority:NSOperationQueuePriorityVeryHigh]
