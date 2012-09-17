@@ -42,3 +42,4 @@
 
 #define I_QUEUED(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b]
 #define I_QUEUED_HIGH(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b priority:NSOperationQueuePriorityHigh]
+#define I_QUEUED_VERY_HIGH(s, b) [[TKImageCenter sharedImageCenter] imageAtURL:s queueIfNeeded:b priority:NSOperationQueuePriorityVeryHigh]
