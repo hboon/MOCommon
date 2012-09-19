@@ -200,11 +200,6 @@
 }
 
 
-- (UIView<UITextInputTraits>*)textInputView {
-	return nil;
-}
-
-
 - (void)setPlaceHolder:(NSString*)aString {
 }
 
