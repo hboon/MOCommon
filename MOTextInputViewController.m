@@ -179,7 +179,10 @@
 		return;
 	}
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	[self.target performSelector:self.setterSelector withObject:self.text];
+#pragma clang diagnostic pop
 }
 
 
