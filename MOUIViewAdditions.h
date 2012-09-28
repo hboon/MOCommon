@@ -56,7 +56,9 @@
 - (void)moSizeWidthToFitAlignRight;
 - (void)moSizeHeightToFitAlignBottom;
 - (void)moSizeWidthToFitMax:(CGFloat)aNumber;
+- (void)moSizeWidthToFitMin:(CGFloat)aNumber;
 - (void)moSizeHeightToFitMax:(CGFloat)aNumber;
+- (void)moSizeHeightToFitMin:(CGFloat)aNumber;
 
 - (void)moAlignSubviewsCenterVertical:(UIView*)aView, ...;
 - (void)moAlignSubviewsCenterHorizontal:(UIView*)aView, ...;
