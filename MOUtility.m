@@ -273,5 +273,14 @@ NSString* moStringOrEmpty(NSString* str) {
 	return str;
 }
 
+
+NSString* moStringOrDefault(NSString* str, NSString* def) {
+	if (!moIsEmpty(str)) {
+		return str;
+	} else {
+		return def;
+	}
+}
+
 #if TARGET_OS_IPHONE
 #endif

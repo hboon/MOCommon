@@ -71,9 +71,10 @@ int moRoundUp(double f);
 NSString* moEmptyStringIfNull(NSString* str);
 void moLogLanguagesAndIdentifiers(void);
 
-// http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
+// Modified from http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
 static inline BOOL moIsEmpty(id thing) {
 	return thing == nil ||
+			thing == [NSNull null] ||
 			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
 			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
 }
@@ -136,6 +137,7 @@ NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict);
 NSArray* moArrayOrEmpty(NSArray* array);
 NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array);
 NSString* moStringOrEmpty(NSString* str);
+NSString* moStringOrDefault(NSString* str, NSString* def);
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216
