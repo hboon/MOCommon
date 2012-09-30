@@ -147,6 +147,11 @@
 	}
 }
 
+
+- (BOOL)moContainsString:(NSString*)aString {
+	return [self rangeOfString:aString].location != NSNotFound;
+}
+
 @end
 
 
@@ -194,6 +199,11 @@
 
 - (NSString*)moDomainOnly {
 	return nil;
+}
+
+
+- (BOOL)moContainsString:(NSString*)aString {
+	return NO;
 }
 
 @end
