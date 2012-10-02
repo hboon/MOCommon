@@ -282,5 +282,14 @@ NSString* moStringOrDefault(NSString* str, NSString* def) {
 	}
 }
 
+
+id moObjOrDefault(id obj, id def) {
+	if (!moIsEmpty(obj)) {
+		return obj;
+	} else {
+		return def;
+	}
+}
+
 #if TARGET_OS_IPHONE
 #endif

@@ -138,6 +138,8 @@ NSArray* moArrayOrEmpty(NSArray* array);
 NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array);
 NSString* moStringOrEmpty(NSString* str);
 NSString* moStringOrDefault(NSString* str, NSString* def);
+id moObjOrDefault(id obj, id def);
+
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216
