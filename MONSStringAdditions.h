@@ -51,6 +51,7 @@
 - (NSString*)moWithoutFirstCharacter;
 - (NSString*)moValidURLString;
 - (NSString*)moDomainOnly;
+- (NSString*)moURLSlugOnly;
 - (BOOL)moContainsString:(NSString*)aString;
 
 @end

@@ -148,6 +148,18 @@
 }
 
 
+- (NSString*)moURLSlugOnly {
+	if ([self length] == 0) return nil;
+
+	int i = [self rangeOfString:@"/" options:NSBackwardsSearch].location;
+	if (i == NSNotFound) {
+		return nil;
+	} else {
+		return [self substringWithRange:NSMakeRange(i+1, [self length]-i-1)];
+	}
+}
+
+
 - (BOOL)moContainsString:(NSString*)aString {
 	return [self rangeOfString:aString].location != NSNotFound;
 }
@@ -198,6 +210,11 @@
 
 
 - (NSString*)moDomainOnly {
+	return nil;
+}
+
+
+- (NSString*)moURLSlugOnly {
 	return nil;
 }
 
