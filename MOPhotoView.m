@@ -36,6 +36,8 @@
 		self.imageView.clipsToBounds = YES;
 		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
 		[self addSubview:self.imageView];
+
+		self.enabled = YES;
 	}
 
 	return self;
@@ -168,6 +170,8 @@
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
 	[super touchesEnded:touches withEvent:event];
+
+	if (!self.enabled) return;
 
 	//Not sure why disabling userInteractionEnabled didn't help to ignore touch, so we have to use our own toggleFullScreenDisabled
 	if (self.toggleFullScreenDisabled) return;
