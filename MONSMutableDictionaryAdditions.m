@@ -41,10 +41,10 @@
 @implementation NSMutableDictionary (MONSMutableDictionaryAdditions)
 
 - (id)moSetDefaultForKey:(id)aKey object:(id)aDefaultObject {
-	id obj = [self objectForKey:aKey];
+	id obj = self[aKey];
 	if (obj) return obj;
 
-	[self setObject:aDefaultObject forKey:aKey];
+	self[aKey] = aDefaultObject;
 	return aDefaultObject;
 }
 
@@ -52,7 +52,7 @@
 - (void)moSafeSetObject:(id)anObject forKey:(id)aKey {
 	if (!anObject) return;
 
-	[self setObject:anObject forKey:aKey];
+	self[aKey] = anObject;
 }
 
 @end

@@ -111,8 +111,8 @@ CGRect moScreenBounds(UIInterfaceOrientation orientation) {
 
 
 NSString* moOrientationAsString(UIInterfaceOrientation orientation) {
-	NSArray* values = [NSArray arrayWithObjects:@"unknown",@"portrait",@"portrait upside down",@"landscape left",@"landscape right",@"face up",@"face down",nil];
-	return [values objectAtIndex:orientation];
+	NSArray* values = @[@"unknown",@"portrait",@"portrait upside down",@"landscape left",@"landscape right",@"face up",@"face down"];
+	return values[orientation];
 }
 
 
@@ -202,7 +202,7 @@ CGRect moCGRectMinusRect(CGRect r1, CGRect r2) {
 
 
 NSDictionary* moVDictionary(NSString* s) {
-	NSString* debugValuesFilePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"moDebugValues.plist"];
+	NSString* debugValuesFilePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"moDebugValues.plist"];
 	NSDictionary* applicationSettingsDictionary = [[NSDictionary alloc] initWithContentsOfFile:debugValuesFilePath];
 	return applicationSettingsDictionary;
 }
@@ -239,7 +239,7 @@ BOOL moAnyEmpty(id obj, ...) {
 
 
 NSDictionary* moDictionaryOrEmpty(NSDictionary* dict) {
-	if (!dict) return [NSDictionary dictionary];
+	if (!dict) return @{};
 
 	return dict;
 }
@@ -253,7 +253,7 @@ NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict) {
 
 
 NSArray* moArrayOrEmpty(NSArray* array) {
-	if (!array) return [NSArray array];
+	if (!array) return @[];
 
 	return array;
 }
