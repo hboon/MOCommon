@@ -177,19 +177,19 @@
 
 - (void)locatingFailedBecauseUserDisabledForApp:(BOOL)yesOrNo {
 	if (![CLLocationManager locationServicesEnabled]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:D(MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED, MOLOCATOR_FAIL_REASON)];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:@{MOLOCATOR_FAIL_REASON: MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED}];
 		return;
 	}
 
 	if (yesOrNo) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:D(MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED_FOR_APP, MOLOCATOR_FAIL_REASON)];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:@{MOLOCATOR_FAIL_REASON: MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED_FOR_APP}];
 		return;
 	}
 
 	self.latitude = nil;
 	self.longitude = nil;
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:D(MOLOCATOR_FAIL_REASON_CANNOT_DETERMINE_LOCATION, MOLOCATOR_FAIL_REASON)];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:@{MOLOCATOR_FAIL_REASON: MOLOCATOR_FAIL_REASON_CANNOT_DETERMINE_LOCATION}];
 }
 
 

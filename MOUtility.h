@@ -80,10 +80,8 @@ static inline BOOL moIsEmpty(id thing) {
 }
 
 // Courtesy of, and derived from http://news.ycombinator.com/item?id=1789839
-#define A(obj, objs...) [NSArray arrayWithObjects:obj, ## objs , nil]
-#define D(val, key, vals...) [NSDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
-#define MA(obj, objs...) [NSMutableArray arrayWithObjects:obj, ## objs , nil]
-#define MD(val, key, vals...) [NSMutableDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
+#define MA(a) [NSMutableArray arrayWithArray:a]
+#define MD(d) [NSMutableDictionary dictionaryWithDictionary:d]
 
 #define I(f) [UIImage imageNamed:f]
 #define MO_LONG_TO_NUM(n) [NSString stringWithFormat:@"%ld", n]
