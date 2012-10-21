@@ -85,9 +85,6 @@ static inline BOOL moIsEmpty(id thing) {
 #define MA(obj, objs...) [NSMutableArray arrayWithObjects:obj, ## objs , nil]
 #define MD(val, key, vals...) [NSMutableDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
 
-#define NB(n) [NSNumber numberWithBool:n]
-#define NN(n) [NSNumber numberWithInt:n]
-#define ND(n) [NSNumber numberWithDouble:n]
 #define I(f) [UIImage imageNamed:f]
 #define MO_LONG_TO_NUM(n) [NSString stringWithFormat:@"%ld", n]
 #define IV(f) [[UIImageView alloc] initWithImage:[UIImage imageNamed:f]]
