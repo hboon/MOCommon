@@ -56,15 +56,7 @@
 
 @implementation MOLocator
 
-@synthesize locating;
-@synthesize latitude;
-@synthesize longitude;
-@synthesize purpose;
-
 @synthesize timer;
-@synthesize locationManager;
-@synthesize lastUpdated;
-
 
 + (MOLocator*)sharedLocator {
 	MO_DEFINE_SHARED_INSTANCE_USING_BLOCK(^{

@@ -41,9 +41,6 @@
 
 @implementation MOAssociation
 
-@synthesize key;
-@synthesize value;
-
 + (id)key:(id)aKey value:(id)aValue {
 	MOAssociation* result = [[[self class] alloc] init];
 	result.key = aKey;
