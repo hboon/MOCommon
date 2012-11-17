@@ -291,5 +291,48 @@ id moObjOrDefault(id obj, id def) {
 	}
 }
 
+
+typedef void(^MONoArgsBlock)(void);
+@interface MOTouchToTriggerView : UIView
+
+@property (nonatomic,strong) MONoArgsBlock action;
+
+@end
+
+
+@implementation MOTouchToTriggerView
+
+- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
+	if (self.action) {
+		self.action();
+	}
+}
+
+@end
+
+void moShowImage(UIImage* img) {
+	MOTouchToTriggerView* v = [MOTouchToTriggerView new];
+	v.frame = moWindow().bounds;
+	v.backgroundColor = MO_RGBACOLOR(0, 0, 0, 0.8);
+	MOTouchToTriggerView* temp = v;
+	v.action = ^{ [temp removeFromSuperview]; };
+
+	UIImageView* iv = [[UIImageView alloc] initWithFrame:v.bounds];
+	iv.contentMode = UIViewContentModeScaleAspectFit;
+	iv.image = img;
+	[v addSubview:iv];
+
+	UILabel* dimensionsLabel = L(0, v.bounds.size.height - 50, v.bounds.size.width, 22);
+	dimensionsLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+	dimensionsLabel.backgroundColor = MO_RGBACOLOR(30, 30, 30, 0.7);
+	dimensionsLabel.textAlignment = UITextAlignmentCenter;
+	dimensionsLabel.textColor = MO_RGBCOLOR1(200);
+	dimensionsLabel.font = [UIFont systemFontOfSize:11];
+	dimensionsLabel.text = [NSString stringWithFormat:@"%dx%d", (int)img.size.width, (int)img.size.height];
+	[v addSubview:dimensionsLabel];
+
+	[moWindow() addSubview:v];
+}
+
 #if TARGET_OS_IPHONE
 #endif
