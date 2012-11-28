@@ -52,6 +52,8 @@
 @property (nonatomic) BOOL locating;
 @property (nonatomic,strong) NSString* latitude;
 @property (nonatomic,strong) NSString* longitude;
+@property (nonatomic,strong) NSString* lastLatitude;
+@property (nonatomic,strong) NSString* lastLongitude;
 @property (nonatomic,strong) NSString* purpose;
 
 + (MOLocator*)sharedLocator;
