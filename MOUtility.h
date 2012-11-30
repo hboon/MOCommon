@@ -136,6 +136,7 @@ NSString* moStringOrDefault(NSString* str, NSString* def);
 id moObjOrDefault(id obj, id def);
 
 void moShowImage(UIImage* img);
+void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubdomainString, NSString* aTokenString);
 
 
 #define MO_STATUS_BAR_HEIGHT 20
