@@ -108,6 +108,16 @@
 }
 
 
+- (id)objectForKeyedSubscript:(id)aKey {
+	return (self.backingDictionary)[aKey];
+}
+
+
+- (void)setObject:(id)aValue forKeyedSubscript:(id<NSCopying>)aKey {
+	(self.backingDictionary)[aKey] = aValue;
+}
+
+
 - (void)save {
 	[backingDictionary writeToFile:self.filePath atomically:YES];
 }
