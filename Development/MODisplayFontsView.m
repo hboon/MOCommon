@@ -91,7 +91,7 @@ NSInteger fontAndFontFamilyCompare(id first, id second, void* context) {
 
 	cell.detailTextLabel.text = self.sampleString;
 	cell.detailTextLabel.font = [UIFont fontWithName:[[self.fontNames objectAtIndex:indexPath.row] key] size:12];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ --- %@", [[self.fontNames objectAtIndex:indexPath.row] value], [[self.fontNames objectAtIndex:indexPath.row] key]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ --- %@", [(MOAssociation*)[self.fontNames objectAtIndex:indexPath.row] value], [[self.fontNames objectAtIndex:indexPath.row] key]];
 	cell.textLabel.font = [UIFont systemFontOfSize:9];
 
 	return cell;

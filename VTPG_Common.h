@@ -5,9 +5,7 @@
 //based off of http://www.dribin.org/dave/blog/archives/2008/09/22/convert_to_nsstring/
 NSString * VTPG_DDToStringFromTypeAndValue(const char * typeCode, void * value);
 
-// WARNING: if NO_LOG_MACROS is #define-ed, than THE ARGUMENT WILL NOT BE EVALUATED
-#ifndef NO_LOG_MACROS
-
+#ifdef DEBUG
 
 #define LOG_EXPR(_X_) do{\
 	__typeof__(_X_) _Y_ = (_X_);\
@@ -22,9 +20,9 @@ NSString * VTPG_DDToStringFromTypeAndValue(const char * typeCode, void * value);
 #define LOG_NS(...) NSLog(__VA_ARGS__)
 #define LOG_FUNCTION()	NSLog(@"%s", __func__)
 
-#else /* NO_LOG_MACROS */
+#else /* DEBUG */
 
 #define LOG_EXPR(_X_)
 #define LOG_NS(...)
 #define LOG_FUNCTION()
-#endif /* NO_LOG_MACROS */
+#endif /* DEBUG */

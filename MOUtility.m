@@ -38,6 +38,14 @@
 
 #import "MOUtility.h"
 
+// Derived from NSData+Base64.m of Matt Gemmell.
+@interface NSData (MOBase64)
+
+- (NSString *) base64EncodingWithLineLength:(unsigned int) lineLength;
+
+@end
+
+
 NSDictionary* moVDictionary(NSString* s);
 
 CGFloat moDegreeToRadian(CGFloat aFloat) {
@@ -111,8 +119,8 @@ CGRect moScreenBounds(UIInterfaceOrientation orientation) {
 
 
 NSString* moOrientationAsString(UIInterfaceOrientation orientation) {
-	NSArray* values = [NSArray arrayWithObjects:@"unknown",@"portrait",@"portrait upside down",@"landscape left",@"landscape right",@"face up",@"face down",nil];
-	return [values objectAtIndex:orientation];
+	NSArray* values = @[@"unknown",@"portrait",@"portrait upside down",@"landscape left",@"landscape right",@"face up",@"face down"];
+	return values[orientation];
 }
 
 
@@ -202,7 +210,7 @@ CGRect moCGRectMinusRect(CGRect r1, CGRect r2) {
 
 
 NSDictionary* moVDictionary(NSString* s) {
-	NSString* debugValuesFilePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"moDebugValues.plist"];
+	NSString* debugValuesFilePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"moDebugValues.plist"];
 	NSDictionary* applicationSettingsDictionary = [[NSDictionary alloc] initWithContentsOfFile:debugValuesFilePath];
 	return applicationSettingsDictionary;
 }
@@ -239,7 +247,7 @@ BOOL moAnyEmpty(id obj, ...) {
 
 
 NSDictionary* moDictionaryOrEmpty(NSDictionary* dict) {
-	if (!dict) return [NSDictionary dictionary];
+	if (!dict) return @{};
 
 	return dict;
 }
@@ -253,7 +261,7 @@ NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict) {
 
 
 NSArray* moArrayOrEmpty(NSArray* array) {
-	if (!array) return [NSArray array];
+	if (!array) return @[];
 
 	return array;
 }
@@ -273,5 +281,154 @@ NSString* moStringOrEmpty(NSString* str) {
 	return str;
 }
 
+
+NSString* moStringOrDefault(NSString* str, NSString* def) {
+	if (!moIsEmpty(str)) {
+		return str;
+	} else {
+		return def;
+	}
+}
+
+
+id moObjOrDefault(id obj, id def) {
+	if (!moIsEmpty(obj)) {
+		return obj;
+	} else {
+		return def;
+	}
+}
+
+
+typedef void(^MONoArgsBlock)(void);
+@interface MOTouchToTriggerView : UIView
+
+@property (nonatomic,strong) MONoArgsBlock action;
+
+@end
+
+
+@implementation MOTouchToTriggerView
+
+- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
+	if (self.action) {
+		self.action();
+	}
+}
+
+@end
+
+void moShowImage(UIImage* img) {
+	MOTouchToTriggerView* v = [MOTouchToTriggerView new];
+	v.frame = moWindow().bounds;
+	v.backgroundColor = MO_RGBACOLOR(0, 0, 0, 0.8);
+	MOTouchToTriggerView* temp = v;
+	v.action = ^{ [temp removeFromSuperview]; };
+
+	UIImageView* iv = [[UIImageView alloc] initWithFrame:v.bounds];
+	iv.contentMode = UIViewContentModeScaleAspectFit;
+	iv.image = img;
+	[v addSubview:iv];
+
+	UILabel* dimensionsLabel = L(0, v.bounds.size.height - 50, v.bounds.size.width, 22);
+	dimensionsLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+	dimensionsLabel.backgroundColor = MO_RGBACOLOR(30, 30, 30, 0.7);
+	dimensionsLabel.textAlignment = UITextAlignmentCenter;
+	dimensionsLabel.textColor = MO_RGBCOLOR1(200);
+	dimensionsLabel.font = [UIFont systemFontOfSize:11];
+	dimensionsLabel.text = [NSString stringWithFormat:@"%dx%d", (int)img.size.width, (int)img.size.height];
+	[v addSubview:dimensionsLabel];
+
+	[moWindow() addSubview:v];
+}
+
+
+//Speak in a campfire room
+void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubdomainString, NSString* aTokenString) {
+	NSString* url = [NSString stringWithFormat:@"https://%@.campfirenow.com/room/%@/speak.json", aSubdomainString, aRoomIDString];
+	NSString* postString = [NSString stringWithFormat:@"<message><type>%@</type><body>%@</body></message>", @"TextMessage", aString];
+	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
+
+	NSString* auth = [NSString stringWithFormat:@"%@:%@", aTokenString, @"X"];
+	NSString* authValue = [NSString stringWithFormat:@"Basic %@", [[auth dataUsingEncoding:NSUTF8StringEncoding] base64EncodingWithLineLength:80]];
+	[request setValue:authValue forHTTPHeaderField:@"Authorization"];
+
+	[request addValue:@"application/xml" forHTTPHeaderField:@"Content-Type"];
+	[request setHTTPMethod:@"POST"];
+	[request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
+
+	NSHTTPURLResponse* response;
+	NSError* error;
+	NSData* res = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	NSString* result = [[NSString alloc] initWithData:res encoding:NSUTF8StringEncoding];
+}
+
 #if TARGET_OS_IPHONE
 #endif
+
+
+static char encodingTable[64] = {
+		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+		'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
+		'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v',
+		'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/' };
+
+@implementation NSData (MOBase64)
+
+- (NSString *) base64EncodingWithLineLength:(unsigned int) lineLength {
+	const unsigned char	*bytes = [self bytes];
+	NSMutableString *result = [NSMutableString stringWithCapacity:[self length]];
+	unsigned long ixtext = 0;
+	unsigned long lentext = [self length];
+	long ctremaining = 0;
+	unsigned char inbuf[3], outbuf[4];
+	short i = 0;
+	short charsonline = 0, ctcopy = 0;
+	unsigned long ix = 0;
+
+	while( YES ) {
+		ctremaining = lentext - ixtext;
+		if( ctremaining <= 0 ) break;
+
+		for( i = 0; i < 3; i++ ) {
+			ix = ixtext + i;
+			if( ix < lentext ) inbuf[i] = bytes[ix];
+			else inbuf [i] = 0;
+		}
+
+		outbuf [0] = (inbuf [0] & 0xFC) >> 2;
+		outbuf [1] = ((inbuf [0] & 0x03) << 4) | ((inbuf [1] & 0xF0) >> 4);
+		outbuf [2] = ((inbuf [1] & 0x0F) << 2) | ((inbuf [2] & 0xC0) >> 6);
+		outbuf [3] = inbuf [2] & 0x3F;
+		ctcopy = 4;
+
+		switch( ctremaining ) {
+		case 1:
+			ctcopy = 2;
+			break;
+		case 2:
+			ctcopy = 3;
+			break;
+		}
+
+		for( i = 0; i < ctcopy; i++ )
+			[result appendFormat:@"%c", encodingTable[outbuf[i]]];
+
+		for( i = ctcopy; i < 4; i++ )
+			[result appendFormat:@"%c",'='];
+
+		ixtext += 3;
+		charsonline += 4;
+
+		if( lineLength > 0 ) {
+			if (charsonline >= lineLength) {
+				charsonline = 0;
+				[result appendString:@"\n"];
+			}
+		}
+	}
+
+	return result;
+}
+
+@end

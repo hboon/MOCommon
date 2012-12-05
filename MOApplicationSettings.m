@@ -66,21 +66,21 @@
 
 
 - (void)setDefaultObject:(id)aDefault forKey:(id)aKey {
-	id obj = [self.backingDictionary objectForKey:aKey];
+	id obj = (self.backingDictionary)[aKey];
 	if (obj) return;
 
-	[self.backingDictionary setObject:aDefault forKey:aKey];
+	(self.backingDictionary)[aKey] = aDefault;
 
 }
 
 
 - (void)setObject:(id)aValue forKey:(id)aKey {
-	[self.backingDictionary setObject:aValue forKey:aKey];
+	(self.backingDictionary)[aKey] = aValue;
 }
 
 
 - (id)objectForKey:(id)aKey {
-	return [self.backingDictionary objectForKey:aKey];
+	return (self.backingDictionary)[aKey];
 }
 
 
@@ -94,9 +94,9 @@
 		NSMutableDictionary* d = self.backingDictionary;
 		NSArray* paths = [aKey componentsSeparatedByString:@"."];
 		for (int i=0; i<[paths count]-1; ++i) {
-			d = [d moSetDefaultForKey:[paths objectAtIndex:i] object:[NSMutableDictionary dictionary]];
+			d = [d moSetDefaultForKey:paths[i] object:[NSMutableDictionary dictionary]];
 		}
-		[d setObject:aValue forKey:[paths lastObject]];
+		d[[paths lastObject]] = aValue;
 	} else {
 		[self.backingDictionary setValue:aValue forKeyPath:aKey];
 	}
@@ -105,6 +105,16 @@
 
 - (id)valueForKeyPath:(id)aKey {
 	return [self.backingDictionary valueForKeyPath:aKey];
+}
+
+
+- (id)objectForKeyedSubscript:(id)aKey {
+	return (self.backingDictionary)[aKey];
+}
+
+
+- (void)setObject:(id)aValue forKeyedSubscript:(id<NSCopying>)aKey {
+	(self.backingDictionary)[aKey] = aValue;
 }
 
 
@@ -118,7 +128,7 @@
 - (NSString*)filePath {
 	if (!moIsEmpty(filePath)) return filePath;
 
-	return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"moapplicationsettings.plist"];
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"moapplicationsettings.plist"];
 }
 
 

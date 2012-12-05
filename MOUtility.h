@@ -71,22 +71,18 @@ int moRoundUp(double f);
 NSString* moEmptyStringIfNull(NSString* str);
 void moLogLanguagesAndIdentifiers(void);
 
-// http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
+// Modified from http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
 static inline BOOL moIsEmpty(id thing) {
 	return thing == nil ||
+			thing == [NSNull null] ||
 			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
 			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
 }
 
 // Courtesy of, and derived from http://news.ycombinator.com/item?id=1789839
-#define A(obj, objs...) [NSArray arrayWithObjects:obj, ## objs , nil]
-#define D(val, key, vals...) [NSDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
-#define MA(obj, objs...) [NSMutableArray arrayWithObjects:obj, ## objs , nil]
-#define MD(val, key, vals...) [NSMutableDictionary dictionaryWithObjectsAndKeys:val, key, ## vals , nil]
+#define MA(a) [NSMutableArray arrayWithArray:a]
+#define MD(d) [NSMutableDictionary dictionaryWithDictionary:d]
 
-#define NB(n) [NSNumber numberWithBool:n]
-#define NN(n) [NSNumber numberWithInt:n]
-#define ND(n) [NSNumber numberWithDouble:n]
 #define I(f) [UIImage imageNamed:f]
 #define MO_LONG_TO_NUM(n) [NSString stringWithFormat:@"%ld", n]
 #define IV(f) [[UIImageView alloc] initWithImage:[UIImage imageNamed:f]]
@@ -136,6 +132,12 @@ NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict);
 NSArray* moArrayOrEmpty(NSArray* array);
 NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array);
 NSString* moStringOrEmpty(NSString* str);
+NSString* moStringOrDefault(NSString* str, NSString* def);
+id moObjOrDefault(id obj, id def);
+
+void moShowImage(UIImage* img);
+void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubdomainString, NSString* aTokenString);
+
 
 #define MO_STATUS_BAR_HEIGHT 20
 #define MO_KEYBOARD_HEIGHT_PORTRAIT 216

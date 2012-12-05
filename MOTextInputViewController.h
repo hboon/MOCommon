@@ -39,9 +39,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MOTextInputViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
-	UIView<UITextInputTraits>* textInputView;
-	
-	BOOL isCancel;
 }
 
 @property (nonatomic,strong) UIView<UITextInputTraits>* textInputView;

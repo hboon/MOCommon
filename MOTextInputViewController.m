@@ -49,6 +49,7 @@
 @property (nonatomic,assign) id target;
 @property (nonatomic) SEL setterSelector;
 @property (nonatomic,strong) NSString* text;
+@property (nonatomic) BOOL isCancel;
 
 - (void)updateCharacterCount;
 - (void)setFocusOnText;
@@ -88,7 +89,7 @@
 	self.tableView.tableFooterView = self.characterCountLeftLabel;
 	[self.view addSubview:self.tableView];
 	
-	isCancel = NO;
+	self.isCancel = NO;
 	[self setupObserveTextChangeNotification];
 	
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
@@ -157,7 +158,7 @@
 
 
 - (void)cancel {
-	isCancel = YES;
+	self.isCancel = YES;
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -175,11 +176,14 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	
-	if (isCancel) {
+	if (self.isCancel) {
 		return;
 	}
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	[self.target performSelector:self.setterSelector withObject:self.text];
+#pragma clang diagnostic pop
 }
 
 
@@ -197,11 +201,6 @@
 
 - (CGFloat)textInputViewTopInsetLandscape {
 	return 0;
-}
-
-
-- (UIView<UITextInputTraits>*)textInputView {
-	return nil;
 }
 
 

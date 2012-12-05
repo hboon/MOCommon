@@ -18,7 +18,7 @@
 @property (nonatomic,assign) UIView* nonFullScreenSuperview;
 @property (nonatomic) CGPoint nonFullScreenGlobalOrigin;
 @property (nonatomic,strong) UIView* backgroundView;
-@property (nonatomic) BOOL toggleFullScrenDisabled;
+@property (nonatomic) BOOL toggleFullScreenDisabled;
 
 @end
 
@@ -36,6 +36,8 @@
 		self.imageView.clipsToBounds = YES;
 		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
 		[self addSubview:self.imageView];
+
+		self.enabled = YES;
 	}
 
 	return self;
@@ -117,7 +119,7 @@
 
 
 - (void)willEnterFullScreen {
-	self.toggleFullScrenDisabled = YES;
+	self.toggleFullScreenDisabled = YES;
 	if ([self.delegate respondsToSelector:@selector(photoViewWillEnterFullScreen:)]) {
 		[self.delegate photoViewWillEnterFullScreen:self];
 	}
@@ -125,7 +127,7 @@
 
 
 - (void)didEnterFullScreen {
-	self.toggleFullScrenDisabled = NO;
+	self.toggleFullScreenDisabled = NO;
 	if ([self.delegate respondsToSelector:@selector(photoViewDidEnterFullScreen:)]) {
 		[self.delegate photoViewDidEnterFullScreen:self];
 	}
@@ -133,7 +135,7 @@
 
 
 - (void)willLeaveFullScreen {
-	self.toggleFullScrenDisabled = YES;
+	self.toggleFullScreenDisabled = YES;
 	if ([self.delegate respondsToSelector:@selector(photoViewWillLeaveFullScreen:)]) {
 		[self.delegate photoViewWillLeaveFullScreen:self];
 	}
@@ -141,7 +143,7 @@
 
 
 - (void)didLeaveFullScreen {
-	self.toggleFullScrenDisabled = NO;
+	self.toggleFullScreenDisabled = NO;
 	if ([self.delegate respondsToSelector:@selector(photoViewDidLeaveFullScreen:)]) {
 		[self.delegate photoViewDidLeaveFullScreen:self];
 	}
@@ -169,8 +171,10 @@
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
 	[super touchesEnded:touches withEvent:event];
 
-	//Not sure why disabling userInteractionEnabled didn't help to ignore touch, so we have to use our own toggleFullScrenDisabled
-	if (self.toggleFullScrenDisabled) return;
+	if (!self.enabled) return;
+
+	//Not sure why disabling userInteractionEnabled didn't help to ignore touch, so we have to use our own toggleFullScreenDisabled
+	if (self.toggleFullScreenDisabled) return;
 
 	if (self.isFullScreen) {
 		[self leaveFullScreen];

@@ -158,10 +158,28 @@
 }
 
 
+- (void)moSizeWidthToFitMin:(CGFloat)aNumber {
+	[self moSizeWidthToFit];
+
+	if (self.moWidth < aNumber) {
+		self.moWidth = aNumber;
+	}
+}
+
+
 - (void)moSizeHeightToFitMax:(CGFloat)aNumber {
 	[self moSizeHeightToFit];
 
 	if (self.moHeight > aNumber) {
+		self.moHeight = aNumber;
+	}
+}
+
+
+- (void)moSizeHeightToFitMin:(CGFloat)aNumber {
+	[self moSizeHeightToFit];
+
+	if (self.moHeight < aNumber) {
 		self.moHeight = aNumber;
 	}
 }

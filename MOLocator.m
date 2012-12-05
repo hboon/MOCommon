@@ -56,15 +56,7 @@
 
 @implementation MOLocator
 
-@synthesize locating;
-@synthesize latitude;
-@synthesize longitude;
-@synthesize purpose;
-
 @synthesize timer;
-@synthesize locationManager;
-@synthesize lastUpdated;
-
 
 + (MOLocator*)sharedLocator {
 	MO_DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
@@ -157,6 +149,9 @@
 - (void)locationManager:(CLLocationManager*)manager didUpdateToLocation:(CLLocation*)newLocation fromLocation:(CLLocation*)oldLocation {
 	MO_LogDebug(@"Loc rx. Age: %fs h: %f v: %f l/l: %f %f time left: %f\n", [self.locationManager.location.timestamp timeIntervalSinceNow], self.locationManager.location.horizontalAccuracy, self.locationManager.location.verticalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, [[self.timer fireDate] timeIntervalSinceDate:[NSDate date]]);
 	NSTimeInterval howRecent = [newLocation.timestamp timeIntervalSinceNow];
+
+	self.lastLatitude = [NSString stringWithFormat:@"%f", newLocation.coordinate.latitude];
+	self.lastLongitude = [NSString stringWithFormat:@"%f", newLocation.coordinate.longitude];
 	
 	if (fabs(howRecent) > 5.0f) {
 		MO_LogDebug(@"Old location. Age: %fs", [self.locationManager.location.timestamp timeIntervalSinceNow]);
@@ -177,19 +172,19 @@
 
 - (void)locatingFailedBecauseUserDisabledForApp:(BOOL)yesOrNo {
 	if (![CLLocationManager locationServicesEnabled]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:D(MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED, MOLOCATOR_FAIL_REASON)];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:@{MOLOCATOR_FAIL_REASON: MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED}];
 		return;
 	}
 
 	if (yesOrNo) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:D(MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED_FOR_APP, MOLOCATOR_FAIL_REASON)];
+		[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:@{MOLOCATOR_FAIL_REASON: MOLOCATOR_FAIL_REASON_LOCATION_SERVICES_DISABLED_FOR_APP}];
 		return;
 	}
 
 	self.latitude = nil;
 	self.longitude = nil;
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:D(MOLOCATOR_FAIL_REASON_CANNOT_DETERMINE_LOCATION, MOLOCATOR_FAIL_REASON)];
+	[[NSNotificationCenter defaultCenter] postNotificationName:MOLOCATOR_DID_GET_LOCATION_FAILED object:self userInfo:@{MOLOCATOR_FAIL_REASON: MOLOCATOR_FAIL_REASON_CANNOT_DETERMINE_LOCATION}];
 }
 
 

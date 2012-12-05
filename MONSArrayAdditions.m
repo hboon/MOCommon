@@ -46,7 +46,7 @@
 + (id)moRangeFrom:(int)aStartNumber to:(int)anEndNumber {
 	NSMutableArray* result = [NSMutableArray arrayWithCapacity:anEndNumber-aStartNumber+1];
 	for (int i=aStartNumber; i<anEndNumber; ++i) {
-		[result addObject:NN(i)];
+		[result addObject:@(i)];
 	}
 
 	return result;
@@ -81,7 +81,7 @@
 - (id)moAny {
 	if ([self count] == 0) return nil;
 
-	return [self objectAtIndex:arc4random() % [self count]];
+	return self[arc4random() % [self count]];
 }
 
 
@@ -95,14 +95,14 @@
 		NSNumber* pick;
 		
 		do {
-			pick = NN(arc4random() % [self count]);
+			pick = @(arc4random() % [self count]);
 		} while ([indexes containsObject:pick]);
 
 		[indexes addObject:pick];
 	}
 
 	return [indexes moMap:^(id each) {
-		return [self objectAtIndex:[each intValue]];
+		return self[[each intValue]];
 	}];
 }
 
@@ -110,20 +110,20 @@
 - (id)moFirstObject {
 	if ([self count] == 0) return nil;
 
-	return [self objectAtIndex:0];
+	return self[0];
 }
 
 
 - (id)moSecondObject {
 	if ([self count] <= 1) return nil;
 
-	return [self objectAtIndex:1];
+	return self[1];
 }
 
 
 - (id)moSafeObjectAtIndex:(int)aNumber {
 	if (aNumber < [self count]) {
-		return [self objectAtIndex:aNumber];
+		return self[aNumber];
 	} else {
 		return nil;
 	}
@@ -153,7 +153,7 @@
 - (NSArray*)moMapWithIndex:(MONSArrayBlockWithIndex)aBlock {
 	NSMutableArray *results = [NSMutableArray arrayWithCapacity:[self count]];
 	for (int i=0; i<[self count]; ++i) {
-		id new = aBlock([self objectAtIndex:i], i);
+		id new = aBlock(self[i], i);
 		[results addObject:new? new:[NSNull null]];
 	}
 	return results;
@@ -164,10 +164,10 @@
 	if ([self count] == 0) return @"";
 
 	NSMutableString* result = [NSMutableString string];
-	[result appendString:[self objectAtIndex:0]];
+	[result appendString:self[0]];
 
 	for (int i=1; i<[self count]; ++i) {
-		[result appendFormat:@", %@", [self objectAtIndex:i]];
+		[result appendFormat:@", %@", self[i]];
 	}
 
 	return result;
