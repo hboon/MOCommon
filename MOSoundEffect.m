@@ -96,7 +96,7 @@
 	}
 	
 	// Playing in simulator often (always?) crashes
-	if (!moIsSimulator) {
+	if (!moIsSimulator()) {
 		[self.audioPlayer prepareToPlay];
 		[self.audioPlayer play];
 	}
