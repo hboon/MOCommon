@@ -39,6 +39,8 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "MOUtility.h"
+
 @interface MOSoundEffect()
 
 @property (nonatomic,strong) NSURL* soundPath;
@@ -93,8 +95,11 @@
 		[[AVAudioSession sharedInstance] setActive:YES error:&activationError];
 	}
 	
-	[self.audioPlayer prepareToPlay];
-	[self.audioPlayer play];
+	// Playing in simulator often (always?) crashes
+	if (!moIsSimulator()) {
+		[self.audioPlayer prepareToPlay];
+		[self.audioPlayer play];
+	}
 } 
 
 #pragma mark AVAudioPlayerDelegate
