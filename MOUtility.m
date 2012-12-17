@@ -359,8 +359,7 @@ void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubd
 
 	NSHTTPURLResponse* response;
 	NSError* error;
-	NSData* res = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	NSString* result = [[NSString alloc] initWithData:res encoding:NSUTF8StringEncoding];
+	[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 }
 
 #if TARGET_OS_IPHONE
