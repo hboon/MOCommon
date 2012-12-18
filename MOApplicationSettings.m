@@ -79,6 +79,11 @@
 }
 
 
+- (void)removeObjectForKey:(id)aKey {
+	[self.backingDictionary removeObjectForKey:aKey];
+}
+
+
 - (id)objectForKey:(id)aKey {
 	return (self.backingDictionary)[aKey];
 }
