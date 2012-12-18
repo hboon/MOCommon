@@ -344,7 +344,7 @@ void moShowImage(UIImage* img) {
 
 
 //Speak in a campfire room
-void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubdomainString, NSString* aTokenString) {
+void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubdomainString, NSString* aTokenString, BOOL asynchronous) {
 	NSString* url = [NSString stringWithFormat:@"https://%@.campfirenow.com/room/%@/speak.json", aSubdomainString, aRoomIDString];
 	NSString* postString = [NSString stringWithFormat:@"<message><type>%@</type><body>%@</body></message>", @"TextMessage", aString];
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
@@ -357,9 +357,13 @@ void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubd
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 
-	NSHTTPURLResponse* response;
-	NSError* error;
-	[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	if (asynchronous) {
+		[NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:nil];
+	} else {
+		NSHTTPURLResponse* response;
+		NSError* error;
+		[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	}
 }
 
 #if TARGET_OS_IPHONE
