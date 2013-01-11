@@ -61,3 +61,8 @@ BOOL moSupportsVideoTaking(void) {
 
 	return NO;
 }
+
+
+BOOL moIsSourceCameraWithEditingInfo(NSDictionary* aDictionary) {
+	return aDictionary[UIImagePickerControllerReferenceURL] == nil;
+}

@@ -40,3 +40,4 @@
 
 BOOL moHasCamera(void);
 BOOL moSupportsVideoTaking(void);
+BOOL moIsSourceCameraWithEditingInfo(NSDictionary* aDictionary);
