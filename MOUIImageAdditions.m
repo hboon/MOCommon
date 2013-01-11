@@ -213,14 +213,33 @@
 }
 
 
-// Preserve aspect ratio while scaling
 - (UIImage*)moScaleAspectToSize:(CGSize)aSize {
+	return [self moScaleAspectToMaximumSize:aSize];
+}
+
+
+// Preserve aspect ratio while scaling. E.g if aSize = (612,612), the longer side will be 612 and the shorter side will be at most 612
+- (UIImage*)moScaleAspectToMaximumSize:(CGSize)aSize {
 	CGSize size;
 
 	if (aSize.width/aSize.height > self.size.width/self.size.height) {
 		size = CGSizeMake((int)(aSize.height/self.size.height * self.size.width), aSize.height);
 	} else {
 		size = CGSizeMake(aSize.width, (int)(aSize.width/self.size.width * self.size.height));
+	}
+
+	return [self moScaleToSize:size];
+}
+
+
+// Preserve aspect ratio while scaling. E.g if aSize = (612,612), the shorter side will be 612 and the shorter side will be at least 612
+- (UIImage*)moScaleAspectToMinimumSize:(CGSize)aSize {
+	CGSize size;
+
+	if (aSize.width/aSize.height > self.size.width/self.size.height) {
+		size = CGSizeMake(aSize.width, (int)(aSize.width/self.size.width * self.size.height));
+	} else {
+		size = CGSizeMake((int)(aSize.height/self.size.height * self.size.width), aSize.height);
 	}
 
 	return [self moScaleToSize:size];

@@ -51,6 +51,8 @@
 - (UIImage*)moCopyWithBorderThickness:(CGFloat)aBorderFloat edgeThickness:(CGFloat)anEdgeFloat;
 - (UIImage*)moCopyWithBorderThickness:(CGFloat)aFloat;
 - (UIImage*)moScaleAspectToSize:(CGSize)aSize;
+- (UIImage*)moScaleAspectToMaximumSize:(CGSize)aSize;
+- (UIImage*)moScaleAspectToMinimumSize:(CGSize)aSize;
 - (UIImage*)moScaleAspectToFillSize:(CGSize)aSize;
 
 @end
