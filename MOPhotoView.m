@@ -13,7 +13,6 @@
 @interface MOPhotoView()
 
 @property (nonatomic,strong) UIImageView* imageView;
-@property (nonatomic) BOOL isFullScreen;
 @property (nonatomic) CGRect nonFullScreenFrame;
 @property (nonatomic,assign) UIView* nonFullScreenSuperview;
 @property (nonatomic) CGPoint nonFullScreenGlobalOrigin;

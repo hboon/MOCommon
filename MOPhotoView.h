@@ -25,5 +25,6 @@
 @property (nonatomic,strong) UIImage* image;
 @property (nonatomic,assign) id<NSObject, MOPhotoViewDelegate> delegate;
 @property (nonatomic) BOOL enabled;
+@property (nonatomic) BOOL isFullScreen;
 
 @end
