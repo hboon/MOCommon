@@ -170,6 +170,10 @@
         CGContextScaleCTM(context, -1, 1);
         CGContextTranslateCTM(context, -height, 0);
     }
+	else if (anOrientation == UIImageOrientationLeft || anOrientation == UIImageOrientationLeftMirrored || anOrientation == UIImageOrientationRightMirrored) {
+		CGContextScaleCTM(context, 1, -1);
+		CGContextTranslateCTM(context, 0, -width);
+    }
     else {
         CGContextScaleCTM(context, 1, -1);
         CGContextTranslateCTM(context, 0, -height);
