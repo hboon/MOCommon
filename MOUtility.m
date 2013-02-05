@@ -63,6 +63,7 @@ int moRoundUp(double f) {
 }
 
 NSString* moEmptyStringIfNull(NSString* str) {
+	if (!str) return @"";
 	if ((NSNull*)str == [NSNull null]) return @"";
 
 	return str;
