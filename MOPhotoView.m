@@ -100,11 +100,11 @@
 	self.isFullScreen = NO;
 	CGRect frame = self.nonFullScreenFrame;
 	frame.origin = self.nonFullScreenGlobalOrigin;
-	[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
+	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.imageView.frame = frame;
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	} completion:^(BOOL finished) {
-		[UIView animateWithDuration:0.2 delay:0.05 options:UIViewAnimationOptionCurveLinear animations:^{
+		[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
 			self.backgroundView.alpha = 0;
 		} completion:^(BOOL finished) {
 			self.backgroundView = nil;

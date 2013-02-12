@@ -27,4 +27,6 @@
 @property (nonatomic) BOOL enabled;
 @property (nonatomic) BOOL isFullScreen;
 
+- (void)leaveFullScreen;
+
 @end
