@@ -66,12 +66,14 @@
 
 
 - (void)enterFullScreen {
-	[self enterFullScreenImmediately:YES];
+	[self enterFullScreenWithAnimation:YES withCallbacks:YES];
 }
-- (void)enterFullScreenImmediately:(BOOL)yesOrNo {
+
+
+- (void)enterFullScreenWithAnimation:(BOOL)withAnimation withCallbacks:(BOOL)withCallbacks {
 	if (!self.image) return;
 
-	if (!yesOrNo) {
+	if (withCallbacks) {
 		[self willEnterFullScreen];
 	}
 	self.isFullScreen = YES;
@@ -88,31 +90,39 @@
 	self.backgroundView.alpha = 0;
 	[self insertSubview:self.backgroundView belowSubview:self.imageView];
 
-	if (yesOrNo) {
+	if (!withAnimation) {
 		[UIView setAnimationsEnabled:NO];
 	}
-	[UIView animateWithDuration:0.2 delay:(yesOrNo? 0: 0.1) options:UIViewAnimationOptionCurveLinear animations:^{
+	[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 		self.backgroundView.alpha = 1;
 	} completion:^(BOOL finished) {
-		[UIView animateWithDuration:0.2 delay:(yesOrNo? 0: 0.1) options:UIViewAnimationOptionCurveLinear animations:^{
+		[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 			self.imageView.frame = [self fullScreenRectToFitImage:self.image];
 		} completion:^(BOOL finished) {
-			if (!yesOrNo) {
+			if (withCallbacks) {
 				[self didEnterFullScreen];
 			}
 		}];
 	}];
-	if (yesOrNo) {
+	if (!withAnimation) {
 		[UIView setAnimationsEnabled:YES];
 	}
 }
 
 
 - (void)leaveFullScreen {
+	[self leaveFullScreenWithAnimation:YES];
+}
+
+
+- (void)leaveFullScreenWithAnimation:(BOOL)yesOrNo {
 	[self willLeaveFullScreen];
 	self.isFullScreen = NO;
 	CGRect frame = self.nonFullScreenFrame;
 	frame.origin = self.nonFullScreenGlobalOrigin;
+	if (!yesOrNo) {
+		[UIView setAnimationsEnabled:NO];
+	}
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.imageView.frame = frame;
@@ -128,6 +138,9 @@
 		self.imageView.frame = CGRectMake(0, 0, self.moWidth, self.moHeight);
 		[self didLeaveFullScreen];
 	}];
+	if (!yesOrNo) {
+		[UIView setAnimationsEnabled:YES];
+	}
 }
 
 
