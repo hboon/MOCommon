@@ -66,9 +66,14 @@
 
 
 - (void)enterFullScreen {
+	[self enterFullScreenImmediately:YES];
+}
+- (void)enterFullScreenImmediately:(BOOL)yesOrNo {
 	if (!self.image) return;
 
-	[self willEnterFullScreen];
+	if (!yesOrNo) {
+		[self willEnterFullScreen];
+	}
 	self.isFullScreen = YES;
 	self.nonFullScreenSuperview = self.superview;
 	self.nonFullScreenFrame = self.frame;
@@ -83,15 +88,23 @@
 	self.backgroundView.alpha = 0;
 	[self insertSubview:self.backgroundView belowSubview:self.imageView];
 
-	[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
+	if (yesOrNo) {
+		[UIView setAnimationsEnabled:NO];
+	}
+	[UIView animateWithDuration:0.2 delay:(yesOrNo? 0: 0.1) options:UIViewAnimationOptionCurveLinear animations:^{
 		self.backgroundView.alpha = 1;
 	} completion:^(BOOL finished) {
-		[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
+		[UIView animateWithDuration:0.2 delay:(yesOrNo? 0: 0.1) options:UIViewAnimationOptionCurveLinear animations:^{
 			self.imageView.frame = [self fullScreenRectToFitImage:self.image];
 		} completion:^(BOOL finished) {
-			[self didEnterFullScreen];
+			if (!yesOrNo) {
+				[self didEnterFullScreen];
+			}
 		}];
 	}];
+	if (yesOrNo) {
+		[UIView setAnimationsEnabled:YES];
+	}
 }
 
 
@@ -100,19 +113,20 @@
 	self.isFullScreen = NO;
 	CGRect frame = self.nonFullScreenFrame;
 	frame.origin = self.nonFullScreenGlobalOrigin;
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.imageView.frame = frame;
-	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	} completion:^(BOOL finished) {
-		[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-			self.backgroundView.alpha = 0;
-		} completion:^(BOOL finished) {
-			self.backgroundView = nil;
-			[self.nonFullScreenSuperview addSubview:self];
-			self.frame = self.nonFullScreenFrame;
-			self.imageView.frame = CGRectMake(0, 0, self.moWidth, self.moHeight);
-			[self didLeaveFullScreen];
-		}];
+	}];
+
+	[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
+		self.backgroundView.alpha = 0;
+	} completion:^(BOOL finished) {
+		self.backgroundView = nil;
+		[self.nonFullScreenSuperview addSubview:self];
+		self.frame = self.nonFullScreenFrame;
+		self.imageView.frame = CGRectMake(0, 0, self.moWidth, self.moHeight);
+		[self didLeaveFullScreen];
 	}];
 }
 
