@@ -79,6 +79,11 @@ static inline BOOL moIsEmpty(id thing) {
 			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
 }
 
+
+static inline BOOL moNotEmpty(id thing) {
+	return !moIsEmpty(thing);
+}
+
 // Courtesy of, and derived from http://news.ycombinator.com/item?id=1789839
 #define MA(a) [NSMutableArray arrayWithArray:a]
 #define MD(d) [NSMutableDictionary dictionaryWithDictionary:d]
