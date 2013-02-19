@@ -42,5 +42,6 @@
 
 typedef id (^MONSSetBlock)(id obj);
 - (NSSet*)moMap:(MONSSetBlock)aBlock;
+- (NSString*)moAsCommaSeparatedString;
 
 @end

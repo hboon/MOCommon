@@ -49,4 +49,21 @@
 	return results;
 }
 
+
+- (NSString*)moAsCommaSeparatedString {
+	if ([self count] == 0) return @"";
+
+	NSMutableString* result = [NSMutableString string];
+
+	for (id e in self) {
+		[result appendFormat:@"%@, ", e];
+	}
+
+	if ([result length] > 0) {
+		[result deleteCharactersInRange:NSMakeRange([result length]-2, 2)];
+	}
+
+	return result;
+}
+
 @end
