@@ -334,7 +334,7 @@ void moShowImage(UIImage* img) {
 	UILabel* dimensionsLabel = L(0, v.bounds.size.height - 50, v.bounds.size.width, 22);
 	dimensionsLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
 	dimensionsLabel.backgroundColor = MO_RGBACOLOR(30, 30, 30, 0.7);
-	dimensionsLabel.textAlignment = UITextAlignmentCenter;
+	dimensionsLabel.textAlignment = NSTextAlignmentCenter;
 	dimensionsLabel.textColor = MO_RGBCOLOR1(200);
 	dimensionsLabel.font = [UIFont systemFontOfSize:11];
 	dimensionsLabel.text = [NSString stringWithFormat:@"%dx%d", (int)img.size.width, (int)img.size.height];
