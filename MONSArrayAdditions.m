@@ -39,7 +39,6 @@
 #import "MONSArrayAdditions.h"
 
 #import "MONSSetAdditions.h"
-#import "MOUtility.h"
 
 @implementation NSArray (MONSArrayAdditions)
 

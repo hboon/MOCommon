@@ -38,8 +38,6 @@
 
 #import "MOUIButtonAdditions.h"
 
-#import "MOUtility.h"
-
 @implementation UIButton (MOUIButtonAdditions)
 
 + (id)moButtonWithImage:(UIImage*)anImage {

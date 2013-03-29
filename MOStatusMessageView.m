@@ -10,7 +10,6 @@
 #import "MOStatusMessageView.h"
 
 #import "MOUIViewAdditions.h"
-#import "MOUtility.h"
 
 @implementation MOStatusMessageView
 
