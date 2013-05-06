@@ -181,6 +181,13 @@ void moTime1(void(^block)(void), NSString* s) {
 }
 
 
+CGFloat moTime2(void(^block)(void)) {
+	NSDate* start = [NSDate date];
+	block();
+	return [[NSDate date] timeIntervalSinceDate:start];
+}
+
+
 CGRect moRectLessHeight(CGRect rect, CGFloat h) {
 	return CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height-h);
 }

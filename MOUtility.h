@@ -133,6 +133,7 @@ UIImage* moSolidColorImageWithSize(UIColor* aColor, CGSize aSize);
 BOOL moIsSimulator(void);
 BOOL moIsIphone5(void);
 void moTime1(void(^block)(void), NSString* s);
+CGFloat moTime2(void(^block)(void));
 CGRect moRectLessHeight(CGRect rect, CGFloat h);
 CGRect moRectLessWidth(CGRect rect, CGFloat w);
 CGRect moCGRectMinusRect(CGRect r1, CGRect r2);
