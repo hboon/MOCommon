@@ -51,14 +51,21 @@
 		return frame;
 	}
 
-	if (anImage.size.width/anImage.size.height > frame.size.width/frame.size.height) {
-		MO_LogDebug(@" has image. Longer width");
+	if (self.scrollTallPhoto) {
 		frame.size.height = anImage.size.height/anImage.size.width * frame.size.width;
-		frame.origin.y = self.moHeight/2 - frame.size.height/2;
+		if (frame.size.height < moWindow().bounds.size.height) {
+			frame.origin.y = self.moHeight/2 - frame.size.height/2;
+		}
 	} else {
-		MO_LogDebug(@" has image. Longer height");
-		frame.size.width = anImage.size.width/anImage.size.height * frame.size.height;
-		frame.origin.x = self.moWidth/2 - frame.size.width/2;
+		if (anImage.size.width/anImage.size.height > frame.size.width/frame.size.height) {
+			MO_LogDebug(@" has image. Longer width");
+			frame.size.height = anImage.size.height/anImage.size.width * frame.size.width;
+			frame.origin.y = self.moHeight/2 - frame.size.height/2;
+		} else {
+			MO_LogDebug(@" has image. Longer height");
+			frame.size.width = anImage.size.width/anImage.size.height * frame.size.height;
+			frame.origin.x = self.moWidth/2 - frame.size.width/2;
+		}
 	}
 
 	return frame;
@@ -96,6 +103,10 @@
 	[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 		self.backgroundView.alpha = 1;
 	} completion:^(BOOL finished) {
+		BOOL previousAnimationEnabled = [UIView areAnimationsEnabled];
+		if (self.scrollTallPhoto) {
+			[UIView setAnimationsEnabled:NO];
+		}
 		[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 			self.imageView.frame = [self fullScreenRectToFitImage:self.image];
 		} completion:^(BOOL finished) {
@@ -103,6 +114,9 @@
 				[self didEnterFullScreen];
 			}
 		}];
+		if (self.scrollTallPhoto) {
+			[UIView setAnimationsEnabled:previousAnimationEnabled];
+		}
 	}];
 	if (!withAnimation) {
 		[UIView setAnimationsEnabled:YES];
@@ -124,10 +138,17 @@
 		[UIView setAnimationsEnabled:NO];
 	}
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+	BOOL previousAnimationEnabled = [UIView areAnimationsEnabled];
+	if (self.scrollTallPhoto) {
+		[UIView setAnimationsEnabled:NO];
+	}
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.imageView.frame = frame;
 	} completion:^(BOOL finished) {
 	}];
+	if (self.scrollTallPhoto) {
+		[UIView setAnimationsEnabled:previousAnimationEnabled];
+	}
 
 	[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.backgroundView.alpha = 0;
