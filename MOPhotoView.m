@@ -100,23 +100,24 @@
 	if (!withAnimation) {
 		[UIView setAnimationsEnabled:NO];
 	}
+	if (self.scrollTallPhoto) {
+		self.imageView.contentMode = UIViewContentModeTop;
+	}
 	[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 		self.backgroundView.alpha = 1;
 	} completion:^(BOOL finished) {
 		BOOL previousAnimationEnabled = [UIView areAnimationsEnabled];
-		if (self.scrollTallPhoto) {
-			[UIView setAnimationsEnabled:NO];
-		}
 		[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 			self.imageView.frame = [self fullScreenRectToFitImage:self.image];
 		} completion:^(BOOL finished) {
 			if (withCallbacks) {
+				LOG_EXPR( self.imageView.frame);
 				[self didEnterFullScreen];
+				if (self.scrollTallPhoto) {
+					self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+				}
 			}
 		}];
-		if (self.scrollTallPhoto) {
-			[UIView setAnimationsEnabled:previousAnimationEnabled];
-		}
 	}];
 	if (!withAnimation) {
 		[UIView setAnimationsEnabled:YES];
@@ -140,15 +141,15 @@
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 	BOOL previousAnimationEnabled = [UIView areAnimationsEnabled];
 	if (self.scrollTallPhoto) {
-		[UIView setAnimationsEnabled:NO];
+		self.imageView.contentMode = UIViewContentModeTop;
 	}
 	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.imageView.frame = frame;
 	} completion:^(BOOL finished) {
+		if (self.scrollTallPhoto) {
+			self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+		}
 	}];
-	if (self.scrollTallPhoto) {
-		[UIView setAnimationsEnabled:previousAnimationEnabled];
-	}
 
 	[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
 		self.backgroundView.alpha = 0;
@@ -203,8 +204,10 @@
 
 	if (image) {
 		self.imageView.image = self.image;
+		self.scrollTallPhoto = isPhotoTall(self.image);
 	} else {
 		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
+		self.scrollTallPhoto = NO;
 	}
 }
 
