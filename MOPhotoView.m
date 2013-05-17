@@ -8,7 +8,9 @@
 #import "MOPhotoView.h"
 
 #import "MOUIViewAdditions.h"
+
 #import "MOUtility.h"
+#import "Utility.h"
 
 @interface MOPhotoView()
 
