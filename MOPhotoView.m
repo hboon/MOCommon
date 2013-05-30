@@ -5,6 +5,7 @@
 //  Copyright 2012 MotionObj. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "MOPhotoView.h"
 
 #import "MOUIViewAdditions.h"
@@ -15,6 +16,11 @@
 @interface MOPhotoView()
 
 @property (nonatomic,strong) UIImageView* imageView;
+@property (nonatomic,strong) UIView* blackBackgroundView;
+@property (nonatomic,strong) UIImageView* resizableImageView;
+@property (nonatomic,strong) UIScrollView* scrollView;
+//Hide the bottom of resizableImageView as it animates so we don't have to change the height (which will force the tall images to scroll very quickly)
+@property (nonatomic,strong) UIView* blockingView;
 @property (nonatomic) CGRect nonFullScreenFrame;
 @property (nonatomic,assign) UIView* nonFullScreenSuperview;
 @property (nonatomic) CGPoint nonFullScreenGlobalOrigin;
@@ -45,126 +51,13 @@
 }
 
 
-//We simulate UIViewContentModeScaleAspectFit. We can't use UIViewContentModeScaleAspectFit instead because the non-fullscreen version is UIViewContentModeScaleAspectFill. Mixing the 2 is very odd during animation
-- (CGRect)fullScreenRectToFitImage:(UIImage*)anImage {
-	CGRect frame = moWindow().bounds;
-	if (!anImage) {
-		//MO_LogDebug(@" no image yet");
-		return frame;
-	}
-
-	if (self.scrollTallPhoto) {
-		frame.size.height = anImage.size.height/anImage.size.width * frame.size.width;
-		if (frame.size.height < moWindow().bounds.size.height) {
-			frame.origin.y = self.moHeight/2 - frame.size.height/2;
-		}
-	} else {
-		if (anImage.size.width/anImage.size.height > frame.size.width/frame.size.height) {
-			MO_LogDebug(@" has image. Longer width");
-			frame.size.height = anImage.size.height/anImage.size.width * frame.size.width;
-			frame.origin.y = self.moHeight/2 - frame.size.height/2;
-		} else {
-			MO_LogDebug(@" has image. Longer height");
-			frame.size.width = anImage.size.width/anImage.size.height * frame.size.height;
-			frame.origin.x = self.moWidth/2 - frame.size.width/2;
-		}
-	}
-
-	return frame;
-}
-
-
 - (void)enterFullScreen {
 	[self enterFullScreenWithAnimation:YES withCallbacks:YES];
 }
 
 
-- (void)enterFullScreenWithAnimation:(BOOL)withAnimation withCallbacks:(BOOL)withCallbacks {
-	if (!self.image) return;
-
-	if (withCallbacks) {
-		[self willEnterFullScreen];
-	}
-	self.isFullScreen = YES;
-	self.nonFullScreenSuperview = self.superview;
-	self.nonFullScreenFrame = self.frame;
-	self.nonFullScreenGlobalOrigin = [self moOriginRelativeToSuperview:moWindow()];
-	[moWindow() addSubview:self];
-	self.frame = moWindow().frame;
-	self.imageView.moLeft = self.nonFullScreenGlobalOrigin.x;
-	self.imageView.moTop = self.nonFullScreenGlobalOrigin.y;
-	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-	self.backgroundView = [[UIView alloc] initWithFrame:self.frame];
-	self.backgroundView.backgroundColor = [UIColor blackColor];
-	self.backgroundView.alpha = 0;
-	[self insertSubview:self.backgroundView belowSubview:self.imageView];
-
-	if (!withAnimation) {
-		[UIView setAnimationsEnabled:NO];
-	}
-	if (self.scrollTallPhoto) {
-		self.imageView.contentMode = UIViewContentModeTop;
-	}
-	[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
-		self.backgroundView.alpha = 1;
-	} completion:^(BOOL finished) {
-		BOOL previousAnimationEnabled = [UIView areAnimationsEnabled];
-		[UIView animateWithDuration:(withAnimation? 0.2:0) delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
-			self.imageView.frame = [self fullScreenRectToFitImage:self.image];
-		} completion:^(BOOL finished) {
-			if (withCallbacks) {
-				LOG_EXPR( self.imageView.frame);
-				[self didEnterFullScreen];
-				if (self.scrollTallPhoto) {
-					self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-				}
-			}
-		}];
-	}];
-	if (!withAnimation) {
-		[UIView setAnimationsEnabled:YES];
-	}
-}
-
-
 - (void)leaveFullScreen {
 	[self leaveFullScreenWithAnimation:YES];
-}
-
-
-- (void)leaveFullScreenWithAnimation:(BOOL)yesOrNo {
-	[self willLeaveFullScreen];
-	self.isFullScreen = NO;
-	CGRect frame = self.nonFullScreenFrame;
-	frame.origin = self.nonFullScreenGlobalOrigin;
-	if (!yesOrNo) {
-		[UIView setAnimationsEnabled:NO];
-	}
-	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-	BOOL previousAnimationEnabled = [UIView areAnimationsEnabled];
-	if (self.scrollTallPhoto) {
-		self.imageView.contentMode = UIViewContentModeTop;
-	}
-	[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-		self.imageView.frame = frame;
-	} completion:^(BOOL finished) {
-		if (self.scrollTallPhoto) {
-			self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-		}
-	}];
-
-	[UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
-		self.backgroundView.alpha = 0;
-	} completion:^(BOOL finished) {
-		self.backgroundView = nil;
-		[self.nonFullScreenSuperview addSubview:self];
-		self.frame = self.nonFullScreenFrame;
-		self.imageView.frame = CGRectMake(0, 0, self.moWidth, self.moHeight);
-		[self didLeaveFullScreen];
-	}];
-	if (!yesOrNo) {
-		[UIView setAnimationsEnabled:YES];
-	}
 }
 
 
@@ -206,10 +99,8 @@
 
 	if (image) {
 		self.imageView.image = self.image;
-		self.scrollTallPhoto = isPhotoTall(self.image);
 	} else {
 		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
-		self.scrollTallPhoto = NO;
 	}
 }
 
@@ -225,14 +116,162 @@
 
 	if (!self.enabled) return;
 
-	//Not sure why disabling userInteractionEnabled didn't help to ignore touch, so we have to use our own toggleFullScreenDisabled
-	if (self.toggleFullScreenDisabled) return;
+	[self enterFullScreen];
+}
 
-	if (self.isFullScreen) {
-		[self leaveFullScreen];
-	} else {
-		[self enterFullScreen];
+#pragma mark Fullscreen
+
+- (void)enterFullScreenWithAnimation:(BOOL)withAnimation withCallbacks:(BOOL)withCallbacks {
+	if (!self.image) return;
+
+	if (withCallbacks) {
+		[self willEnterFullScreen];
 	}
+	self.isFullScreen = YES;
+	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+	if (!withAnimation) {
+		[UIView setAnimationsEnabled:NO];
+	}
+
+	if (!self.blackBackgroundView) {
+		self.blackBackgroundView = [[UIView alloc] initWithFrame:moWindow().bounds];
+		UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+		[self.blackBackgroundView addGestureRecognizer:tapGestureRecognizer];
+	}
+	self.blackBackgroundView.moTop = 0;
+	self.blackBackgroundView.backgroundColor = [UIColor blackColor];
+	CGPoint org = [self.imageView moOriginRelativeToSuperview:moWindow()];
+
+	CGRect r = self.imageView.bounds;
+	r.origin.x = org.x;
+	r.origin.y = org.y;
+	r.size.width = self.moWidth;
+	r.size.height = self.imageView.image.size.height*self.moWidth/self.imageView.image.size.width;
+
+	if (r.size.height < self.imageView.moHeight) {
+		//wide
+		r.size.height = self.imageView.moHeight;
+	}
+
+	if (!self.resizableImageView) {
+		self.resizableImageView = [[UIImageView alloc] initWithFrame:r];
+		self.resizableImageView.contentMode = UIViewContentModeScaleAspectFill;
+		self.resizableImageView.backgroundColor = UIColor.grayColor;
+		self.resizableImageView.clipsToBounds = YES;
+	}
+
+	self.resizableImageView.frame = r;
+	self.resizableImageView.image = self.imageView.image;
+	[self.blackBackgroundView addSubview:self.resizableImageView];
+	self.blackBackgroundView.alpha = 0;
+	self.blockingView = [[UIView alloc] initWithFrame:CGRectMake(0,org.y+self.imageView.moHeight, self.blackBackgroundView.moWidth, 500)];
+	self.blockingView.backgroundColor = self.blackBackgroundView.backgroundColor;
+	[self.blackBackgroundView addSubview:self.blockingView];
+	//We need to rasterize so that the subview self.blockingView isn't itself seen through to expose the parts of the image it is suppose to hide
+	self.blackBackgroundView.layer.shouldRasterize = YES;
+	//Otherwise might cause blurry images on retina
+	self.blackBackgroundView.layer.rasterizationScale = UIScreen.mainScreen.scale;
+	[moWindow() addSubview:self.blackBackgroundView];
+	[UIView animateWithDuration:0.3 delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveEaseIn animations:^{
+		self.blackBackgroundView.alpha = 1;
+	} completion:^(BOOL finished) {
+		self.blackBackgroundView.layer.shouldRasterize = NO;
+		[UIView animateWithDuration:0.2 delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
+			CGRect r = self.resizableImageView.frame;
+			r.origin.x = 0;
+			r.origin.y = 0;
+			r.size.width = self.blackBackgroundView.moWidth;
+			r.size.height = self.resizableImageView.image.size.height*self.blackBackgroundView.moWidth/self.resizableImageView.image.size.width;
+			if (r.size.height < self.blackBackgroundView.moHeight) {
+				r.origin.y = (self.blackBackgroundView.moHeight-r.size.height)/2;
+			}
+			self.resizableImageView.frame = r;
+			self.blockingView.moTop = self.blackBackgroundView.moHeight;
+		} completion:^(BOOL finished) {
+			[self.blockingView removeFromSuperview];
+			CGRect r = self.resizableImageView.frame;
+			r.size.height = self.blackBackgroundView.moHeight;
+			self.scrollView = [UIScrollView.alloc initWithFrame:r];
+			self.scrollView.backgroundColor = [UIColor blackColor];
+			self.scrollView.contentSize = self.resizableImageView.frame.size;
+			self.scrollView.scrollEnabled = NO;
+			self.resizableImageView.moLeft = 0;
+			self.resizableImageView.moTop = 0;
+			[self.scrollView addSubview:self.resizableImageView];
+			self.scrollView.scrollEnabled = YES;
+			[self.blackBackgroundView addSubview:self.scrollView];
+			[self didEnterFullScreen];
+		}];
+	}];
+
+	if (!withAnimation) {
+		[UIView setAnimationsEnabled:YES];
+	}
+}
+
+
+- (void)leaveFullScreenWithAnimation:(BOOL)yesOrNo {
+	[self willLeaveFullScreen];
+	self.isFullScreen = NO;
+
+	if (!yesOrNo) {
+		[UIView setAnimationsEnabled:NO];
+	}
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+
+	//remove scroll view, restore image view. no animation yet
+	CGRect r = self.resizableImageView.frame;
+	if (self.resizableImageView.image.size.height*self.moWidth/self.resizableImageView.image.size.width > self.moHeight) {
+		r.origin.y = 0;
+	} else {
+		r.origin.y = (self.blackBackgroundView.moHeight-r.size.height)/2;
+	}
+	self.resizableImageView.frame = r;
+	[self.blackBackgroundView addSubview:self.resizableImageView];
+	[self.scrollView removeFromSuperview];
+	//resize image view
+	[self.blackBackgroundView addSubview:self.blockingView];
+
+	[UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+	  CGPoint org = [self.imageView moOriginRelativeToSuperview:moWindow()];
+	  CGRect r = self.resizableImageView.frame;
+	  r.origin.x = org.x;
+	  r.origin.y = org.y;
+	  r.size.width = self.imageView.moWidth;
+	  //r.size.height = self.imageView.image.size.height*self.moWidth/self.imageView.image.size.width;
+	  //r.size.height = self.imageView.moHeight;
+
+	  if (r.size.height < self.imageView.moHeight) {
+		  //wide
+		  r.size.height = self.imageView.moHeight;
+	  }
+	  self.resizableImageView.frame = r;
+	  self.blockingView.moTop = org.y + self.imageView.moHeight;
+
+	} completion:^(BOOL finished) {
+	  [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+		  //We need to rasterize so that the subview self.blockingView isn't itself seen through to expose the parts of the image it is suppose to hide
+		  self.blackBackgroundView.layer.shouldRasterize = YES;
+		  //Otherwise might cause blurry images on retina
+		  self.blackBackgroundView.layer.rasterizationScale = UIScreen.mainScreen.scale;
+		  self.blackBackgroundView.alpha = 0;
+	  } completion:^(BOOL finished) {
+		  self.blackBackgroundView.layer.shouldRasterize = NO;
+		  //remove self.blackBackgroundView no animation
+		  [self.blockingView removeFromSuperview];
+		  [self.blackBackgroundView removeFromSuperview];
+		  [self didLeaveFullScreen];
+	  }];
+	}];
+	if (!yesOrNo) {
+		[UIView setAnimationsEnabled:YES];
+	}
+}
+
+#pragma mark Events
+
+- (void)tapped:(UITapGestureRecognizer *)tapRecognizer  {
+	[self leaveFullScreen];
 }
 
 @end

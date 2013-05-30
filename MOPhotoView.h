@@ -26,7 +26,6 @@
 @property (nonatomic,assign) id<NSObject, MOPhotoViewDelegate> delegate;
 @property (nonatomic) BOOL enabled;
 @property (nonatomic) BOOL isFullScreen;
-@property (nonatomic) BOOL scrollTallPhoto;
 
 - (void)leaveFullScreen;
 - (void)leaveFullScreenWithAnimation:(BOOL)yesOrNo;
