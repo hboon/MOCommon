@@ -221,7 +221,7 @@
 
 	//remove scroll view, restore image view. no animation yet
 	CGRect r = self.resizableImageView.frame;
-	if (self.resizableImageView.image.size.height*self.moWidth/self.resizableImageView.image.size.width > self.moHeight) {
+	if (self.resizableImageView.image.size.height*self.moWidth/self.resizableImageView.image.size.width > moWindow().moHeight) {
 		r.origin.y = 0;
 	} else {
 		r.origin.y = (self.blackBackgroundView.moHeight-r.size.height)/2;
