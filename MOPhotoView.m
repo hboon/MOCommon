@@ -21,6 +21,7 @@
 @property (nonatomic,strong) UIScrollView* scrollView;
 //Hide the bottom of resizableImageView as it animates so we don't have to change the height (which will force the tall images to scroll very quickly)
 @property (nonatomic,strong) UIView* blockingView;
+@property (nonatomic,strong) UIView* topBlockingView;
 @property (nonatomic) CGRect nonFullScreenFrame;
 @property (nonatomic,assign) UIView* nonFullScreenSuperview;
 @property (nonatomic) CGPoint nonFullScreenGlobalOrigin;
@@ -121,6 +122,12 @@
 
 #pragma mark Fullscreen
 
+- (BOOL)isTallPhoto:(UIImage*)anImage {
+	BOOL tall = anImage.size.height/anImage.size.width*320 > moScreenBounds(UIInterfaceOrientationPortrait).size.height;
+	return tall;
+}
+
+
 - (void)enterFullScreenWithAnimation:(BOOL)withAnimation withCallbacks:(BOOL)withCallbacks {
 	if (!self.image) return;
 
@@ -145,12 +152,8 @@
 	CGRect r = self.imageView.bounds;
 	r.origin.x = org.x;
 	r.origin.y = org.y;
-	r.size.width = self.moWidth;
-	r.size.height = self.imageView.image.size.height*self.moWidth/self.imageView.image.size.width;
-
-	if (r.size.height < self.imageView.moHeight) {
-		//wide
-		r.size.height = self.imageView.moHeight;
+	if ([self isTallPhoto:self.imageView.image]) {
+		r.size.height = self.imageView.image.size.height*self.moWidth/self.imageView.image.size.width;
 	}
 
 	if (!self.resizableImageView) {
@@ -172,9 +175,9 @@
 	//Otherwise might cause blurry images on retina
 	self.blackBackgroundView.layer.rasterizationScale = UIScreen.mainScreen.scale;
 	[moWindow() addSubview:self.blackBackgroundView];
-	[UIView animateWithDuration:0.3 delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveEaseIn animations:^{
+	//[UIView animateWithDuration:0.3 delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveEaseIn animations:^{
 		self.blackBackgroundView.alpha = 1;
-	} completion:^(BOOL finished) {
+	//} completion:^(BOOL finished) {
 		self.blackBackgroundView.layer.shouldRasterize = NO;
 		[UIView animateWithDuration:0.2 delay:(withAnimation? 0.1:0) options:UIViewAnimationOptionCurveLinear animations:^{
 			CGRect r = self.resizableImageView.frame;
@@ -202,7 +205,7 @@
 			[self.blackBackgroundView addSubview:self.scrollView];
 			[self didEnterFullScreen];
 		}];
-	}];
+	//}];
 
 	if (!withAnimation) {
 		[UIView setAnimationsEnabled:YES];
@@ -221,8 +224,11 @@
 
 	//remove scroll view, restore image view. no animation yet
 	CGRect r = self.resizableImageView.frame;
-	if (self.resizableImageView.image.size.height*self.moWidth/self.resizableImageView.image.size.width > moWindow().moHeight) {
-		r.origin.y = 0;
+	CGPoint org = [self.imageView moOriginRelativeToSuperview:moWindow()];
+	if ([self isTallPhoto:self.resizableImageView.image]) {
+		//How much self.imageView is vertically off from the center when in chromed mode. For tall phones, we keep resizableImageView the original height but scaled slightly slower to keep its aspect ratio and place it vertically so when we animated back into Chrome, the photo in resizableImageView fade correctly into imageView's
+		CGFloat displacementY = org.y + self.imageView.moHeight/2 - moScreenBounds(UIInterfaceOrientationPortrait).size.height/2;
+		r.origin.y = (moScreenBounds(UIInterfaceOrientationPortrait).size.height - r.size.height*self.imageView.moWidth/r.size.width)/2 + displacementY;
 	} else {
 		r.origin.y = (self.blackBackgroundView.moHeight-r.size.height)/2;
 	}
@@ -230,35 +236,46 @@
 	[self.blackBackgroundView addSubview:self.resizableImageView];
 	[self.scrollView removeFromSuperview];
 	//resize image view
+	if ([self isTallPhoto:self.resizableImageView.image]) {
+		self.topBlockingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.blackBackgroundView.moWidth, 500)];
+	} else {
+		//Need to nil because we might still have a copy and we only need it for tall images
+		self.topBlockingView = nil;
+	}
+	self.topBlockingView.moBottom = 0;
+	self.topBlockingView.backgroundColor = self.blackBackgroundView.backgroundColor;
+	[self.blackBackgroundView addSubview:self.topBlockingView];
 	[self.blackBackgroundView addSubview:self.blockingView];
 
 	[UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-	  CGPoint org = [self.imageView moOriginRelativeToSuperview:moWindow()];
 	  CGRect r = self.resizableImageView.frame;
 	  r.origin.x = org.x;
-	  r.origin.y = org.y;
-	  r.size.width = self.imageView.moWidth;
-	  //r.size.height = self.imageView.image.size.height*self.moWidth/self.imageView.image.size.width;
-	  //r.size.height = self.imageView.moHeight;
-
-	  if (r.size.height < self.imageView.moHeight) {
-		  //wide
+	  if ([self isTallPhoto:self.imageView.image]) {
+		  //Keep the rect's aspect ratio the same
+		  r.size.height *= self.imageView.moWidth/r.size.width;
+	  } else {
+		  r.origin.y = org.y;
 		  r.size.height = self.imageView.moHeight;
 	  }
+	  r.size.width = self.imageView.moWidth;
+
 	  self.resizableImageView.frame = r;
 	  self.blockingView.moTop = org.y + self.imageView.moHeight;
+	  self.topBlockingView.moBottom = org.y;
 
 	} completion:^(BOOL finished) {
-	  [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+		self.blackBackgroundView.alpha = 0.5;
+	  [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
 		  //We need to rasterize so that the subview self.blockingView isn't itself seen through to expose the parts of the image it is suppose to hide
 		  self.blackBackgroundView.layer.shouldRasterize = YES;
 		  //Otherwise might cause blurry images on retina
 		  self.blackBackgroundView.layer.rasterizationScale = UIScreen.mainScreen.scale;
-		  self.blackBackgroundView.alpha = 0;
+		  self.blackBackgroundView.alpha = 0.0;
 	  } completion:^(BOOL finished) {
 		  self.blackBackgroundView.layer.shouldRasterize = NO;
 		  //remove self.blackBackgroundView no animation
 		  [self.blockingView removeFromSuperview];
+		  [self.topBlockingView removeFromSuperview];
 		  [self.blackBackgroundView removeFromSuperview];
 		  [self didLeaveFullScreen];
 	  }];
