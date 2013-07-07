@@ -303,4 +303,9 @@
 	  return [self moCopyWithBorderThickness:aFloat edgeThickness:0];
 }
 
+
+- (CGFloat)moShorterLength {
+	return self.size.width <= self.size.height? self.size.width: self.size.height;
+}
+
 @end

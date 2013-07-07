@@ -54,5 +54,6 @@
 - (UIImage*)moScaleAspectToMaximumSize:(CGSize)aSize;
 - (UIImage*)moScaleAspectToMinimumSize:(CGSize)aSize;
 - (UIImage*)moScaleAspectToFillSize:(CGSize)aSize;
+- (CGFloat)moShorterLength;
 
 @end
