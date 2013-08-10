@@ -100,6 +100,7 @@
 
 	if (image) {
 		self.imageView.image = self.image;
+		self.resizableImageView.image = self.image;
 	} else {
 		self.imageView.image = [UIImage imageNamed:@"photoPlaceholder.png"];
 	}
