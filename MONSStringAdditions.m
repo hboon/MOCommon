@@ -164,6 +164,16 @@
 	return [self rangeOfString:aString].location != NSNotFound;
 }
 
+
+- (NSString*)moSubStringToString:(NSString*)aString {
+	int i = [self rangeOfString:aString].location;
+	if (i == NSNotFound) {
+		return nil;
+	} else {
+		return [self substringToIndex:i];
+	}
+}
+
 @end
 
 

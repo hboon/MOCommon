@@ -53,5 +53,6 @@
 - (NSString*)moDomainOnly;
 - (NSString*)moURLSlugOnly;
 - (BOOL)moContainsString:(NSString*)aString;
+- (NSString*)moSubStringToString:(NSString*)aString;
 
 @end
