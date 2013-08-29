@@ -308,4 +308,28 @@
 	return self.size.width <= self.size.height? self.size.width: self.size.height;
 }
 
+
+- (NSString*)moImageOrientationAsString {
+	switch (self.imageOrientation) {
+		case UIImageOrientationUp:
+			return @"UIImageOrientationUp";
+		case UIImageOrientationDown:
+			return @"UIImageOrientationDown";
+		case UIImageOrientationLeft:
+			return @"UIImageOrientationLeft";
+		case UIImageOrientationRight:
+			return @"UIImageOrientationRight";
+		case UIImageOrientationUpMirrored:
+			return @"UIImageOrientationUpMirrored";
+		case UIImageOrientationDownMirrored:
+			return @"UIImageOrientationDownMirrored";
+		case UIImageOrientationLeftMirrored:
+			return @"UIImageOrientationLeftMirrored";
+		case UIImageOrientationRightMirrored:
+			return @"UIImageOrientationRightMirrored";
+		default:
+			return @"Uknown";
+	}
+}
+
 @end

@@ -55,5 +55,6 @@
 - (UIImage*)moScaleAspectToMinimumSize:(CGSize)aSize;
 - (UIImage*)moScaleAspectToFillSize:(CGSize)aSize;
 - (CGFloat)moShorterLength;
+- (NSString*)moImageOrientationAsString;
 
 @end
