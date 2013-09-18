@@ -107,7 +107,9 @@
 
 
 - (BOOL)wasUpdatedWithinInterval:(NSTimeInterval)aNumber {
-	return [[self.lastUpdated dateByAddingTimeInterval:aNumber] compare:[NSDate date]] == NSOrderedDescending;
+	//Assign to an intermediary variable to avoid warning
+	NSDate* date = [self.lastUpdated dateByAddingTimeInterval:aNumber];
+	return [date compare:[NSDate date]] == NSOrderedDescending;
 }
 
 
