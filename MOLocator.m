@@ -96,16 +96,6 @@
 
 #pragma mark Accessor
 
-- (void)setPurpose:(NSString*)aString {
-	self.locationManager.purpose = aString;
-}
-
-
-- (NSString*)purpose {
-	return self.locationManager.purpose;
-}
-
-
 - (BOOL)wasUpdatedWithinInterval:(NSTimeInterval)aNumber {
 	//Assign to an intermediary variable to avoid warning
 	NSDate* date = [self.lastUpdated dateByAddingTimeInterval:aNumber];
