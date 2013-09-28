@@ -128,6 +128,15 @@
 }
 
 
+- (void)activateWithBlock:(void(^)())aBlock {
+	if (moNotEmpty(self[@"activationDate"])) return;
+
+	aBlock();
+	self[@"activationDate"] = [NSDate date];
+	[self save];
+}
+
+
 #pragma mark Accessors
 
 - (NSString*)filePath {

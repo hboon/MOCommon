@@ -52,5 +52,6 @@
 - (id)objectForKeyedSubscript:(id)aKey;
 - (void)setObject:(id)aValue forKeyedSubscript:(id<NSCopying>)aKey;
 - (void)save;
+- (void)activateWithBlock:(void(^)())aBlock;
 
 @end
