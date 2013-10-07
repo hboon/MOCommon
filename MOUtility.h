@@ -149,6 +149,8 @@ NSMutableArray* moMutableArrayOrEmpty(NSMutableArray* array);
 NSString* moStringOrEmpty(NSString* str);
 NSString* moStringOrDefault(NSString* str, NSString* def);
 id moObjOrDefault(id obj, id def);
+CGSize moFitSize(CGSize s1, CGSize s2);
+CGSize moFillSize(CGSize s1, CGSize s2);
 
 void moShowImage(UIImage* img);
 void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubdomainString, NSString* aTokenString, BOOL asynchronous);
