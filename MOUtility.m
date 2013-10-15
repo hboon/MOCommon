@@ -309,7 +309,7 @@ CGSize moFitSize(CGSize s1, CGSize s2) {
 		s.height = s2.height;
 		s.width = s.height*ratio;
 	} else {
-		CGFloat ratio = s1.height/s2.height;
+		CGFloat ratio = s1.height/s1.width;
 		s.width = s2.width;
 		s.height = s.width*ratio;
 	}
@@ -321,7 +321,7 @@ CGSize moFitSize(CGSize s1, CGSize s2) {
 CGSize moFillSize(CGSize s1, CGSize s2) {
 	CGSize s;
 	if (s1.width/s1.height < s2.width/s2.height) {
-		CGFloat ratio = s1.height/s2.height;
+		CGFloat ratio = s1.height/s1.width;
 		s.width = s2.width;
 		s.height = s.width*ratio;
 	} else {
