@@ -54,5 +54,6 @@
 - (NSString*)moURLSlugOnly;
 - (BOOL)moContainsString:(NSString*)aString;
 - (NSString*)moSubStringToString:(NSString*)aString;
+- (CGSize)moSizeWithFont:(UIFont*)aFont;
 
 @end

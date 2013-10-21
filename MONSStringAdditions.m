@@ -174,6 +174,11 @@
 	}
 }
 
+
+- (CGSize)moSizeWithFont:(UIFont*)aFont {
+	return [self sizeWithAttributes:@{NSFontAttributeName:aFont}];
+}
+
 @end
 
 
