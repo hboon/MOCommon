@@ -370,7 +370,7 @@ void moShowImage(UIImage* img) {
 	dimensionsLabel.textAlignment = NSTextAlignmentCenter;
 	dimensionsLabel.textColor = MO_RGBCOLOR1(200);
 	dimensionsLabel.font = [UIFont systemFontOfSize:11];
-	dimensionsLabel.text = [NSString stringWithFormat:@"%dx%d", (int)img.size.width, (int)img.size.height];
+	dimensionsLabel.text = [NSString stringWithFormat:@"%dx%d (scale=%d)", (int)img.size.width, (int)img.size.height, (int)img.scale];
 	[v addSubview:dimensionsLabel];
 
 	[moWindow() addSubview:v];
