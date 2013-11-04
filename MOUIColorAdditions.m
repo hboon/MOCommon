@@ -79,7 +79,7 @@
 
 - (CGFloat)moAlpha {
 	if ([self moisGrayscaleColorSpace]) {
-		return [[self moComponents][0] floatValue];
+		return [[self moComponents][1] floatValue];
 	} else {
 		return [[self moComponents][3] floatValue];
 	}
