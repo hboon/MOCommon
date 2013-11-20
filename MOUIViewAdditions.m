@@ -82,6 +82,17 @@
 	self.frame = frame;
 }
 
+- (CGPoint)moOrigin {
+	return self.frame.origin;
+}
+
+- (void)setMoOrigin:(CGPoint)aPoint {
+	CGRect frame = self.frame;
+	frame.origin.x = aPoint.x;
+	frame.origin.y = aPoint.y;
+	self.frame = frame;
+}
+
 - (CGFloat)moCenterX {
 	return self.center.x;
 }

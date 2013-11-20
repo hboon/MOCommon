@@ -44,6 +44,7 @@
 @property(nonatomic) CGFloat moTop;
 @property(nonatomic) CGFloat moRight;
 @property(nonatomic) CGFloat moBottom;
+@property (nonatomic) CGPoint moOrigin;
 
 @property(nonatomic) CGFloat moWidth;
 @property(nonatomic) CGFloat moHeight;
