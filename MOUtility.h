@@ -65,6 +65,14 @@
 	#define MO_RGBACOLOR(r,g,b,a) [NSColor colorWithDeviceRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 #endif
 
+typedef void(^MONoArgsBlock)(void);
+@interface MOTouchToTriggerView : UIView
+
+@property (nonatomic,strong) MONoArgsBlock action;
+
+@end
+
+
 CGFloat moDegreeToRadian(CGFloat aFloat);
 CGFloat moRadianToDegree(CGFloat aFloat);
 int moRoundUp(double f);

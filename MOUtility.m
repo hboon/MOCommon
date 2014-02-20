@@ -334,14 +334,6 @@ CGSize moFillSize(CGSize s1, CGSize s2) {
 }
 
 
-typedef void(^MONoArgsBlock)(void);
-@interface MOTouchToTriggerView : UIView
-
-@property (nonatomic,strong) MONoArgsBlock action;
-
-@end
-
-
 @implementation MOTouchToTriggerView
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
