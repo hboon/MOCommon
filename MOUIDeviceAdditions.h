@@ -44,4 +44,6 @@
 @property(readonly) double moAvailableMemory; // MB
 @property(readonly) NSString* moHardwareType;
 
+- (NSString*)moHardwareDescription;
+
 @end

@@ -163,6 +163,7 @@
 
 	for (int i=0; i<[self.tabButtons count]; ++i) {
 		UIButton* b = [UIButton buttonWithType:UIButtonTypeCustom];
+		b.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 		[b addTarget:self action:NSSelectorFromString([NSString stringWithFormat:@"button%dTapped", i]) forControlEvents:UIControlEventTouchUpInside];
 		[array addObject:b];
 		[self.view addSubview:b];
