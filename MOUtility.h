@@ -97,6 +97,7 @@ static inline BOOL moNotEmpty(id thing) {
 #define MD(d) [NSMutableDictionary dictionaryWithDictionary:d]
 
 #define I(f) [UIImage imageNamed:f]
+#define IT(f) [[UIImage imageNamed:f] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
 #define MO_LONG_TO_NUM(n) [NSString stringWithFormat:@"%ld", n]
 #define IV(f) [[UIImageView alloc] initWithImage:[UIImage imageNamed:f]]
 #define IVI(i) [[UIImageView alloc] initWithImage:i]
