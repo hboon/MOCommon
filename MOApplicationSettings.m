@@ -119,7 +119,11 @@
 
 
 - (void)setObject:(id)aValue forKeyedSubscript:(id<NSCopying>)aKey {
-	(self.backingDictionary)[aKey] = aValue;
+	if (aValue) {
+		(self.backingDictionary)[aKey] = aValue;
+	} else {
+		[self.backingDictionary removeObjectForKey:aKey];
+	}
 }
 
 
