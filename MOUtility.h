@@ -151,6 +151,8 @@ CGFloat moVF(NSString* s);
 int moVN(NSString* s);
 BOOL moAnyEmpty(id obj, ...);
 
+NSString* moPathOfFileInDocumentDirectoryWithFileName(NSString* aString);
+
 NSDictionary* moDictionaryOrEmpty(NSDictionary* dict);
 NSMutableDictionary* moMutableDictionaryOrEmpty(NSMutableDictionary* dict);
 NSArray* moArrayOrEmpty(NSArray* array);

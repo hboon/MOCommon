@@ -248,6 +248,11 @@ BOOL moAnyEmpty(id obj, ...) {
 }
 
 
+NSString* moPathOfFileInDocumentDirectoryWithFileName(NSString* aString) {
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:aString];
+}
+
+
 NSDictionary* moDictionaryOrEmpty(NSDictionary* dict) {
 	if (!dict) return @{};
 
