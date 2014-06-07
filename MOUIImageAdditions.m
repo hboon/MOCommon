@@ -56,7 +56,7 @@
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGFloat scale = 1;
 	if ([self respondsToSelector:@selector(scale)]) scale = [self scale];
-	CGContextRef context = CGBitmapContextCreate(nil, size.width*scale, size.height*scale, 8, size.width*4*scale, colorSpace, kCGImageAlphaPremultipliedLast);
+	CGContextRef context = CGBitmapContextCreate(nil, size.width*scale, size.height*scale, 8, size.width*4*scale, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
 	
 	CGImageRef imageReference = self.CGImage;
 	CGContextDrawImage(context, CGRectMake(0, 0, size.width*scale, size.height*scale), imageReference);
@@ -270,7 +270,7 @@
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGFloat scale = 1;
 	if ([self respondsToSelector:@selector(scale)]) scale = [self scale];
-	CGContextRef context = CGBitmapContextCreate(nil, (self.size.width+2*(anEdgeFloat+aBorderFloat))*scale, (self.size.height+2*(anEdgeFloat+aBorderFloat))*scale, 8, (self.size.width+2*(anEdgeFloat+aBorderFloat))*4*scale, colorSpace, kCGImageAlphaPremultipliedLast);
+	CGContextRef context = CGBitmapContextCreate(nil, (self.size.width+2*(anEdgeFloat+aBorderFloat))*scale, (self.size.height+2*(anEdgeFloat+aBorderFloat))*scale, 8, (self.size.width+2*(anEdgeFloat+aBorderFloat))*4*scale, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
 	CGRect rect = CGRectMake((anEdgeFloat+aBorderFloat)*scale, (anEdgeFloat+aBorderFloat)*scale, self.size.width*scale, self.size.height*scale);
 	CGContextDrawImage(context, rect, self.CGImage);
     CGContextMoveToPoint(context, rect.origin.x, rect.origin.y);
