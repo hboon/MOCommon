@@ -11,6 +11,9 @@
 
 #import "MOUIViewAdditions.h"
 
+//When we animate the view, it will bounce a little we want a bit more of the view to be there which will be revealed when it bounces
+#define MO_STATUS_MESSAGE_VIEW_EXTRA_HEIGHT_FOR_BOUNCE 20
+
 @implementation MOStatusMessageView
 
 @synthesize text;
@@ -30,7 +33,7 @@
 
 
 - (id)init {
-	CGFloat height = 44;
+	CGFloat height = 64+MO_STATUS_MESSAGE_VIEW_EXTRA_HEIGHT_FOR_BOUNCE;
 	return [self initWithFrame:CGRectMake(0, -height, [UIScreen mainScreen].bounds.size.width, height)];
 }
 
@@ -55,21 +58,25 @@
 			[self removeFromSuperview];
 		}
 
-		self.frame = CGRectMake(0, -self.moHeight+self.offsetY, aView.moWidth, self.moHeight);
+		self.frame = CGRectMake(0, -(self.moHeight-MO_STATUS_MESSAGE_VIEW_EXTRA_HEIGHT_FOR_BOUNCE)+self.offsetY, aView.moWidth, self.moHeight);
 
 		[aView addSubview:self];
 		[UIView animateWithDuration:0.4
 						delay:0
-					  options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction
+	   usingSpringWithDamping:0.4
+		initialSpringVelocity:10
+					  options:UIViewAnimationOptionAllowUserInteraction
 						 animations:^{
-							 self.moTop = self.offsetY;
+							 self.moTop = -MO_STATUS_MESSAGE_VIEW_EXTRA_HEIGHT_FOR_BOUNCE + self.offsetY;
 						 }
 						completion:^(BOOL finished) {
-							[UIView animateWithDuration:0.3
+							[UIView animateWithDuration:0.2
 											delay:1
-										  options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
+						   usingSpringWithDamping:1
+							initialSpringVelocity:1
+										  options:UIViewAnimationOptionAllowUserInteraction
 											 animations:^{
-												 self.moTop = -self.moHeight+self.offsetY;
+												 self.moTop = -(self.moHeight-MO_STATUS_MESSAGE_VIEW_EXTRA_HEIGHT_FOR_BOUNCE) + self.offsetY;
 											 }
 											completion:^(BOOL finished) {
 												[self removeFromSuperview];
@@ -107,7 +114,7 @@
 		CGContextSaveGState(context);
 		UIFont *dickTitleFont = [UIFont boldSystemFontOfSize:18.0f];
 		CGSize dickTitleSize = [self.text sizeWithFont:dickTitleFont];
-		CGFloat dickTitlePointY = lround((rect.size.height - dickTitleSize.height) / 2);
+		CGFloat dickTitlePointY = lround((rect.size.height-20 - dickTitleSize.height) / 2) + 20;
 		CGFloat dickTitlePointX = (rect.size.width - dickTitleSize.width)/2;
 
 		[[UIColor colorWithWhite:0.0 alpha:0.8] set];
