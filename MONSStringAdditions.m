@@ -62,6 +62,12 @@
 }
 
 
+- (NSString*)moFirstLetterAsString {
+	if ([self length] == 0) return self;
+	return [self substringToIndex:1];
+}
+
+
 // Encoding URL strings as in http://tools.ietf.org/html/rfc3986-
 - (NSString*)moUrlEncode {
 	NSArray *escapeChars = @[@";" , @"/" , @"?" , @":" ,
