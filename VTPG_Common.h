@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #pragma once
 // Copyright (c) 2008-2010, Vincent Gable.
 // vincent.gable@gmail.com

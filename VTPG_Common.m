@@ -1,4 +1,6 @@
+#import <UIKit/UIKit.h>
 #import "VTPG_Common.h"
+
 // Copyright (c) 2008-2010, Vincent Gable.
 // http://vincentgable.com
 //
