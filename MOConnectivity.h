@@ -40,3 +40,4 @@
 
 // Note that this check is slow. ~1 sec the first time you run it
 BOOL moDoNotHaveInternetConnection(void);
+BOOL moIsOnWifi(void);
