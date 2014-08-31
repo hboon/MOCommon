@@ -141,6 +141,17 @@
 }
 
 
+- (void)activateWithBlock:(void(^)())newActivationBlock ifAlreadyActivatedBlock:(void(^)(NSDate*))alreadyActivatedBlock {
+	if (moIsEmpty(self[@"activationDate"])) {
+		newActivationBlock();
+		self[@"activationDate"] = [NSDate date];
+		[self save];
+	} else {
+		alreadyActivatedBlock(self[@"activationDate"]);
+	}
+}
+
+
 #pragma mark Accessors
 
 - (NSString*)filePath {

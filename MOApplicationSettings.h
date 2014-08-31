@@ -53,5 +53,6 @@
 - (void)setObject:(id)aValue forKeyedSubscript:(id<NSCopying>)aKey;
 - (void)save;
 - (void)activateWithBlock:(void(^)())aBlock;
+- (void)activateWithBlock:(void(^)())newActivationBlock ifAlreadyActivatedBlock:(void(^)(NSDate*))alreadyActivatedBlock;
 
 @end
