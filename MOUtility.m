@@ -79,6 +79,14 @@ id<UIApplicationDelegate> moApplicationDelegate(void) {
 }
 
 
+NSString* moAppVersion(void) {
+	NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	if (moNotEmpty(version)) return version;
+	NSString* buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+	return buildVersion;
+}
+
+
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate) {
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:aDelegate cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alertView show];

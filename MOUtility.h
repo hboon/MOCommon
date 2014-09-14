@@ -130,6 +130,7 @@ static inline BOOL moNotEmpty(id thing) {
 
 
 id<UIApplicationDelegate> moApplicationDelegate(void);
+NSString* moAppVersion(void);
 void moAlertWithDelegate(NSString* title, NSString* message, id<UIAlertViewDelegate> aDelegate);
 void moAlert(NSString* title, NSString* message);
 UIWindow* moWindow(void);
