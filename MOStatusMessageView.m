@@ -118,11 +118,9 @@
 		CGFloat dickTitlePointY = lround((rect.size.height-20 - dickTitleSize.height) / 2) + 20;
 		CGFloat dickTitlePointX = (rect.size.width - dickTitleSize.width)/2;
 
-		[[UIColor colorWithWhite:0.0 alpha:0.8] set];
-		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY) withAttributes:@{NSFontAttributeName:dickTitleFont}];
+		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY) withAttributes:@{NSFontAttributeName:dickTitleFont, NSForegroundColorAttributeName:[UIColor colorWithWhite:0.0 alpha:0.8]}];
 
-		[[UIColor colorWithWhite:1.0 alpha:0.8] set];
-		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY + 1) withAttributes:@{NSFontAttributeName:dickTitleFont}];
+		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY + 1) withAttributes:@{NSFontAttributeName:dickTitleFont, NSForegroundColorAttributeName:[UIColor colorWithWhite:1.0 alpha:0.8]}];
 		CGContextRestoreGState(context);
 	}
 }
