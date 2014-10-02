@@ -66,7 +66,7 @@
 		case 2:
 			return [self moIsLeapYear:aYear]? 29: 28;
 		default:
-			NSAssert(NO, @" Invalid month %lu", aMonth);
+			NSAssert(NO, @" Invalid month %lu", (unsigned long)aMonth);
 			return 0;
 	}
 }
