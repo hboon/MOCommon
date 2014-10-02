@@ -58,7 +58,7 @@
 
 - (NSString*)moCommaSeparatorString {
 	NSString* str = [self stringValue];
-	for (int i=[str length]-3; i>0; i-=3) {
+	for (int i=(int)[str length]-3; i>0; i-=3) {
 		str = [NSString stringWithFormat:@"%@,%@", [str substringWithRange:NSMakeRange(0, i)], [str substringFromIndex:i]];
 	}
 	return str;

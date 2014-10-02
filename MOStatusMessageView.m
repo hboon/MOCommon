@@ -113,15 +113,16 @@
 	if (self.text) {
 		CGContextSaveGState(context);
 		UIFont *dickTitleFont = [UIFont boldSystemFontOfSize:18.0f];
-		CGSize dickTitleSize = [self.text sizeWithFont:dickTitleFont];
+		CGSize dickTitleSize = [self.text sizeWithAttributes:@{NSFontAttributeName:dickTitleFont}];
+		dickTitleSize = CGSizeMake(ceil(dickTitleSize.width), ceil(dickTitleSize.height));
 		CGFloat dickTitlePointY = lround((rect.size.height-20 - dickTitleSize.height) / 2) + 20;
 		CGFloat dickTitlePointX = (rect.size.width - dickTitleSize.width)/2;
 
 		[[UIColor colorWithWhite:0.0 alpha:0.8] set];
-		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY) withFont:dickTitleFont];
+		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY) withAttributes:@{NSFontAttributeName:dickTitleFont}];
 
 		[[UIColor colorWithWhite:1.0 alpha:0.8] set];
-		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY + 1) withFont:dickTitleFont];
+		[self.text drawAtPoint:CGPointMake(dickTitlePointX, dickTitlePointY + 1) withAttributes:@{NSFontAttributeName:dickTitleFont}];
 		CGContextRestoreGState(context);
 	}
 }

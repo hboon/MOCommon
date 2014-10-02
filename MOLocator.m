@@ -118,7 +118,7 @@
 	self.locating = NO;
 	MO_LogDebug(@" didFailWithError: %@", error);
 	
-	MO_LogDebug(@" kCLErrorDenied: %d code: %d", kCLErrorDenied, [error code]);
+	MO_LogDebug(@" kCLErrorDenied: %ld code: %ld", (long)kCLErrorDenied, (long)[error code]);
 	if ([error code] == kCLErrorDenied) {
 		[self locatingFailedBecauseUserDisabledForApp:YES];
 		return;

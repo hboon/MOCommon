@@ -40,9 +40,9 @@
 
 @interface NSDate (MONSDateAdditions)
 
-+ (BOOL)moIsLeapYear:(int)aYear;
++ (BOOL)moIsLeapYear:(NSUInteger)aYear;
 //aMonth is 1-12 representing Jan-Dec
-+ (int)moDaysInMonth:(int)aMonth ofYear:(int)aYear;
++ (int)moDaysInMonth:(NSUInteger)aMonth ofYear:(NSUInteger)aYear;
 
 - (NSString*)moPrettyPrint;
 - (NSString*)moPrettyPrintShort;

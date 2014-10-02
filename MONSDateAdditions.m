@@ -40,7 +40,7 @@
 
 @implementation NSDate (MONSDateAdditions)
 
-+ (BOOL)moIsLeapYear:(int)aYear {
++ (BOOL)moIsLeapYear:(NSUInteger)aYear {
 	if (aYear % 4 != 0) return NO;
 	if (aYear % 100 != 0) return YES;
 	return aYear % 400 == 0;
@@ -48,7 +48,7 @@
 
 
 //aMonth is 1-12 representing Jan-Dec
-+ (int)moDaysInMonth:(int)aMonth ofYear:(int)aYear {
++ (int)moDaysInMonth:(NSUInteger)aMonth ofYear:(NSUInteger)aYear {
 	switch (aMonth) {
 		case 1:
 		case 3:
@@ -66,7 +66,7 @@
 		case 2:
 			return [self moIsLeapYear:aYear]? 29: 28;
 		default:
-			NSAssert(NO, @" Invalid month %d", aMonth);
+			NSAssert(NO, @" Invalid month %lu", aMonth);
 			return 0;
 	}
 }

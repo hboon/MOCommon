@@ -142,10 +142,10 @@
 - (NSString*)moDomainOnly {
 	if ([self length] == 0) return nil;
 
-	int i = [self rangeOfString:@"//"].location;
+	NSUInteger i = [self rangeOfString:@"//"].location;
 	if (i == NSNotFound) return self;
 
-	int j = [self rangeOfString:@"/" options:0 range:NSMakeRange(i+2, [self length]-i-2)].location;
+	NSUInteger j = [self rangeOfString:@"/" options:0 range:NSMakeRange(i+2, [self length]-i-2)].location;
 	if (j == NSNotFound) {
 		return [self substringFromIndex:i+2];
 	} else {
@@ -157,7 +157,7 @@
 - (NSString*)moURLSlugOnly {
 	if ([self length] == 0) return nil;
 
-	int i = [self rangeOfString:@"/" options:NSBackwardsSearch].location;
+	NSUInteger i = [self rangeOfString:@"/" options:NSBackwardsSearch].location;
 	if (i == NSNotFound) {
 		return nil;
 	} else {
@@ -172,7 +172,7 @@
 
 
 - (NSString*)moSubStringToString:(NSString*)aString {
-	int i = [self rangeOfString:aString].location;
+	NSUInteger i = [self rangeOfString:aString].location;
 	if (i == NSNotFound) {
 		return nil;
 	} else {
