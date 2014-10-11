@@ -369,7 +369,7 @@ void moShowImage(UIImage* img) {
 	iv.image = img;
 	[v addSubview:iv];
 
-	UILabel* dimensionsLabel = L(0, v.bounds.size.height - 50, v.bounds.size.width, 22);
+	UILabel* dimensionsLabel = MO_L(0, v.bounds.size.height - 50, v.bounds.size.width, 22);
 	dimensionsLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
 	dimensionsLabel.backgroundColor = MO_RGBACOLOR(30, 30, 30, 0.7);
 	dimensionsLabel.textAlignment = NSTextAlignmentCenter;

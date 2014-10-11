@@ -96,15 +96,15 @@ static inline BOOL moNotEmpty(id thing) {
 #define MA(a) [NSMutableArray arrayWithArray:a]
 #define MD(d) [NSMutableDictionary dictionaryWithDictionary:d]
 
-#define I(f) [UIImage imageNamed:f]
-#define IT(f) [[UIImage imageNamed:f] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+#define MO_I(f) [UIImage imageNamed:f]
+#define MO_IT(f) [[UIImage imageNamed:f] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
 #define MO_LONG_TO_NUM(n) [NSString stringWithFormat:@"%ld", n]
-#define IV(f) [[UIImageView alloc] initWithImage:[UIImage imageNamed:f]]
-#define IVI(i) [[UIImageView alloc] initWithImage:i]
-#define V(x, y, w, h) [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)]
-#define L(x, y, w, h) [[UILabel alloc] initWithFrame:CGRectMake(x, y, w, h)]
-#define BI(i) [UIButton moButtonWithImage:i]
-#define B(x, y, w, h) [UIButton moButtonWithFrame:CGRectMake(x, y, w, h)]
+#define MO_IV(f) [[UIImageView alloc] initWithImage:[UIImage imageNamed:f]]
+#define MO_IVI(i) [[UIImageView alloc] initWithImage:i]
+#define MO_V(x, y, w, h) [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)]
+#define MO_L(x, y, w, h) [[UILabel alloc] initWithFrame:CGRectMake(x, y, w, h)]
+#define MO_BI(i) [UIButton moButtonWithImage:i]
+#define MO_B(x, y, w, h) [UIButton moButtonWithFrame:CGRectMake(x, y, w, h)]
 
 #define MO_BUTTON_ADD_SELF_SELECTOR(b, s) [b addTarget:self action:s forControlEvents:UIControlEventTouchUpInside];
 
