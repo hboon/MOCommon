@@ -80,17 +80,19 @@ NSString* moEmptyStringIfNull(NSString* str);
 void moLogLanguagesAndIdentifiers(void);
 
 // Modified from http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
-static inline BOOL moIsEmpty(id thing) {
-	return thing == nil ||
-			thing == [NSNull null] ||
-			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
-			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
-}
+//static inline BOOL moIsEmpty(id thing) {
+//	return thing == nil ||
+//			thing == [NSNull new] ||
+//			([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
+//			([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
+//}
 
+//static inline BOOL moNotEmpty(id thing) {
+//	return !moIsEmpty(thing);
+//}
 
-static inline BOOL moNotEmpty(id thing) {
-	return !moIsEmpty(thing);
-}
+BOOL moIsEmpty(id thing);
+BOOL moNotEmpty(id thing);
 
 // Courtesy of, and derived from http://news.ycombinator.com/item?id=1789839
 #define MA(a) [NSMutableArray arrayWithArray:a]

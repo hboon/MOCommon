@@ -56,6 +56,17 @@ int moRoundUp(double f) {
 	return round(f+0.49999);
 }
 
+BOOL moIsEmpty(id thing) {
+	return thing == nil ||
+	thing == [NSNull null] ||
+	([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
+	([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
+}
+
+BOOL moNotEmpty(id thing) {
+	return !moIsEmpty(thing);
+}
+
 NSString* moEmptyStringIfNull(NSString* str) {
 	if (!str) return @"";
 	if ((NSNull*)str == [NSNull null]) return @"";
