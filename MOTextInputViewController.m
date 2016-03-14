@@ -119,7 +119,7 @@
 
 
 - (void)resizeTableView {
-	if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)) { 
+	if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
 		self.tableView.frame = CGRectMake(0, 0, self.view.moWidth, [UIScreen mainScreen].bounds.size.height-MO_STATUS_BAR_HEIGHT-MO_NAVIGATION_BAR_HEIGHT_PORTRAIT-MO_KEYBOARD_HEIGHT_PORTRAIT);
 		self.tableView.contentInset = UIEdgeInsetsMake([self textInputViewTopInsetPortrait], 0, 0, 0);
 	} else {

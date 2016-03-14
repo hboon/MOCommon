@@ -122,7 +122,7 @@ UIWindow* moWindow(void) {
 CGRect moScreenBounds(UIInterfaceOrientation orientation) {
 	CGRect bounds = [UIScreen mainScreen].bounds;
 
-	if (!UIDeviceOrientationIsPortrait(orientation)) {
+	if (!UIInterfaceOrientationIsPortrait(orientation)) {
 		CGFloat width = bounds.size.width;
 		bounds.size.width = bounds.size.height;
 		bounds.size.height = width;
