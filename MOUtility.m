@@ -408,7 +408,8 @@ void moCampfireSpeak(NSString* aString, NSString* aRoomIDString, NSString* aSubd
 	[request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 
 	if (asynchronous) {
-		[NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:nil];
+		[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+		}];
 	} else {
 		NSHTTPURLResponse* response;
 		NSError* error;
