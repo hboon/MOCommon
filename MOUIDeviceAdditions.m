@@ -78,7 +78,7 @@
 }
 
 
-//Courtesy of https://github.com/InderKumarRathore/UIDevice-Hardware/blob/master/UIDevice%2BHardware.m
+//Courtesy of https://github.com/InderKumarRathore/DeviceUtil/blob/master/DeviceUtil.m
 - (NSString*)moHardwareDescription {
 	NSString *hardware = [self moHardwareString];
 	if ([hardware isEqualToString:@"iPhone1,1"]) return @"iPhone 2G";
@@ -96,12 +96,27 @@
 	if ([hardware isEqualToString:@"iPhone6,2"]) return @"iPhone 5S";
 	if ([hardware isEqualToString:@"iPhone7,1"]) return @"iPhone 6 Plus";
 	if ([hardware isEqualToString:@"iPhone7,2"]) return @"iPhone 6";
-
+	if ([hardware isEqualToString:@"iPhone8,1"]) return @"iPhone 6s";
+	if ([hardware isEqualToString:@"iPhone8,2"]) return @"iPhone 6s Plus";
+	if ([hardware isEqualToString:@"iPhone8,4"]) return @"iPhone SE";
+	if ([hardware isEqualToString:@"iPhone9,1"]) return @"iPhone 7";
+	if ([hardware isEqualToString:@"iPhone9,2"]) return @"iPhone 7 Plus";
+	if ([hardware isEqualToString:@"iPhone9,3"]) return @"iPhone 7";
+	if ([hardware isEqualToString:@"iPhone9,4"]) return @"iPhone 7 Plus";
+	if ([hardware isEqualToString:@"iPhone10,1"]) return @"iPhone 8";
+	if ([hardware isEqualToString:@"iPhone10,2"]) return @"iPhone 8 Plus";
+	if ([hardware isEqualToString:@"iPhone10,3"]) return @"iPhone X";
+	if ([hardware isEqualToString:@"iPhone10,4"]) return @"iPhone 8";
+	if ([hardware isEqualToString:@"iPhone10,5"]) return @"iPhone 8 Plus";
+	if ([hardware isEqualToString:@"iPhone10,6"]) return @"iPhone X";
+	
 	if ([hardware isEqualToString:@"iPod1,1"]) return @"iPod Touch (1 Gen)";
 	if ([hardware isEqualToString:@"iPod2,1"]) return @"iPod Touch (2 Gen)";
 	if ([hardware isEqualToString:@"iPod3,1"]) return @"iPod Touch (3 Gen)";
 	if ([hardware isEqualToString:@"iPod4,1"]) return @"iPod Touch (4 Gen)";
 	if ([hardware isEqualToString:@"iPod5,1"]) return @"iPod Touch (5 Gen)";
+	//7,1 for 6th generation is not a typo
+	if ([hardware isEqualToString:@"iPod7,1"]) return @"iPod Touch (6 Gen)";
 
 	if ([hardware isEqualToString:@"iPad1,1"]) return @"iPad";
 	if ([hardware isEqualToString:@"iPad1,2"]) return @"iPad 3G";
@@ -122,15 +137,44 @@
 	if ([hardware isEqualToString:@"iPad4,2"]) return @"iPad Air";
 	if ([hardware isEqualToString:@"iPad4,4"]) return @"iPad Mini Retina (WiFi)";
 	if ([hardware isEqualToString:@"iPad4,5"]) return @"iPad Mini Retina";
+	if ([hardware isEqualToString:@"iPad4,6"]) return @"iPad Mini Retina (CN)";
+	if ([hardware isEqualToString:@"iPad4,7"]) return @"iPad Mini 3 (WiFi)";
+	if ([hardware isEqualToString:@"iPad4,8"]) return @"iPad Mini 3";
+	if ([hardware isEqualToString:@"iPad5,1"]) return @"iPad Mini 4 (WiFi)";
+	if ([hardware isEqualToString:@"iPad5,2"]) return @"iPad Mini 4";
+	if ([hardware isEqualToString:@"iPad5,3"]) return @"iPad Air 2 (WiFi)";
+	if ([hardware isEqualToString:@"iPad5,4"]) return @"iPad Air 2";
+	if ([hardware isEqualToString:@"iPad6,3"]) return @"iPad Pro (9.7 inch)";
+	if ([hardware isEqualToString:@"iPad6,4"]) return @"iPad Pro (9.7 inch)";
+	if ([hardware isEqualToString:@"iPad6,7"]) return @"iPad Pro (12.9 inch)";
+	if ([hardware isEqualToString:@"iPad6,8"]) return @"iPad Pro (12.9 inch)";
+	if ([hardware isEqualToString:@"iPad6,11"]) return @"iPad 5 (WiFi)";
+	if ([hardware isEqualToString:@"iPad6,12"]) return @"iPad 5 (GSM+DMA)";
+	if ([hardware isEqualToString:@"iPad7,1"]) return @"iPad Pro 2 (WiFi)";
+	if ([hardware isEqualToString:@"iPad7,2"]) return @"iPad Pro 2 (GSM+CDMA)";
+	if ([hardware isEqualToString:@"iPad7,3"]) return @"iPad Pro (10.5 inch, WiFi)";
+	if ([hardware isEqualToString:@"iPad7,4"]) return @"iPad Pro (10.5 inch, GSM+CDMA)";
 
 	if ([hardware isEqualToString:@"i386"]) return @"Simulator";
 	if ([hardware isEqualToString:@"x86_64"]) return @"Simulator";
 
-	return @"Unknown";
+	if ([hardware isEqualToString:@"AppleTV1,1"]) return @"Apple TV";
+	if ([hardware isEqualToString:@"AppleTV2,1"]) return @"Apple TV 2G";
+	if ([hardware isEqualToString:@"AppleTV3,1"]) return @"Apple TV 3";
+	if ([hardware isEqualToString:@"AppleTV3,2"]) return @"Apple TV 3";
+	if ([hardware isEqualToString:@"AppleTV5,3"]) return @"Apple TV 4";
+
+	if ([hardware hasPrefix:@"iPhone"]) return [NSString stringWithFormat:@"Unknown iPhone: %@", hardware];
+	if ([hardware hasPrefix:@"iPad"]) return [NSString stringWithFormat:@"Unknown iPad: %@", hardware];
+	if ([hardware hasPrefix:@"iPod"]) return [NSString stringWithFormat:@"Unknown iPod: %@", hardware];
+	if ([hardware hasPrefix:@"AppleTV"]) return [NSString stringWithFormat:@"Unknown Apple TV: %@", hardware];
+
+	return [NSString stringWithFormat:@"Unknown device: %@", hardware];
 }
 
 
 //Courtesy of https://github.com/InderKumarRathore/UIDevice-Hardware/blob/master/UIDevice%2BHardware.m
+//https://www.theiphonewiki.com/wiki/Models
 - (NSString*)moHardwareString {
 	size_t size = 100;
 	char *hw_machine = malloc(size);
